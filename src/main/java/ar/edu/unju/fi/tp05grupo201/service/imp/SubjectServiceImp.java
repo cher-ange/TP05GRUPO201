@@ -2,6 +2,7 @@ package ar.edu.unju.fi.tp05grupo201.service.imp;
 
 import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
 import ar.edu.unju.fi.tp05grupo201.mapper.SubjectMapper;
+import ar.edu.unju.fi.tp05grupo201.model.Career;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 import ar.edu.unju.fi.tp05grupo201.repository.CareerRepository;
@@ -11,6 +12,8 @@ import ar.edu.unju.fi.tp05grupo201.service.ISubjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**

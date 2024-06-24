@@ -1,5 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
+import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class StudentController {
 	StudentDto newStudentDto;
 	
 	@Autowired
-	IStudentService studentService;
+	StudentServiceImp studentService;
 	
 	@GetMapping("/formStudent")
 	public ModelAndView getFormStudent() {

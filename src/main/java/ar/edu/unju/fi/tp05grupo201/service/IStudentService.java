@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
 
-@Service
 public interface IStudentService {
 
 	public void saveStudent(StudentDto student);
 	
 	public List<Student> showStudents();
 	
-	public Student findStudent(Long id);
+	public StudentDto findStudent(Long id);
 	
 	public void deleteStudent(Long id);
 	

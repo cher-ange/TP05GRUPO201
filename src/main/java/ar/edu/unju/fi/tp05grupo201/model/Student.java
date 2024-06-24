@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,10 +13,12 @@ import lombok.Data;
 
 @Data
 @Component
-@Entity
+@Entity(name = "Student")
+@Table(name = "student")
 public class Student {
 	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String personId;
     private String name;
