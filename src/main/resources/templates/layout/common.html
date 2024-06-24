@@ -1,0 +1,24 @@
+<!-- Head -->
+<th-block data-th-fragment="head (title)">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link data-th-rel="stylesheet"
+              data-th-href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+        <link data-th-rel="stylesheet"
+              data-th-href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}">
+        <link rel="icon"
+              type="image/svg+xml"
+              data-th-href="@{favicon.svg}">
+        <title data-th-text="${title}"></title>
+    </head>
+</th-block>
+
+<!-- Script -->
+<th-block data-th-fragment="bootstrap_script">
+    <script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</th-block>
+
+<!-- Favicon -->
+<img data-th-fragment="favicon"
+     data-th-src="@{favicon.svg}" width="30" height="30">

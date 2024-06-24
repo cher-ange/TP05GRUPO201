@@ -1,0 +1,65 @@
+<!-- Nav -->
+<th-block data-th-fragment="nav">
+    <ul class="nav nav-pills col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <!-- Home -->
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" data-th-href="@{/}">Inicio</a>
+        </li>
+        <!-- Student -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Alumno
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-th-href="@{/student/list}">Lista</a></li>
+                <li><a class="dropdown-item" data-th-href="@{/student/add}">Agregar</a></li>
+            </ul>
+        </li>
+        <!-- Career -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Carrera
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-th-href="@{/career/list}">Lista</a></li>
+                <li><a class="dropdown-item" data-th-href="@{/career/add}">Agregar</a></li>
+            </ul>
+        </li>
+        <!-- Teacher -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Docente
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-th-href="@{/teacher/list}">Lista</a></li>
+                <li><a class="dropdown-item" data-th-href="@{/teacher/add}">Agregar</a></li>
+            </ul>
+        </li>
+        <!-- Subject -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Materia
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-th-href="@{/subject/list}">Lista</a></li>
+                <li><a class="dropdown-item" data-th-href="@{/subject/add}">Agregar</a></li>
+            </ul>
+        </li>
+    </ul>
+</th-block>
