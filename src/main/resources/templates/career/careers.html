@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <th-block data-th-replace="~{layout/common :: head (title='Carreras')}"></th-block>
+<body>
+    <!-- Header -->
+    <th-block data-th-replace="~{layout/header :: header}"></th-block>
+    <!-- Main -->
+    <div class="container
+                bg-body-tertiary
+                border rounded
+                shadow
+                px-4 py-5">
+        <h2 class="text-body-emphasis">Sección Carrera</h2>
+        <h5 class="text-muted pb-2 border-bottom">Listado de carreras</h5>
+        <!-- Display careers -->
+        <div class="row
+                    mx-0"
+            data-th-unless="${#lists.isEmpty(listOfCareers)}">
+            <div class="col-12
+                        bg-body-tertiary
+                        p-2">
+                <!-- List of careers -->
+                <div class="row mx-0">
+                    <th-block data-th-each="career : ${listOfCareers}">
+                        <!-- Career -->
+                        <th-block data-th-replace="~{career/career-display :: information (object='career', display_buttons='true')}"></th-block>
+                    </th-block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>
