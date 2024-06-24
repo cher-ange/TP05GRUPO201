@@ -19,7 +19,7 @@ public interface StudentMapper {
 	@Mapping(source="lastName", target="lastName")
 	@Mapping(source="email", target="email")
 	@Mapping(source="phone", target="phone")
-	@Mapping(source="birthDate", target="birthDate")
+	@Mapping(source="birthdate", target="birthdate")
 	@Mapping(source="address", target="address")
 	@Mapping(source="state", target="state")
 	StudentDto convertStudentToStudentDto(Student s);

@@ -1,24 +1,19 @@
 <!-- Header -->
 <th-block data-th-fragment="header">
-    <div class="container-fluid
-                p-0">
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between
-                       bg-body-tertiary
-                       border-bottom
-                       py-3 px-3 mb-4">
-            <div class="col-md-3 mb-2 mb-md-0
-                        d-flex align-items-center column-gap-2">
+    <div class="container-fluid p-0">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between bg-body-tertiary border-bottom py-3 px-3 mb-4">
+            <div class="col-md-3 mb-2 mb-md-0 d-flex align-items-center column-gap-2">
                 <a class="d-inline-flex link-body-emphasis text-decoration-none" data-th-href="@{/}">
-                    <img data-th-src="@{\img\open-a-file.svg}" width="30" height="30">
+                    <img data-th-replace="~{layout/common :: favicon}">
                 </a>
                 <span class="text-body-emphasis">Grupo201</span>
             </div>
             <!-- Nav -->
             <nav data-th-replace="~{layout/nav :: nav}"></nav>
-            <div class="col-md-3 text-end">
-                <button class="btn btn-light border border-secondary-subtle link-primary shadow me-2" type="button">Login</button>
-                <button class="btn btn-light border border-secondary-subtle shadow" type="button">Sign-up</button>
-            </div>
+<!--            <div class="col-md-3 text-end">-->
+<!--                <button class="btn btn-light border border-secondary-subtle link-primary shadow me-2" type="button">Login</button>-->
+<!--                <button class="btn btn-light border border-secondary-subtle shadow" type="button">Sign-up</button>-->
+<!--            </div>-->
         </header>
     </div>
 </th-block>

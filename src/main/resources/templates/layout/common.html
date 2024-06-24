@@ -9,7 +9,7 @@
               data-th-href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}">
         <link rel="icon"
               type="image/svg+xml"
-              data-th-href="@{https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/NewTux.svg/800px-NewTux.svg.png}">
+              data-th-href="@{/favicon.svg}">
         <title data-th-text="${title}"></title>
     </head>
 </th-block>
@@ -18,3 +18,10 @@
 <th-block data-th-fragment="bootstrap_script">
     <script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </th-block>
+
+<!-- Favicon -->
+<img data-th-fragment="favicon"
+     data-th-src="@{/favicon.svg}"
+     width="30"
+     height="30"
+     alt="...">

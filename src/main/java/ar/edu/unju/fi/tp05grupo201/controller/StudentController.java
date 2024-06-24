@@ -1,5 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
+import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,17 +15,28 @@ import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.service.IStudentService;
 
 @Controller
+@RequestMapping(path = "/student")
 public class StudentController {
 
 	@Autowired
 	StudentDto newStudentDto;
 	
 	@Autowired
-	IStudentService studentService;
-	
+	StudentServiceImp studentService;
+
+	@GetMapping(path = "/list")
+	public ModelAndView getStudents() {
+		ModelAndView modelAndView = new ModelAndView("student/students");
+
+		modelAndView.addObject("listStudents", studentService.showStudents());
+
+		return modelAndView;
+	}
+
 	@GetMapping("/formStudent")
 	public ModelAndView getFormStudent() {
 		ModelAndView modelView = new ModelAndView("student/student-form");
+
 		newStudentDto.setState(true);
 		modelView.addObject("newStudent",newStudentDto);
 		modelView.addObject("band",false);
@@ -34,6 +46,7 @@ public class StudentController {
 	
 	@PostMapping("/saveStudent")
 	public ModelAndView saveStudent(@ModelAttribute("newStudent") StudentDto studentForSave) {
+
 		studentService.saveStudent(studentForSave);
 		ModelAndView modelView = new ModelAndView("student/students");
 		modelView.addObject("listStudents", studentService.showStudents());
@@ -43,9 +56,9 @@ public class StudentController {
 	
 	@GetMapping("/deleteStudent/{id}")
 	public ModelAndView deleteStudent(@PathVariable(name ="id") Long id) {
-		studentService.deleteStudent(id);
-		
 		ModelAndView modelView = new ModelAndView("student/students");
+
+		studentService.deleteStudent(id);
 		modelView.addObject("listStudents", studentService.showStudents());
 		
 		return modelView;
@@ -53,19 +66,20 @@ public class StudentController {
 	
 	@GetMapping("/modifyStudent/{id}")
 	public ModelAndView editStudent(@PathVariable(name="id") Long id) {
-		Student studentToModify = studentService.findStudent(id);
-		
 		ModelAndView modelView = new ModelAndView("student/student-form");
+
+		StudentDto studentToModify = studentService.findStudent(id);
 		modelView.addObject("newStudent", studentToModify);
 		modelView.addObject("band", false);
+
 		return modelView;
 	}
 	
 	@PostMapping("/modifyStudent")
 	public ModelAndView updateStudent(@ModelAttribute("newStudent") StudentDto modifiedStudent) {
-		studentService.modifyStudent(modifiedStudent);
-		
 		ModelAndView modelView = new ModelAndView("student/students");
+
+		studentService.modifyStudent(modifiedStudent);
 		modelView.addObject("listStudents", studentService.showStudents());
 		
 		return modelView;
