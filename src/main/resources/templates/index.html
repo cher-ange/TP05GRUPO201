@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th-block data-th-replace="~{layout/common :: head (title='HomePage')}"></th-block>
 <body>
-
+<!-- Header -->
+<th-block data-th-replace="~{layout/header :: header}"></th-block>
+<!-- Main -->
+<div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+    <h2 class="pb-2 border-bottom">Centro de administración</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <!-- Student -->
+        <div class="col d-flex align-items-start">
+            <div class="bg-body-tertiary rounded rounded-5 d-inline-flex align-items-center justify-content-center flex-shrink-0 text-body-emphasis fs-4 me-3 shadow">
+                <i class="bi bi-person px-2"></i>
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100 gap-2">
+                <h3 class="fs-2 text-body-emphasis">Alumno</h3>
+                <p class="mb-auto">Un Alumno es aquella persona que aprende de otra u otras personas</p>
+                <a class="align-self-start btn btn-light border border-secondary-subtle link-primary shadow" data-th-href="@{/student/list}">Administrar</a>
+            </div>
+        </div>
+        <!-- Teacher -->
+        <div class="col d-flex align-items-start">
+            <div class="bg-body-tertiary rounded rounded-5 d-inline-flex align-items-center justify-content-center flex-shrink-0 text-body-emphasis fs-4 me-3 shadow">
+                <i class="bi bi-person px-2"></i>
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100 gap-2">
+                <h3 class="fs-2 text-body-emphasis">Docente</h3>
+                <p class="mb-auto">Un Docente es alguien preparado tanto en un área de conocimiento específico como así también en Pedagogía, de manera que sea capaz de promover el proceso de enseñanza y aprendizaje</p>
+                <a class="align-self-start btn btn-light border border-secondary-subtle link-primary shadow" data-th-href="@{/teacher/list}">Administrar</a>
+            </div>
+        </div>
+        <!-- Career -->
+        <div class="col d-flex align-items-start">
+            <div class="bg-body-tertiary rounded rounded-5 d-inline-flex align-items-center justify-content-center flex-shrink-0 text-body-emphasis fs-4 me-3 shadow">
+                <i class="bi bi-book px-2"></i>
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100 gap-2">
+                <h3 class="fs-2 text-body-emphasis">Carrera</h3>
+                <p class="mb-auto">Conjunto de cursos académicos que una persona debe completar para poder obtener un título profesional</p>
+                <a class="align-self-start btn btn-light border border-secondary-subtle link-primary shadow" data-th-href="@{/career/list}">Administrar</a>
+            </div>
+        </div>
+        <!-- Subject -->
+        <div class="col d-flex align-items-start">
+            <div class="bg-body-tertiary rounded rounded-5 d-inline-flex align-items-center justify-content-center flex-shrink-0 text-body-emphasis fs-4 me-3 shadow">
+                <i class="bi bi-book px-2"></i>
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100 gap-2">
+                <h3 class="fs-2 text-body-emphasis">Materia</h3>
+                <p class="mb-auto">Campo de estudio es el desarrollo del conocimiento sobre un tema en específico</p>
+                <a class="align-self-start btn btn-light border border-secondary-subtle link-primary shadow" data-th-href="@{/subject/list}">Administrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<th-block data-th-replace="~{layout/footer :: footer}"></th-block>
 </body>
 </html>
