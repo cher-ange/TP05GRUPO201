@@ -64,7 +64,7 @@ public class StudentDto {
     private String address;
 
     @NotBlank(message = "{student.university-record.not-blank}")
-    private String universityRecord;
+    private String universityId;
 
     private boolean state = true;
 }

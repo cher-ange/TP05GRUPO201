@@ -1,13 +1,19 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
+import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
+import ar.edu.unju.fi.tp05grupo201.model.AttendanceType;
 import ar.edu.unju.fi.tp05grupo201.service.imp.CareerServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.TeacherServiceImp;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping(path = "/subject")

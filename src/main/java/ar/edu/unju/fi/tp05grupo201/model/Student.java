@@ -25,7 +25,7 @@ public class Student {
     private String lastName;
     private String email;
     private String phone;
-    private LocalDate birthDate;
+    private LocalDate birthdate;
     private String address;
     private String universityId;
     private Boolean state;

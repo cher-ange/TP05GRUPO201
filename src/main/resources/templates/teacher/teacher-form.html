@@ -4,32 +4,19 @@
 <body>
     <!-- Header -->
     <th-block data-th-replace="~{layout/header :: header}"></th-block>
-
     <!-- Main -->
-    <div class="container
-                bg-body-tertiary
-                border rounded
-                shadow
-                px-4 py-5">
+    <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
         <h2 class="text-body-emphasis">Sección Docente</h2>
         <h5 class="text-muted pb-2 border-bottom"
             data-th-text="${allowEditing} ? 'Modificar docente' : 'Agregar docente'"></h5>
-        
         <!-- Form -->
-        <div class="row
-                    mx-0">
-
+        <div class="row mx-0">
             <!-- Add/Modify Teacher -->
-            <div class="col
-                        bg-body-tertiary
-                        p-2">
-
+            <div class="col bg-body-tertiary p-2">
                 <form method="post"
                       data-th-action="@{${allowEditing} ? '/teacher/update' : '/teacher/save'}"
                       data-th-object="${teacherSubmitted}">
-                      <div class="row
-                                  mx-0 g-2">
-
+                      <div class="row mx-0 g-2">
                         <!-- Id -->
                         <div class="d-none">
                             <label class="form-label"
