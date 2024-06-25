@@ -1,14 +1,16 @@
 package ar.edu.unju.fi.tp05grupo201.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import ar.edu.unju.fi.tp05grupo201.model.Student;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
+    Optional<Student> findStudentByPersonId(String personId);
 
-	List<Student> findStudentByState(Boolean state);
+    List<Student> findStudentsByState(boolean state);
 }

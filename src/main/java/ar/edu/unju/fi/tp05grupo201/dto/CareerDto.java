@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Component
 public class CareerDto {
-    @NotNull
+
     private long id;
 
     @Column(name = "code")

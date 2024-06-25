@@ -2,23 +2,14 @@ package ar.edu.unju.fi.tp05grupo201.model;
 
 
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,28 +41,29 @@ public class Career {
     @Column(name = "duration")
     private Integer duration;
 
-    @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    @OneToMany(
+            mappedBy = "career",
+            cascade = CascadeType.ALL
     )
-    @JoinTable(
-        name = "career_subject",
-        joinColumns = @JoinColumn(name = "career_id"),
-        inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private Set<Subject> subjects = new HashSet<>();
+    private List<Student> students = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "career",
+            cascade = CascadeType.ALL
+    )
+    private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;
 
     // Syncronize relantionships
-    public void addSubject(Subject subject) {
-        this.subjects.add(subject);
-        subject.getCareers().add(this);
+    public void addStudent(Student student) {
+        this.students.add(student);
+        student.setCareer(this);
     }
 
-    public void removeSubject(Subject subject) {
-        subject.getCareers().remove(this);
-        this.subjects.remove(subject);
+    public void removeStudent(Student student) {
+        student.setCareer(null);
+        this.students.remove(student);
     }
 }

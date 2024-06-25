@@ -1,12 +1,8 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Component
 public class TeacherDto {
-    @NotNull
+
     private long id;
 
     @NotBlank(message = "{teacher.file.not-blank}")
@@ -56,8 +52,6 @@ public class TeacherDto {
     )
     @Size(min = 10, message = "{teacher.phone.size}")
     private String phone;
-
-    private Set<SubjectDto> subjectDtos = new HashSet<>();
 
     private boolean state = true;
 }

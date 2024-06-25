@@ -48,12 +48,10 @@ public class CareerServiceImp implements ICareerService {
     public void addCareer(CareerDto careerDto) {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(careerDto.getCode());
 
-
         /**
          * Condition to re-enable a Career that was 'deleted'
          */
         if (optionalCareer.isPresent()) {
-
             careerDto.setId(optionalCareer.get().getId());
             careerDto.setState(true);
         }
@@ -111,12 +109,12 @@ public class CareerServiceImp implements ICareerService {
             );
         }
 
-        /**
-         * Update the relationship that has with Subject
-         */
-        for (Subject subject : optionalCareer.get().getSubjects()) {
-            optionalCareer.get().removeSubject(subject);
-        }
+//        /**
+//         * Update the relationship that has with Subject
+//         */
+//        for (Subject subject : optionalCareer.get().getSubjects()) {
+//            optionalCareer.get().removeSubject(subject);
+//        }
 
         optionalCareer.get().setState(false);
         careerRepository.save(optionalCareer.get());

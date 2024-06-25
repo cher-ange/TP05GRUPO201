@@ -40,10 +40,13 @@ public class Subject {
     private AttendanceType attendanceType;
 
     @ManyToMany(mappedBy = "subjects")
-    private Set<Teacher> teachers = new HashSet<>();
+    private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects")
-    private Set<Career> careers = new HashSet<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    private Teacher teacher;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Career career;
 
     @Column(name = "state")
     private Boolean state = true;

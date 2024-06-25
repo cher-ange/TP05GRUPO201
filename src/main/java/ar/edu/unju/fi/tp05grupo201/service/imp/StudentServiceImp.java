@@ -1,77 +1,122 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import ar.edu.unju.fi.tp05grupo201.mapper.StudentMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
-import ar.edu.unju.fi.tp05grupo201.mapper.StudentMapper;
+import ar.edu.unju.fi.tp05grupo201.mapper.StudentMapperImpl;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.repository.StudentRepository;
 import ar.edu.unju.fi.tp05grupo201.service.IStudentService;
+import lombok.AllArgsConstructor;
 
+/**
+ * Student service implementation
+ */
 @Service
+@AllArgsConstructor
+@Slf4j
 public class StudentServiceImp implements IStudentService {
 
-	@Autowired
-	StudentRepository studentRepository;
-	
-	@Autowired
-	StudentMapper studentMapper;
-	
-	@Override
-	public void saveStudent(StudentDto studentDto) {
-		studentDto.setState(true);
+    /**
+     * Dependencies
+     */
+    private final StudentRepository studentRepository;
+    private final StudentMapperImpl studentMapper;
+    private final StudentDto studentDto;
 
-		studentRepository.save(studentMapper.convertStudentDtoToStudent(studentDto));
-	}
+    /**
+     * Create a student
+     * @return Student
+     */
+    @Override
+    public StudentDto createStudent() {
+        log.info("CREATE: Creando un Alumno");
+        return studentDto;
+    }
 
-	@Override
-	public List<Student> showStudents() {
-		return studentRepository.findStudentByState(true);
-	}
+    /**
+     * Add a student
+     * @return Student
+     */
+    @Override
+    public void addStudent(StudentDto studentDto) {
+        Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(studentDto.getPersonId());
 
-	@Override
-	public StudentDto findStudent(Long id) {
-		List<Student> allStudents = studentRepository.findAll();
+        /**
+         * Condition to re-enable a Student that was 'deleted'
+         */
+        if (optionalStudent.isPresent()) {
+            log.info("ADD old: {}", studentDto);
+            studentDto.setId(optionalStudent.get().getId());
+            studentDto.setState(true);
+        }
 
-		for(Student s : allStudents ) {
-			if(s.getId().equals(id)) {
-				return studentMapper.convertStudentToStudentDto(s);
-			}
-		}
+        log.info("ADD new: {}", studentDto);
+        studentRepository.save(studentMapper.toEntity(studentDto));
+    }
 
-		return null;
-	}
+    /**
+     * Get a student by id
+     * @return Student
+     */
+    @Override
+    public StudentDto getStudentById(long id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
 
-	@Override
-	public void deleteStudent(Long id) {
-		List<Student> allStudents = studentRepository.findAll();
+        if (optionalStudent.isEmpty()) {
+            throw new NoSuchElementException(
+                    "Student with id " + id + " wasn't found"
+            );
+        }
 
-		for(int i=0; i<=allStudents.size(); i++) {
-			Student student = allStudents.get(i);
+        return studentMapper.toDto(optionalStudent.get());
+    }
 
-			if(student.getId().equals(id)) {
-				student.setState(false);
-				studentRepository.save(student);
-				break;
-			}
-		}
-	}
+    /**
+     * Get a student by person-id
+     * @return Student
+     */
+    @Override
+    public StudentDto getStudentByPersonId(String personId) {
+        Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(personId);
 
-	@Override
-	public void modifyStudent(StudentDto studentDto) {
-		List<Student> allStudents = studentRepository.findAll();
-		studentDto.setState(true);
+        if (optionalStudent.isEmpty()) {
+            throw new NoSuchElementException(
+                    "Student with person-id " + personId + " wasn't found"
+            );
+        }
 
-		for(int i=0; i<=allStudents.size(); i++) {
-			Student students = allStudents.get(i);
+        return studentMapper.toDto(optionalStudent.get());
+    }
 
-			if(students.getId().equals(studentDto.getId())) {
-				allStudents.set(i, studentMapper.convertStudentDtoToStudent(studentDto));
-				break;
-			}
-		}
-	}
+    /**
+     * Delete a student by person-id
+     */
+    @Override
+    public void deleteStudent(String personId) {
+        Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(personId);
+
+        if (optionalStudent.isEmpty()) {
+            throw new NoSuchElementException(
+                    "Student with person id " + personId + " wasn't found"
+            );
+        }
+
+        optionalStudent.get().setState(false);
+        studentRepository.save(optionalStudent.get());
+    }
+
+    /**
+     * Get a list of students by state
+     */
+    @Override
+    public List<StudentDto> getStudentsByState(boolean state) {
+        return studentMapper.toDtos(studentRepository.findStudentsByState(state));
+    }
 }

@@ -1,87 +1,133 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
-import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
+import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
-import ar.edu.unju.fi.tp05grupo201.model.Student;
-import ar.edu.unju.fi.tp05grupo201.service.IStudentService;
 
 @Controller
 @RequestMapping(path = "/student")
+@AllArgsConstructor
+@Slf4j
 public class StudentController {
 
-	@Autowired
-	StudentDto newStudentDto;
-	
-	@Autowired
-	StudentServiceImp studentService;
+    /**
+     * View/Endpoint PATH constants
+     */
+    private final String LIST_VIEWNAME = "student/students";
+    private final String FORM_VIEWNAME = "student/student-form";
+    private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/student/list";
 
-	@GetMapping(path = "/list")
-	public ModelAndView getStudents() {
-		ModelAndView modelAndView = new ModelAndView("student/students");
+    /**
+     * Dependencies
+     */
+    private final StudentServiceImp studentService;
 
-		modelAndView.addObject("listStudents", studentService.showStudents());
+    /**
+     * Endpoints
+     */
+    @GetMapping(path = "/list")
+    public ModelAndView getStudents() {
+        ModelAndView modelAndView = new ModelAndView();
 
-		return modelAndView;
-	}
+        modelAndView.setViewName(LIST_VIEWNAME);
+        modelAndView.addObject(
+                "listOfStudents",
+                studentService.getStudentsByState(true)
+        );
 
-	@GetMapping("/formStudent")
-	public ModelAndView getFormStudent() {
-		ModelAndView modelView = new ModelAndView("student/student-form");
+        return modelAndView;
+    }
 
-		newStudentDto.setState(true);
-		modelView.addObject("newStudent",newStudentDto);
-		modelView.addObject("band",false);
-		
-		return modelView;
-	}
-	
-	@PostMapping("/saveStudent")
-	public ModelAndView saveStudent(@ModelAttribute("newStudent") StudentDto studentForSave) {
+    @GetMapping(path = "/add")
+    public ModelAndView getAddStudentFormPage() {
+        ModelAndView modelAndView = new ModelAndView();
 
-		studentService.saveStudent(studentForSave);
-		ModelAndView modelView = new ModelAndView("student/students");
-		modelView.addObject("listStudents", studentService.showStudents());
-		
-		return modelView;
-	}
-	
-	@GetMapping("/deleteStudent/{id}")
-	public ModelAndView deleteStudent(@PathVariable(name ="id") Long id) {
-		ModelAndView modelView = new ModelAndView("student/students");
+        modelAndView.setViewName(FORM_VIEWNAME);
+        modelAndView.addObject(
+                "allowEditing",
+                false
+        );
+        modelAndView.addObject(
+                "studentSubmitted",
+                studentService.createStudent()
+        );
 
-		studentService.deleteStudent(id);
-		modelView.addObject("listStudents", studentService.showStudents());
-		
-		return modelView;
-	}
-	
-	@GetMapping("/modifyStudent/{id}")
-	public ModelAndView editStudent(@PathVariable(name="id") Long id) {
-		ModelAndView modelView = new ModelAndView("student/student-form");
+        return modelAndView;
+    }
 
-		StudentDto studentToModify = studentService.findStudent(id);
-		modelView.addObject("newStudent", studentToModify);
-		modelView.addObject("band", false);
+    @PostMapping(path = "/save")
+    public ModelAndView postSaveStudentFormPage(
+            @Valid @ModelAttribute(name = "studentSubmitted") StudentDto studentDto,
+            BindingResult bindingResult
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
 
-		return modelView;
-	}
-	
-	@PostMapping("/modifyStudent")
-	public ModelAndView updateStudent(@ModelAttribute("newStudent") StudentDto modifiedStudent) {
-		ModelAndView modelView = new ModelAndView("student/students");
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName(FORM_VIEWNAME);
+            modelAndView.addObject("allowEditing", false);
+        } else {
+            modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+            studentService.addStudent(studentDto);
+        }
 
-		studentService.modifyStudent(modifiedStudent);
-		modelView.addObject("listStudents", studentService.showStudents());
-		
-		return modelView;
-	}
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/update/{personId}")
+    public ModelAndView getUpdateStudentFormPage(
+            @PathVariable(value = "personId") String personId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(FORM_VIEWNAME);
+        modelAndView.addObject("allowEditing", true);
+        modelAndView.addObject(
+                "studentSubmitted",
+                studentService.getStudentByPersonId(personId)
+        );
+
+        return modelAndView;
+    }
+
+    @PostMapping(path = "/update")
+    public ModelAndView postUpdateStudentFormPage(
+            @Valid @ModelAttribute(value = "studentSubmitted") StudentDto studentDto,
+            BindingResult bindingResult
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName(FORM_VIEWNAME);
+            modelAndView.addObject("allowEditing", true);
+        } else {
+            modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+            studentService.addStudent(studentDto);
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/delete/{personId}")
+    public ModelAndView getDeleteStudentPage(
+            @PathVariable(value = "personId") String personId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+        studentService.deleteStudent(personId);
+
+        return modelAndView;
+    }
 }

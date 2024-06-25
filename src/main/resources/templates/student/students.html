@@ -1,48 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<th-block data-th-replace="~{layout/common :: head (title='Docentes')}"></th-block>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th-block data-th-replace="~{layout/common :: head (title='Alumnos')}"></th-block>
 <body>
 <!-- Header -->
 <th-block data-th-replace="~{layout/header :: header}"></th-block>
 <!-- Main -->
-	<div class="container">
-		<table class="table table-striped">
-			<thead>
-			    <tr>
-			      <th scope="col">Id</th>
-			      <th scope="col">PersonId</th>
-			      <th scope="col">Name</th>
-			      <th scope="col">LastName</th>
-			      <th scope="col">Email</th>
-			      <th scope="col">Phone</th>
-			      <th scope="col">BirthDate</th>
-			      <th scope="col">Address</th>
-			      <th scope="col">University Id</th>
-			      <th scope="col">State</th>
-			    </tr>
-			</thead>
-			<tbody>
-			    <tr data-th-each="student : ${listStudents}">
-			      <td data-th-text="${student.id}"></td>
-			      <td data-th-text="${student.personId}"></td>
-			      <td data-th-text="${student.name}"></td>
-			      <td data-th-text="${student.lastName}"></td>
-			      <td data-th-text="${student.email}"></td>
-			      <td data-th-text="${student.phone}"></td>
-			      <td data-th-text="${student.birthdate}"></td>
-			      <td data-th-text="${student.address}"></td>
-			      <td data-th-text="${student.universityId}"></td>
-			      <td data-th-text="${student.state}"></td>
-			      <td>
-			      	<a data-th-href="@{'/student/deleteStudent/'+${student.id}}" class="btn btn-danger">Delete</a>
-			      	<a data-th-href="@{'/student/modifyStudent/'+${student.id}}" class="btn btn-warning">Modify</a>
-			      </td>
-			    </tr>
-			</tbody>  
-		</table>
-	</div>
+<div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+    <h2 class="text-body-emphasis">Sección Estudiante</h2>
+    <h5 class="text-muted pb-2 border-bottom">Listado de Estudiantes</h5>
+    <!-- Display students -->
+    <div class="row mx-0"
+         data-th-unless="${#lists.isEmpty(listOfStudents)}">
+        <div class="col-12 bg-body-tertiary p-2">
+            <!-- List of students -->
+            <div class="row mx-0">
+                <th-block data-th-each="student : ${listOfStudents}">
+                    <!-- Student -->
+                    <th-block data-th-replace="~{student/student-display :: information (object='student', display_buttons='true')}"></th-block>
+                </th-block>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Footer -->
 <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
 </body>
-
 </html>

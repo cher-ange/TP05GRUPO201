@@ -1,0 +1,85 @@
+<!-- Student information -->
+<th-block data-th-fragment="information (object, display_buttons)">
+    <div class="col-12 col-md-6 col-lg-4 p-2">
+        <div class="card h-100 shadow-sm">
+            <!-- Header -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <!-- Code -->
+                <p class="mb-0">
+                    DNI:
+                    <span class="ps-1 text-muted"
+                        data-th-text="${__${object}__.personId}">
+                    </span>
+                </p>
+                <!-- State -->
+                <p class="mb-0">
+                    Estado:
+                    <span class="ps-1 text-muted">
+                        <i data-th-class="${__${object}__.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
+                    </span>
+                </p>
+            </div>
+            <!-- Image -->
+            <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxu-d50fdb9e-213d-4ced-87c2-0f76660c2c44.png/v1/fill/w_939,h_851,q_70,strp/cat__by_mischadiv04_dhlexxu-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAwMCIsInBhdGgiOiJcL2ZcLzNjZWJhZDEyLTZmYTMtNGU5NC05ODcwLTdhYTE2NDNiYWU2ZVwvZGhsZXh4dS1kNTBmZGI5ZS0yMTNkLTRjZWQtODdjMi0wZjc2NjYwYzJjNDQucG5nIiwid2lkdGgiOiI8PTExMDQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.afEtvieD9cpyjE9A0TM-I0xPY4dr0wwkcyx1F3lBYCY')}">
+            <!-- Body -->
+            <div class="card-body bg-light">
+                <ul class="list-group">
+                    <!-- Name -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Nombre</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.name}"></h6>
+                    </li>
+                    <!-- Last name -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Apellido</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.lastName}"></h6>
+                    </li>
+                    <!-- Email -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Correo eléctronico</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.email}"></h6>
+                    </li>
+                    <!-- Phone -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Teléfono</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.phone}"></h6>
+                    </li>
+                    <!-- Birthdate -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Fecha de nacimiento</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.birthdate}"></h6>
+                    </li>
+                    <!-- Address -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Dirección</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.address}"></h6>
+                    </li>
+                    <!-- University Record -->
+                    <li class="list-group-item">
+                        <small class="text-muted">Libreta Universitaria</small>
+                        <h6 class="mb-0" data-th-text="${__${object}__.universityRecord}"></h6>
+                    </li>
+                </ul>
+            </div>
+            <!-- Footer -->
+            <th-block data-th-if="${display_buttons}">   
+                <!-- Update-Back to buttons -->
+                <div class="card-footer d-flex justify-content-center align-content-center column-gap-2"
+                     data-th-with="objectPersonId=${__${object}__.personId}">  
+                     <!--Update  -->
+                    <a class="btn btn-light border border-secondary-subtle shadow"
+                       role="button"
+                       data-th-href="@{/student/update/__${objectPersonId}__}">
+                       Modificar
+                    </a>
+                    <!-- Delete -->
+                    <a class="btn btn-light border border-secondary-subtle link-danger shadow"
+                       role="button"
+                       data-th-href="@{/student/delete/__${objectPersonId}__}">
+                       Eliminar
+                    </a>
+                </div>
+            </th-block>
+        </div>
+    </div>
+</th-block>

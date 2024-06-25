@@ -5,60 +5,209 @@
 <!-- Header -->
 <th-block data-th-replace="~{layout/header :: header}"></th-block>
 <!-- Main -->
-<div class="container">
-    <h1>STUDENT FORM</h1>
-    <form data-th-action="${band}?@{/student/modifyStudent}:@{/student/saveStudent}" data-th-object="${newStudent}" method="post">
-        <div class="d-none">
-            <label class="form-label"
-                   for="teacher-id"
-                   hidden>ID
-            </label>
-            <input class="form-control"
-                   id="teacher-id"
-                   name="teacher-id"
-                   readonly="readonly"
-                   th:field="*{id}"
-                   type="hidden">
+<div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+    <h2 class="text-body-emphasis">Sección Estudiante</h2>
+    <h5 class="text-muted pb-2 border-bottom"
+        data-th-text="${allowEditing} ? 'Modificar estudiante' : 'Agregar estudiante'"></h5>
+    <!-- Form -->
+    <div class="row mx-0">
+        <!-- Add/Modify Student -->
+        <div class="col bg-body-tertiary p-2">
+            <form data-th-action="@{${allowEditing} ? '/student/update' : '/student/save'}"
+                  data-th-object="${studentSubmitted}"
+                  method="post">
+                <div class="row mx-0 g-2">
+                    <!-- Id -->
+                    <div class="d-none">
+                        <label class="form-label"
+                               for="student-id"
+                               hidden>ID
+                        </label>
+                        <input class="form-control"
+                               id="student-id"
+                               name="student-id"
+                               readonly="readonly"
+                               th:field="*{id}"
+                               type="hidden">
+                    </div>
+                    <!-- PersonId -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="person-id">DNI
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                            <input data-th-class="${allowEditing} ? 'form-control bg-body-secondary' : 'form-control'"
+                                   data-th-field="*{personId}"
+                                   data-th-readonly="${allowEditing}"
+                                   id="person-id"
+                                   name="person-id"
+                                   type="text">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{personId}"
+                             data-th-if="${#fields.hasErrors('personId')}">
+                        </div>
+                    </div>
+                    <!-- Name -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="name">
+                            Nombre
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{name}"
+                                   id="name"
+                                   name="name"
+                                   type="text">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{name}"
+                             data-th-if="${#fields.hasErrors('name')}">
+                        </div>
+                    </div>
+                    <!-- Last Name -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="last-name">Apellido
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{lastName}"
+                                   id="last-name"
+                                   name="last-name"
+                                   type="text">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{lastName}"
+                             data-th-if="${#fields.hasErrors('lastName')}">
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="email">Correo electrónico
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-mailbox"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{email}"
+                                   id="email"
+                                   name="email"
+                                   type="email">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{email}"
+                             data-th-if="${#fields.hasErrors('email')}">
+                        </div>
+                    </div>
+                    <!-- Phone -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="phone">Teléfono
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{phone}"
+                                   id="phone"
+                                   name="phone"
+                                   type="tel">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{phone}"
+                             data-th-if="${#fields.hasErrors('phone')}">
+                        </div>
+                    </div>
+                    <!-- Birthdate -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="birthdate">Fecha de nacimiento
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{birthdate}"
+                                   id="birthdate"
+                                   name="birthdate"
+                                   type="date">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{birthdate}"
+                             data-th-if="${#fields.hasErrors('birthdate')}">
+                        </div>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="address">Dirección
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-bookmark"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{address}"
+                                   id="address"
+                                   name="address"
+                                   type="text">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{address}"
+                             data-th-if="${#fields.hasErrors('address')}">
+                        </div>
+                    </div>
+                    <!-- University Record -->
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <label class="form-label"
+                               for="university-record">Libreta Universitaria
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-archive"></i></span>
+                            <input class="form-control"
+                                   data-th-field="*{universityRecord}"
+                                   id="university-record"
+                                   name="university-record"
+                                   type="text">
+                        </div>
+                        <div class="form-text text-danger"
+                             data-th-errors="*{universityRecord}"
+                             data-th-if="${#fields.hasErrors('universityRecord')}">
+                        </div>
+                    </div>
+                    <!-- State -->
+                    <div class="d-none">
+                        <label class="form-check-label"
+                               for="state"
+                               hidden>Estado
+                        </label>
+                        <input class="form-check-input"
+                               data-th-field="*{state}"
+                               id="state"
+                               name="state"
+                               readonly="readonly"
+                               type="hidden">
+                    </div>
+                    <!-- Submit-Cancel buttons -->
+                    <div class="col-12 d-flex justify-content-start column-gap-2 mt-3">
+                        <button class="btn btn-light border border-secondary-subtle text-primary shadow"
+                                data-th-text="${allowEditing} ? 'Modificar' : 'Agregar'"
+                                type="submit">
+                        </button>
+                        <a class="btn btn-light border border-secondary-subtle shadow"
+                           data-th-href="@{'/student/list'}"
+                           role="button">
+                            Regresar
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="personId">PersonId</label>
-            <input class="form-control" data-th-field="*{personId}" data-th-readonly="${band}" id="personId"
-                   type="number">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="name">Name</label>
-            <input class="form-control" data-th-field="*{name}" id="name" type="text">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="lastName">LastName</label>
-            <input class="form-control" data-th-field="*{lastName}" id="lastName" type="text">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" data-th-field="*{email}" id="email" type="email">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="phone">Phone</label>
-            <input class="form-control" data-th-field="*{phone}" id="phone" type="number">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="birthDate">BirthDate</label>
-            <input class="form-control" data-th-field="*{birthdate}" id="birthDate" type="date">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="address">Address</label>
-            <input class="form-control" data-th-field="*{address}" id="address" type="text">
-        </div>
-        <div class="col-sm-6">
-            <label class="form-label" for="universityId">UniversityId</label>
-            <input class="form-control" data-th-field="*{universityId}" data-th-readonly="${band}" id="universityId"
-                   type="text">
-        </div>
-        <button class="btn btn-primary" type="submit">Save Student</button>
-    </form>
+    </div>
 </div>
 <!-- Footer -->
 <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
 </body>
-
 </html>

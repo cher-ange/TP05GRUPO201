@@ -54,7 +54,10 @@ public class SubjectController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(FORM_VIEWNAME);
-        modelAndView.addObject("allowEditing", false);
+        modelAndView.addObject(
+                "allowEditing",
+                false
+        );
         modelAndView.addObject(
                 "subjectSubmitted",
                 subjectService.createSubject()

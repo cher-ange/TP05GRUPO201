@@ -18,7 +18,6 @@ import java.util.Set;
 @Component
 public class SubjectDto {
 
-    @NotNull
     private long id;
 
     @NotBlank(message = "{subject.code.not-blank}")
@@ -48,9 +47,11 @@ public class SubjectDto {
 
     private String attendanceType;
 
-    private Set<TeacherDto> teacherDtos = new HashSet<>();
+    private Set<TeacherDto> studentDtos = new HashSet<>();
 
-    private Set<CareerDto> careerDtos = new HashSet<>();
+    private TeacherDto teacherDto;
+
+    private CareerDto careerDto;
 
     private boolean state = true;
 }

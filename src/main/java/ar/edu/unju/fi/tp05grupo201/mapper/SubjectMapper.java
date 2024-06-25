@@ -13,8 +13,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SubjectMapper {
 
-    @Mapping(target = "teachers", source = "teacherDtos")
-    @Mapping(target = "careers", source = "careerDtos")
+//    @Mapping(target = "teachers", source = "teacherDtos")
+//    @Mapping(target = "careers", source = "careerDtos")
+    @Mapping(target = "students", source = "studentDtos")
     Subject toEntity(SubjectDto subjectDto);
 
     @InheritInverseConfiguration
