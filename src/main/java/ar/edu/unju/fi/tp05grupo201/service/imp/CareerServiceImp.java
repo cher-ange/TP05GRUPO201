@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapper;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
@@ -24,12 +25,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CareerServiceImp implements ICareerService {
 
-    
     /**
      * Dependencies
      */
     private final CareerRepository careerRepository;
-    private final CareerMapperImpl careerMapper;
+    private final CareerMapper careerMapper;
     private final CareerDto careerDto;
 
     /**

@@ -5,10 +5,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapper;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
-import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapperImpl;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 import ar.edu.unju.fi.tp05grupo201.repository.TeacherRepository;
@@ -26,7 +26,7 @@ public class TeacherServiceImp implements ITeacherService {
      * Dependencies
      */
     private final TeacherRepository teacherRepository;
-    private final TeacherMapperImpl teacherMapper;
+    private final TeacherMapper teacherMapper;
     private final TeacherDto teacherDto;
 
     /**
