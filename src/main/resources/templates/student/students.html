@@ -6,6 +6,18 @@
 <th-block data-th-replace="~{layout/header :: header}"></th-block>
 <!-- Main -->
 	<div class="container">
+		<div class="d-flex justify-content-end">
+			<form action="#" th:action="@{/student/list/byCareer}" method="get">
+				<label for="careerSelect"><strong>Filtrar por carrera</strong></label>
+				<select name="careerName" id="careerSelect">
+					<option th:each="career : ${careerSet}"
+							th:value="${career.name}" th:text="${career.name}">
+					</option>
+				</select>
+				<button class="btn-primary btn" type="submit">Filtrar</button>
+			</form>
+		</div>
+		<br>
 		<table class="table table-striped">
 			<thead>
 			    <tr>
@@ -17,7 +29,8 @@
 			      <th scope="col">Phone</th>
 			      <th scope="col">BirthDate</th>
 			      <th scope="col">Address</th>
-			      <th scope="col">University Id</th>
+			      <th scope="col">Career</th>
+			      <th scope="col">University Id (LU)</th>
 			      <th scope="col">State</th>
 			    </tr>
 			</thead>
@@ -31,6 +44,7 @@
 			      <td data-th-text="${student.phone}"></td>
 			      <td data-th-text="${student.birthdate}"></td>
 			      <td data-th-text="${student.address}"></td>
+				  <td data-th-text="${student.career.name}"></td>
 			      <td data-th-text="${student.universityId}"></td>
 			      <td data-th-text="${student.state}"></td>
 			      <td>

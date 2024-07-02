@@ -1,6 +1,8 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -44,6 +46,8 @@ public class CareerDto {
     private int duration;
 
     private Set<SubjectDto> subjectDtos = new HashSet<>();
+
+    private List<StudentDto> studentDtos = new ArrayList<>();
     
     private boolean state = true;
 }

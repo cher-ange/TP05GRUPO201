@@ -2,13 +2,9 @@ package ar.edu.unju.fi.tp05grupo201.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
@@ -29,4 +25,7 @@ public class Student {
     private String address;
     private String universityId;
     private Boolean state;
+
+    @ManyToOne(targetEntity = Career.class)
+    private Career career;
 }

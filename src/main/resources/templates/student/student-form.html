@@ -50,10 +50,18 @@
             <input class="form-control" data-th-field="*{address}" id="address" type="text">
         </div>
         <div class="col-sm-6">
-            <label class="form-label" for="universityId">UniversityId</label>
+            <label class="form-label" for="universityId">UniversityId (LU)</label>
             <input class="form-control" data-th-field="*{universityId}" data-th-readonly="${band}" id="universityId"
                    type="text">
         </div>
+        <br>
+        <div class="col-sm-6">
+            <label for="career">Carrera del Estudiante</label>
+            <select id="career" name="career" th:field="*{career.code}">
+                <option th:each="career : ${careerSet}" th:value="${career.code}" th:text="${career.name}+' '+${career.code}"></option>
+            </select>
+        </div>
+        <br>
         <button class="btn btn-primary" type="submit">Save Student</button>
     </form>
 </div>

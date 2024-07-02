@@ -9,16 +9,18 @@ import org.mapstruct.Mapping;
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 import ar.edu.unju.fi.tp05grupo201.model.Career;
 
-@Mapper(componentModel = "spring", uses = {SubjectMapper.class})
+@Mapper(componentModel = "spring", uses = {SubjectMapper.class, StudentMapper.class})
 public interface CareerMapper {
 
     @Mapping(target = "subjects", source = "subjectDtos")
+    @Mapping(target = "students", source = "studentDtos")
     Career toEntity(CareerDto careerDto);
 
     @InheritInverseConfiguration
     CareerDto toDto(Career career);
 
     Set<Career> toEntities(Set<CareerDto> careerDtos);
+
 
     @InheritInverseConfiguration
     Set<CareerDto> toDtos(Set<Career> careers);

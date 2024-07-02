@@ -67,4 +67,6 @@ public class StudentDto {
     private String universityId;
 
     private boolean state = true;
+
+    private CareerDto career;
 }
