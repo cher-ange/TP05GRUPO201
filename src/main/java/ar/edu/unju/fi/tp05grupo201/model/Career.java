@@ -2,23 +2,13 @@ package ar.edu.unju.fi.tp05grupo201.model;
 
 
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -59,6 +49,9 @@ public class Career {
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private Set<Subject> subjects = new HashSet<>();
+
+    @OneToMany(mappedBy = "career", fetch = FetchType.LAZY, targetEntity = Student.class)
+    private List<Student> students;
 
 
     @Column(name = "state")

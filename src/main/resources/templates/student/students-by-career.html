@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th-block data-th-replace="~{layout/common :: head (title='Docentes')}"></th-block>
+<body>
+<!-- Header -->
+<th-block data-th-replace="~{layout/header :: header}"></th-block>
+<!-- Main -->
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-6"><h1>ALUMNOS PERTENECIENTES A LA CARRERA <strong th:text="${careerName}"></strong></h1></div>
+        <div class="btn btn-primary w-auto align-self-center">
+            <a class="btn btn-primary" th:href="@{/student/list}">Limpiar Filtro</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">PersonId</th>
+            <th scope="col">Name</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">BirthDate</th>
+            <th scope="col">Address</th>
+            <th scope="col">Career</th>
+            <th scope="col">University Id (LU)</th>
+            <th scope="col">State</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="student : ${listStudents}">
+            <td data-th-text="${student.id}"></td>
+            <td data-th-text="${student.personId}"></td>
+            <td data-th-text="${student.name}"></td>
+            <td data-th-text="${student.lastName}"></td>
+            <td data-th-text="${student.email}"></td>
+            <td data-th-text="${student.phone}"></td>
+            <td data-th-text="${student.birthdate}"></td>
+            <td data-th-text="${student.address}"></td>
+            <td data-th-text="${student.career.name}"></td>
+            <td data-th-text="${student.universityId}"></td>
+            <td data-th-text="${student.state}"></td>
+            <td>
+                <a data-th-href="@{'/student/deleteStudent/'+${student.id}}" class="btn btn-danger">Delete</a>
+                <a data-th-href="@{'/student/modifyStudent/'+${student.id}}" class="btn btn-warning">Modify</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Footer -->
+<th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+
+</html>
