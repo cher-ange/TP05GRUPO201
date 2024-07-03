@@ -50,10 +50,10 @@ public class SubjectDto {
     private String attendanceType;
 
     private Set<StudentDto> students = new HashSet<>();
+    
+    private TeacherDto teacher;
 
-//    private TeacherDto teacher;
-//
-//    private CareerDto career;
+    private CareerDto career;
 
     private boolean state = true;
 }

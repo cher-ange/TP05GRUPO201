@@ -37,12 +37,12 @@ public class Career {
            cascade = CascadeType.ALL
    )
    private List<Student> students = new ArrayList<>();
-//
-//    @OneToMany(
-//            mappedBy = "career",
-//            cascade = CascadeType.ALL
-//    )
-//    private List<Subject> subjects = new ArrayList<>();
+
+   @OneToMany(
+           mappedBy = "career",
+           cascade = CascadeType.ALL
+   )
+   private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;
@@ -57,4 +57,14 @@ public class Career {
        student.setCareer(null);
        this.students.remove(student);
     }
+
+    public void addSubject(Subject subject) {
+      this.subjects.add(subject);
+      subject.setCareer(this);
+   }
+
+   public void removeSubject(Subject subject) {
+      subject.setCareer(null);
+      this.subjects.remove(subject);
+   }
 }

@@ -2,7 +2,6 @@ package ar.edu.unju.fi.tp05grupo201.controller;
 
 import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(path = "/student")
 @AllArgsConstructor
-@Slf4j
 public class StudentController {
 
     /**
@@ -52,9 +50,10 @@ public class StudentController {
         return modelAndView;
     }
 
-    /*---------------*
-     | Add a student |
-     *---------------*/
+    /**
+     * Add a student
+     * @return
+     */
     @GetMapping(path = "/add")
     public ModelAndView getAddStudentFormPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -72,6 +71,12 @@ public class StudentController {
         return modelAndView;
     }
 
+    /**
+     * Save a student
+     * @param studentDto
+     * @param bindingResult
+     * @return
+     */
     @PostMapping(path = "/save")
     public ModelAndView postSaveStudentFormPage(
             @Valid @ModelAttribute(name = "studentSubmitted") StudentDto studentDto,
@@ -79,7 +84,6 @@ public class StudentController {
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
-        log.info("/save Student: {}", studentDto);
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName(FORM_VIEWNAME);
             modelAndView.addObject(
@@ -94,6 +98,11 @@ public class StudentController {
         return modelAndView;
     }
 
+    /**
+     * Retrieve a student by id to update
+     * @param studentId
+     * @return
+     */
     @GetMapping(path = "/update/{studentId}")
     public ModelAndView getUpdateStudentFormPage(
             @PathVariable(value = "studentId") long studentId
@@ -110,6 +119,12 @@ public class StudentController {
         return modelAndView;
     }
 
+    /**
+     * Update a student
+     * @param studentDto
+     * @param bindingResult
+     * @return
+     */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateStudentFormPage(
             @Valid @ModelAttribute(value = "studentSubmitted") StudentDto studentDto,
@@ -131,6 +146,11 @@ public class StudentController {
         return modelAndView;
     }
 
+    /**
+     * Delete (logically) a student
+     * @param studentId
+     * @return
+     */
     @GetMapping(path = "/delete/{studentId}")
     public ModelAndView getDeleteStudentPage(
             @PathVariable(value = "studentId") long studentId
@@ -143,9 +163,11 @@ public class StudentController {
         return modelAndView;
     }
 
-    /*----------------------------*
-     | Add a Subject to a Student |
-     *----------------------------*/
+    /**
+     * Add a subject to a student retrieved by id
+     * @param studentId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/subjects/add")
     public ModelAndView getAddSubjectPage(
             @PathVariable(value = "studentId") long studentId
@@ -169,8 +191,14 @@ public class StudentController {
         return modelAndView;
     }
 
+    /**
+     * Save a subject to a student
+     * @param studentId
+     * @param subjectId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/subjects")
-    public ModelAndView getSaveSubjectPage(
+    public ModelAndView getSaveSubjectToStudentPage(
             @PathVariable(value = "studentId") long studentId,
             @RequestParam(value = "subjectId") long subjectId
     ) {
@@ -182,9 +210,12 @@ public class StudentController {
         return modelAndView;
     }
 
-    /*---------------------------------*
-     | Delete a Subject from a Student |
-     *---------------------------------*/
+    /**
+     * Delete a subject from a student
+     * @param studentId
+     * @param subjectId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/subjects/{subjectId}/delete")
     public ModelAndView getDeleteSubjectFromStudentPage(
             @PathVariable(value = "studentId") long studentId,
@@ -201,7 +232,7 @@ public class StudentController {
     /*---------------------------*
      | Add a Career to a Student |
      *---------------------------*/
-    @GetMapping(path = "/{studentId}/careers/add")
+    @GetMapping(path = "/{studentId}/career/add")
     public ModelAndView getAddCareerPage(
             @PathVariable(value = "studentId") long studentId
     ) {
@@ -224,7 +255,7 @@ public class StudentController {
         return modelAndView;
     }
 
-    @GetMapping(path = "/{studentId}/careers")
+    @GetMapping(path = "/{studentId}/career")
     public ModelAndView getSaveCareerPage(
             @PathVariable(value = "studentId") long studentId,
             @RequestParam(value = "careerId") long careerId
@@ -240,7 +271,7 @@ public class StudentController {
     /*---------------------------*
      | Update a Career from a Student |
      *---------------------------*/
-    @GetMapping(path = "/{studentId}/careers/update")
+    @GetMapping(path = "/{studentId}/career/update")
     public ModelAndView getUpdateCareerPage(
             @PathVariable(value = "studentId") long studentId
     ) {
@@ -266,7 +297,7 @@ public class StudentController {
     /*---------------------------------*
      | Delete a Career from a Student |
      *---------------------------------*/
-    @GetMapping(path = "/{studentId}/careers/{careerId}/delete")
+    @GetMapping(path = "/{studentId}/career/{careerId}/delete")
     public ModelAndView getDeleteCareerFromStudentPage(
             @PathVariable(value = "studentId") long studentId,
             @PathVariable(value = "careerId") long careerId

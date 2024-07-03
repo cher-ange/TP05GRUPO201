@@ -16,7 +16,7 @@
                 <!-- Form -->
                 <!-- Select Career/Teacher -->
                 <div class="col p-2">
-                    <form data-th-action="@{/subject/{subjectCode}/teachers(subjectCode=${subjectSubmitted.code})}"
+                    <form data-th-action="@{/subject/{subjectId}/teacher(subjectId=${subjectSubmitted.id})}"
                           method="get">
                         <div class="row mx-0 g-2">
                             <!-- Teacher -->
@@ -39,10 +39,10 @@
                                             <span class="input-group-text"><i class="bi bi-book"></i></span>
                                             <select class="form-select"
                                                     id="teacher"
-                                                    name="teacherFile">
+                                                    name="teacherId">
                                                 <option data-th-each="teacher : ${listOfTeachers}"
                                                         data-th-text="${teacher.name}"
-                                                        data-th-value="${teacher.file}">
+                                                        data-th-value="${teacher.id}">
                                                 </option>
                                             </select>
                                         </div>

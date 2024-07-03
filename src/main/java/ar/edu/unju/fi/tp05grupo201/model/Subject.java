@@ -37,16 +37,15 @@ public class Subject {
     @Enumerated(EnumType.STRING)
     private AttendanceType attendanceType;
 
-    @ManyToMany(
-            mappedBy = "subjects"
-    )
+    @ManyToMany(mappedBy = "subjects")
     private Set<Student> students = new HashSet<>();
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private Teacher teacher;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Career career;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   private Career career;
 
     @Column(name = "state")
     private Boolean state = true;

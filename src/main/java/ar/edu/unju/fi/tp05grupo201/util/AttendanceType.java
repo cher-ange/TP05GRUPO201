@@ -8,14 +8,6 @@ import lombok.RequiredArgsConstructor;
 public enum AttendanceType {
     VIRTUAL ("Virtual"),
     IN_PERSON ("Presencial");
-
+    
     private final String value;
-
-    // AttendanceType(final String value) {
-    //     this.value = value;
-    // }
-
-    // public String getValue() {
-    //     return value;
-    // }
 }

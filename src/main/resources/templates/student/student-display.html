@@ -25,46 +25,54 @@
                 <!-- Body -->
                 <div class="card-body bg-light">
                     <ul class="list-group">
+
                         <!-- Name -->
                         <li class="list-group-item">
                             <small class="text-muted">Nombre</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.name}"></h6>
                         </li>
+
                         <!-- Last name -->
                         <li class="list-group-item">
                             <small class="text-muted">Apellido</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.lastName}"></h6>
                         </li>
+
                         <!-- Email -->
                         <li class="list-group-item">
                             <small class="text-muted">Correo eléctronico</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.email}"></h6>
                         </li>
+
                         <!-- Phone -->
                         <li class="list-group-item">
                             <small class="text-muted">Teléfono</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.phone}"></h6>
                         </li>
+
                         <!-- Birthdate -->
                         <li class="list-group-item">
                             <small class="text-muted">Fecha de nacimiento</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.birthdate}"></h6>
                         </li>
+
                         <!-- Address -->
                         <li class="list-group-item">
                             <small class="text-muted">Dirección</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.address}"></h6>
                         </li>
+
                         <!-- University Record -->
                         <li class="list-group-item">
                             <small class="text-muted">Libreta Universitaria</small>
                             <h6 class="mb-0" data-th-text="${__${object}__.universityRecord}"></h6>
                         </li>
-                        <!-- List of Careers -->
+
+                        <!-- Career -->
                         <li class="list-group-item">
-                            <small class="text-muted">Carrera</small>
+                            <small class="text-muted">Docente</small>
                             <div class="d-flex flex-column row-gap-2">
-                                <button aria-controls="showListOfCareers"
+                                <button aria-controls="showCareer"
                                         aria-expanded="false"
                                         class="btn btn-light border border-secondary-subtle shadow-sm"
                                         data-th-attr="data-bs-target='#showCareer' + ${studentId}"
@@ -82,7 +90,7 @@
                                             <div class="fw-bold">Nombre</div>[[ __${career.name}__ ]]
                                         </div>
                                         <a class="btn btn-close btn-sm btn-danger"
-                                            data-th-href="@{/student/__${studentId}__/careers/__${career.id}__/delete}"
+                                            data-th-href="@{/student/__${studentId}__/career/__${career.id}__/delete}"
                                             role="button">
                                         </a>
                                     </li>
@@ -90,6 +98,7 @@
                                 </th-block>
                             </div>
                         </li>
+                        
                         <!-- List of Subjects -->
                         <li class="list-group-item">
                             <small class="text-muted">Materias</small>
@@ -130,14 +139,14 @@
                         <!-- Add career -->
                         <th-block data-th-if="${__${object}__.career == null}">
                             <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
-                            data-th-href="@{/student/__${objectId}__/careers/add}"
-                            role="button">Agregar carrera
+                               data-th-href="@{/student/__${objectId}__/career/add}"
+                               role="button">Agregar carrera
                             </a>
                         </th-block>
                         <!-- Update a career -->
                         <th-block data-th-if="${__${object}__.career != null }">
                             <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
-                            data-th-href="@{/student/__${objectId}__/careers/update}"
+                            data-th-href="@{/student/__${objectId}__/career/update}"
                             role="button">Modificar carrera
                             </a>
                         </th-block> 

@@ -25,6 +25,7 @@ public class SubjectController {
      */
     private final String LIST_VIEWNAME = "subject/subjects";
     private final String FORM_VIEWNAME = "subject/subject-form";
+    private final String ADD_TEACHER_FORM_VIEWNAME = "subject/add-teacher-to-subject-form";
     private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/subject/list";
 
     /**
@@ -106,9 +107,9 @@ public class SubjectController {
         return modelAndView;
     }
 
-    @GetMapping(path = "/update/{code}")
+    @GetMapping(path = "/update/{subjectId}")
     public ModelAndView getUpdateSubjectFormPage(
-            @PathVariable(value = "code") String code
+            @PathVariable(value = "subjectId") long subjectId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -119,7 +120,7 @@ public class SubjectController {
         );
         modelAndView.addObject(
                 "subjectSubmitted",
-                subjectService.getSubjectByCode(code)
+                subjectService.getSubjectById(subjectId)
         );
         modelAndView.addObject(
                 "listOfTeachers",
@@ -178,6 +179,92 @@ public class SubjectController {
 
         modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
         subjectService.deleteSubject(code);
+
+        return modelAndView;
+    }
+
+    /*----------------------------*
+     | Add a Teacher to a Subject |
+     *----------------------------*/
+    @GetMapping(path = "/{subjectId}/teacher/add")
+    public ModelAndView getAddTeacherPage(
+            @PathVariable(value = "subjectId") long subjectId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(ADD_TEACHER_FORM_VIEWNAME);
+
+        modelAndView.addObject(
+                "listOfTeachers",
+                teacherService.getTeachersByState(true)
+        );
+        
+        modelAndView.addObject(
+                "subjectSubmitted",
+                subjectService.getSubjectById(subjectId)
+        );
+
+        modelAndView.addObject(
+                "allowEditing",
+                false
+        );
+
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/{subjectId}/teacher")
+    public ModelAndView getSaveTeacherPage(
+            @PathVariable(value = "subjectId") long subjectId,
+            @RequestParam(value = "teacherId") long teacherId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+        subjectService.addTeacherToSubject(subjectId, teacherId);
+
+        return modelAndView;
+    }
+
+    /*-------------------------------*
+     | Update a Teacher from Subject |
+     *-------------------------------*/
+    @GetMapping(path = "/{subjectId}/teacher/update")
+    public ModelAndView getUpdateCareerPage(
+            @PathVariable(value = "subjectId") long subjectId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(ADD_TEACHER_FORM_VIEWNAME);
+        
+        modelAndView.addObject(
+                "listOfTeachers",
+                teacherService.getTeachersByState(true)
+        );
+
+        modelAndView.addObject(
+                "subjectSubmitted",
+                subjectService.getSubjectById(subjectId)
+        );
+        modelAndView.addObject(
+                "allowEditing",
+                true
+        );
+
+        return modelAndView;
+    }
+
+    /*---------------------------------*
+     | Delete a Teacher from a Subject |
+     *---------------------------------*/
+    @GetMapping(path = "/{subjectId}/teacher/{teacherId}/delete")
+    public ModelAndView getDeleteSubjectFromStudentPage(
+            @PathVariable(value = "subjectId") long subjectId,
+            @PathVariable(value = "teacherId") long teacherId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+        subjectService.deleteTeacherFromSubject(subjectId, teacherId);
 
         return modelAndView;
     }

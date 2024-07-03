@@ -58,6 +58,7 @@ public class StudentServiceImp implements IStudentService {
         Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(studentDto.getPersonId());
 
         if (optionalStudent.isPresent()) {
+            log.info("Updating student " + studentDto);
             studentDto.setId(optionalStudent.get().getId());
             studentDto.setCareer(careerMapper.toDto(optionalStudent.get().getCareer()));
             studentDto.setSubjects(
@@ -67,8 +68,9 @@ public class StudentServiceImp implements IStudentService {
                     .collect(Collectors.toSet())
             );
        }
-
-        studentRepository.save(studentMapper.toEntity(studentDto));
+       
+       log.info("Adding student " + studentDto);
+       studentRepository.save(studentMapper.toEntity(studentDto));
     }
 
     /**
@@ -136,6 +138,9 @@ public class StudentServiceImp implements IStudentService {
         studentRepository.save(optionalStudent.get());
     }
 
+    /**
+     * Delete a subject from a student
+     */
     @Override
     public void deleteSubjectFromStudent(long studentId, long subjectId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
@@ -157,6 +162,9 @@ public class StudentServiceImp implements IStudentService {
         studentRepository.save(optionalStudent.get());
     }
 
+    /**
+     * Delete a career from a student
+     */
     @Override
     public void deleteCareerFromStudent(long studentId, long careerId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
@@ -178,32 +186,52 @@ public class StudentServiceImp implements IStudentService {
         studentRepository.save(optionalStudent.get());
     }
 
+    /**
+     * Add a subject to a student
+     */
     @Override
     public void addSubjectToStudent(long studentId, long subjectId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
         Optional<Subject> optionalSubject = subjectRepository.findById(subjectId);
 
-        if (optionalSubject.isPresent() && optionalStudent.isPresent()) {
-            optionalStudent.get().addSubject(optionalSubject.get());
-
-            log.info(
-                    "Subject {} added to student {}",
-                    optionalSubject.get().getName(),
-                    optionalStudent.get().getName()
-            );
-            studentRepository.save(optionalStudent.get());
+        if (optionalStudent.isEmpty()) {
+            log.error("Student with id {} wasn't found", studentId);
+            throw new NoSuchElementException("Student with id " + studentId + " wasn't found");
         }
+
+        if (optionalSubject.isEmpty()) {
+            log.error("Subject with id {} wasn't found", subjectId);
+            throw new NoSuchElementException("Subject with id " + subjectId + " wasn't found");
+        }
+
+        log.info(
+            "Subject {} added to student {}",
+            optionalSubject.get().getName(),
+            optionalStudent.get().getName());
+        
+        optionalStudent.get().addSubject(optionalSubject.get());
+        studentRepository.save(optionalStudent.get());
     }
 
+    /**
+     * Add a career to a student
+     */
     @Override
     public void addCareerToStudent(long studentId, long careerId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
         Optional<Career> optionalCareer = careerRepository.findById(careerId);
 
-        if (optionalCareer.isPresent() && optionalStudent.isPresent()) {
-            optionalCareer.get().addStudent(optionalStudent.get());
-            
-            careerRepository.save(optionalCareer.get());
+        if (optionalStudent.isEmpty()) {
+            log.error("Student with id {} wasn't found", studentId);
+            throw new NoSuchElementException("Student with id " + studentId + " wasn't found");
         }
+
+        if (optionalCareer.isEmpty()) {
+            log.error("Career with id {} wasn't found", careerId);
+            throw new NoSuchElementException("Career with id " + careerId + " wasn't found");
+        }
+        
+        optionalCareer.get().addStudent(optionalStudent.get());
+        careerRepository.save(optionalCareer.get());
     }
 }

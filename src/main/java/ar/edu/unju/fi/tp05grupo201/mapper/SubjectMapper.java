@@ -10,11 +10,11 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface SubjectMapper {
 
-    @Mapping(target = "students", ignore = true)
+    // @Mapping(target = "students", ignore = true)
     Subject toEntity(SubjectDto subjectDto);
 
     @InheritInverseConfiguration
-    @Mapping(target = "students", ignore = true)
+    // @Mapping(target = "students", ignore = true)
     SubjectDto toDto(Subject subject);
 
 //    List<Subject> toEntities(List<SubjectDto> subjectDtos);

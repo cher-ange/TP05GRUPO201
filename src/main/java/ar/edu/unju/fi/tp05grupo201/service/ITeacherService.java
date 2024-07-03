@@ -10,11 +10,11 @@ public interface ITeacherService {
     
     void addTeacher(TeacherDto teacherDto);
     
-    TeacherDto getTeacherById(long id);
+    TeacherDto getTeacherById(long teacherId);
     
     TeacherDto getTeacherByFile(String file);
-    
-    void deleteTeacher(String file);
-    
+
     List<TeacherDto> getTeachersByState(boolean state);
+    
+    void deleteTeacher(long teacherId);
 }
