@@ -1,15 +1,14 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapper;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
-import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapperImpl;
-import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 import ar.edu.unju.fi.tp05grupo201.repository.TeacherRepository;
 import ar.edu.unju.fi.tp05grupo201.service.ITeacherService;
@@ -26,7 +25,7 @@ public class TeacherServiceImp implements ITeacherService {
      * Dependencies
      */
     private final TeacherRepository teacherRepository;
-    private final TeacherMapperImpl teacherMapper;
+    private final TeacherMapper teacherMapper;
     private final TeacherDto teacherDto;
 
     /**
@@ -117,7 +116,10 @@ public class TeacherServiceImp implements ITeacherService {
      * Get a list of teachers by state
      */
     @Override
-    public Set<TeacherDto> getTeachersByState(boolean state) {
-        return teacherMapper.toDtos(teacherRepository.findTeachersByState(state).stream().collect(Collectors.toSet()));
+    public List<TeacherDto> getTeachersByState(boolean state) {
+//        return teacherMapper.toDtos(teacherRepository.findTeachersByState(state).stream().collect(Collectors.toSet()));
+        return teacherRepository.findTeachersByState(true).stream()
+                .map(teacherMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

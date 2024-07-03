@@ -6,7 +6,6 @@ import java.util.Set;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -22,13 +21,13 @@ public class Student {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "personId")
+    @Column(name = "person_id")
     private String personId;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "email")
@@ -56,13 +55,13 @@ public class Student {
     )
     private Set<Subject> subjects = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Career career;
+   @ManyToOne(fetch = FetchType.LAZY)
+   private Career career;
 
     @Column(name = "state")
     private Boolean state = true;
 
-    // Syncronize relantionship
+    // Synchronize relationships
     public void addSubject(Subject subject) {
         this.subjects.add(subject);
         subject.getStudents().add(this);

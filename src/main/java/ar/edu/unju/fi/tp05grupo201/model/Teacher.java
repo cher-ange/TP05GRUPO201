@@ -1,8 +1,5 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th-block data-th-replace="~{layout/common :: head (title='Administrar materia')}"></th-block>
+<body>
+<!-- Header -->
+<th-block data-th-replace="~{layout/header :: header}"></th-block>
+<!-- Main -->
+<div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+    <h2 class="text-body-emphasis">Sección Materia</h2>
+    <h5 class="text-muted pb-2 border-bottom"
+        data-th-text="${allowEditing} ? 'Modificar materia' : 'Agregar materia'"></h5>
+    <div class="row mx-0">
+        <!-- Add/Modify Subject -->
+        <div class="col-12 bg-body-tertiary p-2">
+            <div class="row mx-0">
+                <!-- Form -->
+                <!-- Select Subject -->
+                <div class="col-12 col-md-6 p-2">
+                    <form data-th-action="@{/student/{studentId}/subjects(studentId=${studentSubmitted.id})}"
+                          method="get">
+                        <div class="row mx-0 g-2">
+                            <!-- Subject -->
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    <!-- Header -->
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">Disponibles:
+                                            <span class="ps-1 text-muted"
+                                                  data-th-text="${listOfSubjects.size()}">
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <!-- Body -->
+                                    <div class="card-body bg-light">
+                                        <label class="form-label"
+                                               for="career">Materias
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-book"></i></span>
+                                            <select class="form-select"
+                                                    id="career"
+                                                    name="subjectId">
+                                                <option data-th-each="subject : ${listOfSubjects}"
+                                                        data-th-text="${subject.name}"
+                                                        data-th-value="${subject.id}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Footer -->
+                                    <div class="card-footer d-flex justify-content-center align-content-center column-gap-2">
+                                        <!-- Submit-Cancel buttons -->
+                                        <button class="btn btn-light border border-secondary-subtle text-primary shadow"
+                                                data-th-text="${allowEditing} ? 'Modificar' : 'Agregar'"
+                                                type="submit">
+                                        </button>
+                                        <a class="btn btn-light border border-secondary-subtle shadow"
+                                           data-th-href="@{'/student/list'}"
+                                           role="button">Regresar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Student information -->
+                <th-block data-th-replace="~{student/student-display :: information (object='studentSubmitted', display_buttons='false') }"></th-block>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>

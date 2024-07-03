@@ -16,13 +16,5 @@ public interface ISubjectService {
 
     void deleteSubject(String code);
 
-    void deleteCareerFromSubject(String careerCode);
-
-    void deleteTeacherFromSubject(String teacherFile);
-
     List<SubjectDto> getSubjectsByState(boolean state);
-
-    void addCareerToSubject(String subjectCode, String careerCode);
-
-    void addTeacherToSubject(String subjectCode, String teacherFile);
 }

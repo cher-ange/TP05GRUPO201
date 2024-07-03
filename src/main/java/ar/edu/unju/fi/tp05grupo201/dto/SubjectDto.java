@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Component
 public class SubjectDto {
 
@@ -47,11 +49,11 @@ public class SubjectDto {
 
     private String attendanceType;
 
-    private Set<TeacherDto> studentDtos = new HashSet<>();
+    private Set<StudentDto> students = new HashSet<>();
 
-    private TeacherDto teacherDto;
-
-    private CareerDto careerDto;
+//    private TeacherDto teacher;
+//
+//    private CareerDto career;
 
     private boolean state = true;
 }

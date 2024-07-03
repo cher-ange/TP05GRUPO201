@@ -1,13 +1,11 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import ar.edu.unju.fi.tp05grupo201.util.AttendanceType;
 
 @Getter
 @Setter
@@ -39,14 +37,16 @@ public class Subject {
     @Enumerated(EnumType.STRING)
     private AttendanceType attendanceType;
 
-    @ManyToMany(mappedBy = "subjects")
+    @ManyToMany(
+            mappedBy = "subjects"
+    )
     private Set<Student> students = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Teacher teacher;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Career career;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    private Teacher teacher;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Career career;
 
     @Column(name = "state")
     private Boolean state = true;

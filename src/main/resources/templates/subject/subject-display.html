@@ -42,65 +42,7 @@
                         <small class="text-muted">Modalidad</small>
                         <h6 class="mb-0" data-th-text="${__${object}__.attendanceType}"></h6>
                     </li>
-                    <!-- Teachers -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Docentes</small>
-                        <div class="d-flex flex-column row-gap-2">
-                            <button aria-controls="showListOfTeachers"
-                                    aria-expanded="false"
-                                    class="btn btn-light border border-secondary-subtle shadow-sm"
-                                    data-bs-target="#showListOfTeachers"
-                                    data-bs-toggle="collapse"
-                                    data-th-disabled="${__${object}__.teacherDtos.size() == 0}"
-                                    data-th-with="teachersAssigned=${__${object}__.teacherDtos.size()}"
-                                    type="button">
-                                <p class="mb-0" data-th-if="${teachersAssigned == 0}">No posee docentes asignados</p>
-                                <p class="mb-0" data-th-if="${teachersAssigned > 0}">Asignada a [[ __${teachersAssigned}__ ]] docente/s</p>
-                            </button>
-                            <ul class="list-group shadow-sm collapse" id="showListOfTeachers">
-                                <th-block data-th-each="teacher : ${__${object}__.teacherDtos}">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Nombre</div>[[ ${teacher.name} ]]
-                                        </div>
-                                        <a class="btn btn-close btn-sm btn-danger"
-                                           data-th-href="@{/subject/teachers/delete/__${teacher.file}__}"
-                                           role="button"></a>
-                                    </li>
-                                </th-block>
-                            </ul>
-                        </div>
-                    </li>
-                    <!-- Careers -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Carreras</small>
-                        <div class="d-flex flex-column row-gap-2">
-                            <button aria-controls="showListOfCareers"
-                                    aria-expanded="false"
-                                    class="btn btn-light border border-secondary-subtle shadow-sm"
-                                    data-bs-target="#showListOfCareers"
-                                    data-bs-toggle="collapse"
-                                    data-th-disabled="${__${object}__.careerDtos.size() == 0}"
-                                    data-th-with="careersAssigned=${__${object}__.careerDtos.size()}"
-                                    type="button">
-                                <p class="mb-0" data-th-if="${careersAssigned == 0}">No posee carreras asignadas</p>
-                                <p class="mb-0" data-th-if="${careersAssigned > 0}">Asignada a [[ __${careersAssigned}__ ]] carrera/s</p>
-                            </button>
-                            <ol class="list-group shadow-sm collapse list-group-numbered" id="showListOfCareers">
-                                <th-block data-th-each="career : ${__${object}__.careerDtos}">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Nombre</div>[[ ${career.name} ]]
-                                        </div>
-                                        <a class="btn btn-close btn-sm btn-danger"
-                                           data-th-href="@{/subject/careers/delete/__${career.code}__}"
-                                           role="button">
-                                        </a>
-                                    </li>
-                                </th-block>
-                            </ol>
-                        </div>
-                    </li>
+
                 </ul>
             </div>
             <!-- Footer -->
@@ -109,24 +51,24 @@
                 <div class="card-footer d-flex flex-column justify-content-center align-content-center row-gap-2"
                      data-th-with="objectCode=${__${object}__.code}">
                     <!-- Add subject -->
-                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                    <!--<a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
                        data-th-href="@{/subject/__${objectCode}__/subjects/add}"
                        role="button">Agregar docente
-                    </a>
+                    </a>-->
                     <!-- Add career -->
-                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                    <!--<a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
                        data-th-href="@{/subject/__${objectCode}__/careers/add}"
                        role="button">Agregar carrera
-                    </a>
+                    </a>-->
                     <!-- Update -->
                     <a class="btn btn-light border border-secondary-subtle shadow-sm"
-                       data-th-href="@{/subject/update/__${objectCode}__}"
-                       role="button">Modificar
+                       role="button"
+                       data-th-href="@{/subject/update/__${objectCode}__}">Modificar
                     </a>
                     <!-- Delete -->
                     <a class="btn btn-light border border-secondary-subtle link-danger shadow-sm"
-                       data-th-href="@{/subject/delete/__${objectCode}__}"
-                       role="button">Eliminar
+                       role="button"
+                       data-th-href="@{/subject/delete/__${objectCode}__}">Eliminar
                     </a>
                 </div>
             </th-block>

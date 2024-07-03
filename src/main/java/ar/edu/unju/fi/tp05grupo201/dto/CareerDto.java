@@ -1,8 +1,7 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -43,7 +42,9 @@ public class CareerDto {
     @Positive(message = "{career.duration.only-positive}")
     private int duration;
 
-    private Set<SubjectDto> subjectDtos = new HashSet<>();
+    private List<StudentDto> students = new ArrayList<>();
+
+    private List<SubjectDto> subjects = new ArrayList<>();
     
     private boolean state = true;
 }

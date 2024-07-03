@@ -1,21 +1,13 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -23,7 +15,6 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Career")
 @Table(name = "career")
-@Component
 public class Career {
     
     @Id
@@ -41,29 +32,29 @@ public class Career {
     @Column(name = "duration")
     private Integer duration;
 
-    @OneToMany(
-            mappedBy = "career",
-            cascade = CascadeType.ALL
-    )
-    private List<Student> students = new ArrayList<>();
-
-    @OneToMany(
-            mappedBy = "career",
-            cascade = CascadeType.ALL
-    )
-    private List<Subject> subjects = new ArrayList<>();
+   @OneToMany(
+           mappedBy = "career",
+           cascade = CascadeType.ALL
+   )
+   private List<Student> students = new ArrayList<>();
+//
+//    @OneToMany(
+//            mappedBy = "career",
+//            cascade = CascadeType.ALL
+//    )
+//    private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;
 
-    // Syncronize relantionships
+    // Synchronize relationships
     public void addStudent(Student student) {
-        this.students.add(student);
-        student.setCareer(this);
+       this.students.add(student);
+       student.setCareer(this);
     }
 
     public void removeStudent(Student student) {
-        student.setCareer(null);
-        this.students.remove(student);
+       student.setCareer(null);
+       this.students.remove(student);
     }
 }

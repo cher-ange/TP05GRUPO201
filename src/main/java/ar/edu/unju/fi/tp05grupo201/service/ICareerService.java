@@ -1,7 +1,7 @@
 package ar.edu.unju.fi.tp05grupo201.service;
 
 
-import java.util.Set;
+import java.util.List;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 
@@ -17,5 +17,5 @@ public interface ICareerService {
     
     void deleteCareer(String code);
     
-    Set<CareerDto> getCareersByState(boolean state);
+    List<CareerDto> getCareersByState(boolean state);
 }

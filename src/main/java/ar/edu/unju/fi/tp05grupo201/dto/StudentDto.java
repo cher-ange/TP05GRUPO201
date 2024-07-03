@@ -70,9 +70,9 @@ public class StudentDto {
     @NotBlank(message = "{student.university-record.not-blank}")
     private String universityRecord;
 
-    private Set<SubjectDto> subjectDtos = new HashSet<>();
+    private Set<SubjectDto> subjects = new HashSet<>();
 
-    private CareerDto careerDto;
+    private CareerDto career;
 
     private boolean state = true;
 }

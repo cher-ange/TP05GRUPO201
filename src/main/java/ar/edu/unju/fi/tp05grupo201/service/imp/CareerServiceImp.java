@@ -1,18 +1,16 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
-
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapper;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
-import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapperImpl;
 import ar.edu.unju.fi.tp05grupo201.model.Career;
-import ar.edu.unju.fi.tp05grupo201.model.Subject;
-
+import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.repository.CareerRepository;
 import ar.edu.unju.fi.tp05grupo201.service.ICareerService;
 import lombok.AllArgsConstructor;
@@ -24,12 +22,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CareerServiceImp implements ICareerService {
 
-    
     /**
      * Dependencies
      */
     private final CareerRepository careerRepository;
-    private final CareerMapperImpl careerMapper;
+    private final CareerMapper careerMapper;
     private final CareerDto careerDto;
 
     /**
@@ -48,9 +45,6 @@ public class CareerServiceImp implements ICareerService {
     public void addCareer(CareerDto careerDto) {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(careerDto.getCode());
 
-        /**
-         * Condition to re-enable a Career that was 'deleted'
-         */
         if (optionalCareer.isPresent()) {
             careerDto.setId(optionalCareer.get().getId());
             careerDto.setState(true);
@@ -105,16 +99,15 @@ public class CareerServiceImp implements ICareerService {
 
         if (optionalCareer.isEmpty()) {
             throw new IllegalArgumentException(
-                "DELETE: Career with code " + code + " wasn't found"
+                "Career with code " + code + " wasn't found"
             );
         }
 
-//        /**
-//         * Update the relationship that has with Subject
-//         */
-//        for (Subject subject : optionalCareer.get().getSubjects()) {
-//            optionalCareer.get().removeSubject(subject);
-//        }
+        List<Student> listOfStudents = optionalCareer.get().getStudents();
+        
+        for (int i = 0; i < listOfStudents.size(); i++) {
+            optionalCareer.get().removeStudent(listOfStudents.get(i));
+        }
 
         optionalCareer.get().setState(false);
         careerRepository.save(optionalCareer.get());
@@ -124,7 +117,10 @@ public class CareerServiceImp implements ICareerService {
      * Get a list of careers by state
      */
     @Override
-    public Set<CareerDto> getCareersByState(boolean state) {
-        return careerMapper.toDtos(careerRepository.findCareersByState(state).stream().collect(Collectors.toSet()));
+    public List<CareerDto> getCareersByState(boolean state) {
+//        return careerMapper.toDtos(careerRepository.findCareersByState(state).stream().collect(Collectors.toSet()));
+        return careerRepository.findCareersByState(true).stream()
+                .map(careerMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
