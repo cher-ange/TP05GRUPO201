@@ -3,15 +3,21 @@ package ar.edu.unju.fi.tp05grupo201.controller;
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 import ar.edu.unju.fi.tp05grupo201.service.ICareerService;
 import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
+import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
+import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
+import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.service.IStudentService;
+import ar.edu.unju.fi.tp05grupo201.service.ISubjectService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +30,9 @@ public class StudentController {
 	
 	@Autowired
 	StudentServiceImp studentService;
+	
+	@Autowired
+	ISubjectService subjectService;
 
 	@Autowired
 	ICareerService careerService;
@@ -57,13 +66,15 @@ public class StudentController {
 		newStudentDto.setState(true);
 		modelView.addObject("newStudent",newStudentDto);
 		modelView.addObject("band",false);
+		modelView.addObject("subjectSet", subjectService.getSubjectsByState(true));
 		modelView.addObject("careerSet", careerService.getCareersByState(true));
 
 		return modelView;
 	}
 	
 	@PostMapping("/saveStudent")
-	public ModelAndView saveStudent(@ModelAttribute("newStudent") StudentDto studentForSave) {
+	public ModelAndView saveStudent(@ModelAttribute("newStudentDto") StudentDto studentForSave) {
+		List<SubjectDto> subjects = new ArrayList<>();
 		CareerDto careerDto = careerService.getCareerByCode(studentForSave.getCareer().getCode());
 		studentForSave.setCareer(careerDto);
 		studentService.saveStudent(studentForSave);

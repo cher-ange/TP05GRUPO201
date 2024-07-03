@@ -11,4 +11,5 @@ import ar.edu.unju.fi.tp05grupo201.model.Student;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
 	List<Student> findStudentByState(Boolean state);
+	
 }

@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -53,4 +55,6 @@ public class SubjectDto {
     private Set<CareerDto> careerDtos = new HashSet<>();
 
     private boolean state = true;
+    
+    private List<StudentDto> students = new ArrayList<>();
 }

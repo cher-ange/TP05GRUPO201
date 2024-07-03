@@ -54,6 +54,13 @@
             <input class="form-control" data-th-field="*{universityId}" data-th-readonly="${band}" id="universityId"
                    type="text">
         </div>
+        <div class="col-sm-6">
+				<label class="form-label" for="subjects">Materias del estudiante</label> 
+				<select id="subjects" name="subjects" data-th-field="*{subjects}" class="form-control">
+					<option value="">Seleccionar Materia</option>
+					<option data-th-each="subjects : ${subjectSet}" data-th-value="${subjects.code}" data-th-text="${subjects.name}"></option>
+				</select>
+			</div>
         <br>
         <div class="col-sm-6">
             <label for="career">Carrera del Estudiante</label>

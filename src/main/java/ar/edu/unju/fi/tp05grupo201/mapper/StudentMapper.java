@@ -22,6 +22,7 @@ public interface StudentMapper {
 	@Mapping(source="birthdate", target="birthdate")
 	@Mapping(source="address", target="address")
 	@Mapping(source="state", target="state")
+	@Mapping(source = "subjects", target = "subjects")
 	@Mapping(source = "career", target = "career")
 	StudentDto convertStudentToStudentDto(Student s);
 
