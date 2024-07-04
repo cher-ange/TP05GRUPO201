@@ -1,20 +1,19 @@
 package ar.edu.unju.fi.tp05grupo201.service;
 
-import ar.edu.unju.fi.tp05grupo201.model.Subject;
-
+import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
 import java.util.List;
 
 public interface ISubjectService {
 
-    Subject createSubject();
+    SubjectDto createSubject();
 
-    Subject getSubjectById(long id);
+    SubjectDto getSubjectById(long id);
 
-    Subject getSubjectByCode(String code);
+    SubjectDto getSubjectByCode(String code);
 
-    List<Subject> getSubjectsByState(boolean state);
+    List<SubjectDto> getSubjectsByState(boolean state);
 
-    void addSubject(Subject subject);
+    void addSubject(SubjectDto subject);
 
     void addTeacherToSubject(long subjectId, long teacherId);
 

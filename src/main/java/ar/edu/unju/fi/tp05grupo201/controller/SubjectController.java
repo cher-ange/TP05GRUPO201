@@ -1,6 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
-import ar.edu.unju.fi.tp05grupo201.model.Subject;
+import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.CareerServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.TeacherServiceImp;
@@ -91,7 +91,7 @@ public class SubjectController {
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveSubjectFormPage(
-            @Valid @ModelAttribute(name = "subjectSubmitted") Subject subject,
+            @Valid @ModelAttribute(name = "subjectSubmitted") SubjectDto subject,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -156,7 +156,7 @@ public class SubjectController {
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateSubjectFormPage(
-            @Valid @ModelAttribute(value = "subjectSubmitted") Subject subject,
+            @Valid @ModelAttribute(value = "subjectSubmitted") SubjectDto subject,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
