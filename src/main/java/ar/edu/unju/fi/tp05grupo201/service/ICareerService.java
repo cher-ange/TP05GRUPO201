@@ -18,7 +18,7 @@ public interface ICareerService {
 
     void addSubjectToCareer(long careerId, long subjectId);
     
-    void deleteCareer(String code);
+    void deleteCareer(long careerId);
 
     void deleteSubjectFromCareer(long careerId, long subjectId);    
 }

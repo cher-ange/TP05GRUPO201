@@ -25,6 +25,8 @@ public class StudentController {
     private final String FORM_VIEWNAME = "student/student-form";
     private final String ADD_SUBJECT_FORM_VIEWNAME = "student/add-subject-to-student";
     private final String ADD_CAREER_FORM_VIEWNAME = "student/add-career-to-student";
+    private final String LIST_BY_SUBJECT_VIEWNAME = "student/students-by-subject";
+    private final String LIST_BY_CAREER_VIEWNAME = "student/students-by-career";
     private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/student/list";
 
     /**
@@ -55,14 +57,45 @@ public class StudentController {
     }
 
     /**
-     * 
+     * Retrieve a list of students by subject
      * @param subjectName
      * @return
      */
     @GetMapping(path = "/list/bySubject")
-    public ModelAndView getStudentsBySubject(@RequestParam(name = "subjectName") String subjectName) {
+    public ModelAndView getStudentsBySubject(
+        @RequestParam(value = "subjectId") long subjectId
+    ) {
         // TODO
         ModelAndView modelAndView = new ModelAndView();
+        
+        modelAndView.setViewName(LIST_BY_SUBJECT_VIEWNAME);
+
+        return modelAndView;
+    }
+
+    /**
+     * Retrieve a list of students by career
+     * @param subjectName
+     * @return
+     */
+    @GetMapping(path = "/list/byCareer")
+    public ModelAndView getStudentsByCareer(
+        @RequestParam(value = "careerId") long careerId
+    ) {
+        // TODO
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(LIST_BY_CAREER_VIEWNAME);
+        modelAndView.addObject(
+                "listOfCareers", 
+                careerService.getCareersByState(true));
+        modelAndView.addObject(
+            "listOfStudents",
+            studentService.getStudentsByState(true)
+                .stream()
+                .filter(s -> s.getCareer().getId().equals(careerId)));
+
+
         
         return modelAndView;
     }

@@ -147,14 +147,14 @@ public class CareerController {
      * @param code
      * @return
      */
-    @GetMapping(path = "/delete/{code}")
+    @GetMapping(path = "/delete/{careerId}")
     public ModelAndView getDeleteCareerPage(
-        @PathVariable(value = "code") String code
+        @PathVariable(value = "careerId") long careerId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-        careerService.deleteCareer(code);
+        careerService.deleteCareer(careerId);
 
         return modelAndView;
     }

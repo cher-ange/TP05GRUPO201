@@ -3,6 +3,8 @@ package ar.edu.unju.fi.tp05grupo201.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,6 +17,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Career")
 @Table(name = "career")
+@Component
 public class Career {
     
     @Id

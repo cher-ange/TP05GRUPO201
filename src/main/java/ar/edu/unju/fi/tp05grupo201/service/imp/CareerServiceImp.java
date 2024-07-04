@@ -47,12 +47,12 @@ public class CareerServiceImp implements ICareerService {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(career.getCode());
 
         if (optionalCareer.isPresent()) {
-            log.info("Updating career " + career);
+            log.info("Updating career");
             career.setId(optionalCareer.get().getId());
             career.setSubjects(optionalCareer.get().getSubjects());
         }
 
-        log.info("Adding career " + career);
+        log.info("Adding career");
         careerRepository.save(career);
     }
 
@@ -96,13 +96,13 @@ public class CareerServiceImp implements ICareerService {
      * Delete a career by code
      */
     @Override
-    public void deleteCareer(String code) {
-        Optional<Career> optionalCareer = careerRepository.findCareerByCode(code);
+    public void deleteCareer(long careerId) {
+        Optional<Career> optionalCareer = careerRepository.findById(careerId);
 
         if (optionalCareer.isEmpty()) {
-            log.error("Career with code {} wasn't found", code);
+            log.error("Career with id {} wasn't found", careerId);
             throw new IllegalArgumentException(
-                "Career with code " + code + " wasn't found"
+                "Career with id " + careerId + " wasn't found"
             );
         }
 
