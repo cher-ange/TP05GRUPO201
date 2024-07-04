@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th-block data-th-replace="~{layout/common :: head (title='Alumnos por materia')}"></th-block>
+<body>
+    <!-- Header -->
+    <th-block data-th-replace="~{layout/header :: header}"></th-block>
+    <!-- Main -->
+    <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+        <h2 class="text-body-emphasis">Sección Filtrar alumnos por materia</h2>
+        <h5 class="text-muted pb-2 border-bottom">Listado de Estudiantes</h5>
+        <!-- Display list of subjects -->
+        <div class="row mx-0">
+            <!-- Subject -->
+            <div class="col">
+                <form data-th-action="@{/student/list/filter-by/subject/result}"
+                      method="get">
+                    <div class="card h-100 shadow-sm">
+                        <!-- Header -->
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Disponibles:
+                                <span class="ps-1 text-muted"
+                                    data-th-text="${listOfSubjects.size()}">
+                                </span>
+                            </p>
+                        </div>
+                        <!-- Body -->
+                        <div class="card-body bg-light">
+                            <label class="form-label"
+                                for="subject">Materia
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-book"></i></span>
+                                <select class="form-select"
+                                        id="subject"
+                                        name="subjectId">
+                                    <option data-th-each="subject : ${listOfSubjects}"
+                                            data-th-text="${subject.name}"
+                                            data-th-value="${subject.id}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="card-footer d-flex justify-content-center align-content-center column-gap-2">
+                            <!-- Submit-Cancel buttons -->
+                            <button class="btn btn-light border border-secondary-subtle text-primary shadow"
+                                    type="submit">Buscar
+                            </button>
+                            <a class="btn btn-light border border-secondary-subtle shadow"
+                            data-th-href="@{'/student/list'}"
+                            role="button">Regresar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="row mx-0 my-3">
+            <!-- Display students -->
+            <th-block data-th-each="student : ${listOfStudents}">
+                <!-- Student -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <!-- Header -->
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <!-- Code -->
+                            <p class="mb-0">
+                                DNI:
+                                <span class="ps-1 text-muted"
+                                    data-th-text="${student.personId}">
+                                </span>
+                            </p>
+                            <!-- State -->
+                            <p class="mb-0">
+                                Estado:
+                                <span class="ps-1 text-muted">
+                                    <i data-th-class="${student.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <!-- Image -->
+                        <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxu-d50fdb9e-213d-4ced-87c2-0f76660c2c44.png/v1/fill/w_939,h_851,q_70,strp/cat__by_mischadiv04_dhlexxu-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAwMCIsInBhdGgiOiJcL2ZcLzNjZWJhZDEyLTZmYTMtNGU5NC05ODcwLTdhYTE2NDNiYWU2ZVwvZGhsZXh4dS1kNTBmZGI5ZS0yMTNkLTRjZWQtODdjMi0wZjc2NjYwYzJjNDQucG5nIiwid2lkdGgiOiI8PTExMDQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.afEtvieD9cpyjE9A0TM-I0xPY4dr0wwkcyx1F3lBYCY')}">
+                        <!-- Body -->
+                        <div class="card-body bg-light">
+                            <ul class="list-group">
+                                <!-- Name -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Nombre</small>
+                                    <h6 class="mb-0" data-th-text="${student.name}"></h6>
+                                </li>
+                                <!-- Last name -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Apellido</small>
+                                    <h6 class="mb-0" data-th-text="${student.lastName}"></h6>
+                                </li>
+                                <!-- Email -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Correo eléctronico</small>
+                                    <h6 class="mb-0" data-th-text="${student.email}"></h6>
+                                </li>
+                                <!-- Phone -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Teléfono</small>
+                                    <h6 class="mb-0" data-th-text="${student.phone}"></h6>
+                                </li>
+                                <!-- Birthdate -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Fecha de nacimiento</small>
+                                    <h6 class="mb-0" data-th-text="${student.birthdate}"></h6>
+                                </li>
+                                <!-- Address -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Dirección</small>
+                                    <h6 class="mb-0" data-th-text="${student.address}"></h6>
+                                </li>
+                                <!-- University Record -->
+                                <li class="list-group-item">
+                                    <small class="text-muted">Libreta Universitaria</small>
+                                    <h6 class="mb-0" data-th-text="${student.universityRecord}"></h6>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </th-block>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>

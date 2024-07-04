@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th-block data-th-replace="~{layout/common :: head (title='Alumnos')}"></th-block>
+<body>
+<!-- Header -->
+<th-block data-th-replace="~{layout/header :: header}"></th-block>
+<!-- Main -->
+<div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+    <h2 class="text-body-emphasis">Sección Estudiante</h2>
+    <h5 class="text-muted pb-2 border-bottom">Listado de Estudiantes</h5>
+    <!-- Display students -->
+    <div class="row mx-0"
+         data-th-unless="${#lists.isEmpty(listOfStudents)}">
+        <div class="col-12 bg-body-tertiary p-2">
+            <!-- List of students -->
+            <div class="row mx-0">
+                <th-block data-th-each="student : ${listOfStudents}">
+                    <!-- Student -->
+                    <div class="col-12 col-md-6 col-lg-4 p-2">
+                        <div class="card h-100 shadow-sm">
+                            <!-- Header -->
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <!-- Code -->
+                                <p class="mb-0">
+                                    DNI:
+                                    <span class="ps-1 text-muted"
+                                        data-th-text="${student.personId}">
+                                    </span>
+                                </p>
+                                <!-- State -->
+                                <p class="mb-0">
+                                    Estado:
+                                    <span class="ps-1 text-muted">
+                                        <i data-th-class="${student.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <!-- Image -->
+                            <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxu-d50fdb9e-213d-4ced-87c2-0f76660c2c44.png/v1/fill/w_939,h_851,q_70,strp/cat__by_mischadiv04_dhlexxu-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAwMCIsInBhdGgiOiJcL2ZcLzNjZWJhZDEyLTZmYTMtNGU5NC05ODcwLTdhYTE2NDNiYWU2ZVwvZGhsZXh4dS1kNTBmZGI5ZS0yMTNkLTRjZWQtODdjMi0wZjc2NjYwYzJjNDQucG5nIiwid2lkdGgiOiI8PTExMDQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.afEtvieD9cpyjE9A0TM-I0xPY4dr0wwkcyx1F3lBYCY')}">
+                            <!-- Body -->
+                            <div class="card-body bg-light">
+                                <ul class="list-group">
+                                    <!-- Name -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Nombre</small>
+                                        <h6 class="mb-0" data-th-text="${student.name}"></h6>
+                                    </li>
+                                    <!-- Last name -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Apellido</small>
+                                        <h6 class="mb-0" data-th-text="${student.lastName}"></h6>
+                                    </li>
+                                    <!-- Email -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Correo eléctronico</small>
+                                        <h6 class="mb-0" data-th-text="${student.email}"></h6>
+                                    </li>
+                                    <!-- Phone -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Teléfono</small>
+                                        <h6 class="mb-0" data-th-text="${student.phone}"></h6>
+                                    </li>
+                                    <!-- Birthdate -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Fecha de nacimiento</small>
+                                        <h6 class="mb-0" data-th-text="${student.birthdate}"></h6>
+                                    </li>
+                                    <!-- Address -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Dirección</small>
+                                        <h6 class="mb-0" data-th-text="${student.address}"></h6>
+                                    </li>
+                                    <!-- University Record -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Libreta Universitaria</small>
+                                        <h6 class="mb-0" data-th-text="${student.universityRecord}"></h6>
+                                    </li>
+                                    <!-- Career -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Docente</small>
+                                        <div class="d-flex flex-column row-gap-2">
+                                            <button aria-controls="showCareer"
+                                                    aria-expanded="false"
+                                                    class="btn btn-light border border-secondary-subtle shadow-sm"
+                                                    data-th-attr="data-bs-target='#showCareer' + ${student.id}"
+                                                    data-bs-toggle="collapse"
+                                                    data-th-disabled="${student.career == null}"
+                                                    type="button">
+                                                <p class="mb-0" data-th-if="${student.career == null}">No posee carrera asignada</p>
+                                                <p class="mb-0" data-th-if="${student.career != null}">Asignado/a a 1 carrera</p>
+                                            </button>
+                                            <th-block data-th-if="${student.career != null}">
+                                            <ol class="list-group shadow-sm collapse list-group-numbered"
+                                                data-th-attr="data-th-id='showCareer' + ${student.id}">
+                                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                    <div class="ms-2 me-auto">
+                                                        <div class="fw-bold">Nombre</div> [[ ${student.career.name} ]]
+                                                    </div>
+                                                    <a class="btn btn-close btn-sm btn-danger"
+                                                        data-th-href="@{/student/__${student.id}__/career/__${student.career.id}__/delete}"
+                                                        role="button">
+                                                    </a>
+                                                </li>
+                                            </ol>
+                                            </th-block>
+                                        </div>
+                                    </li> 
+                                    <!-- List of Subjects -->
+                                    <li class="list-group-item">
+                                        <small class="text-muted">Materias</small>
+                                        <div class="d-flex flex-column row-gap-2">
+                                            <button aria-controls="showListOfSubjects"
+                                                    aria-expanded="false"
+                                                    class="btn btn-light border border-secondary-subtle shadow-sm"
+                                                    data-th-attr="data-bs-target='#showSubject' + ${student.id}"
+                                                    data-bs-toggle="collapse"
+                                                    data-th-disabled="${student.subjects.size() == 0}"
+                                                    data-th-with="subjectsAssigned=${student.subjects.size()}"
+                                                    type="button">
+                                                <p class="mb-0" data-th-if="${subjectsAssigned == 0}">No posee materias asignadas</p>
+                                                <p class="mb-0" data-th-if="${subjectsAssigned > 0}">Asignado/a a [[ __${subjectsAssigned}__ ]] materia/s</p>
+                                            </button>
+                                            <ol class="list-group shadow-sm collapse list-group-numbered"
+                                                data-th-attr="data-th-id='showSubject' + ${student.id}">
+                                                <th-block data-th-each="subject : ${student.subjects}">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                        <div class="ms-2 me-auto">
+                                                            <div class="fw-bold">Nombre</div>[[ __${subject.name}__ ]]
+                                                        </div>
+                                                        <a class="btn btn-close btn-sm btn-danger"
+                                                            data-th-href="@{/student/__${student.id}__/subjects/__${subject.id}__/delete}"
+                                                            role="button">
+                                                        </a>
+                                                    </li>
+                                                </th-block>
+                                            </ol>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Footer -->
+                            <div class="card-footer d-flex flex-column justify-content-center align-content-center row-gap-2">
+                                <!-- Add career -->
+                                <th-block data-th-if="${student.career == null}">
+                                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                                        data-th-href="@{/student/__${student.id}__/career/add}"
+                                        role="button">Agregar carrera
+                                    </a>
+                                </th-block>
+                                <!-- Update a career -->
+                                <th-block data-th-if="${student.career != null }">
+                                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                                        data-th-href="@{/student/__${student.id}__/career/update}"
+                                        role="button">Modificar carrera
+                                    </a>
+                                </th-block> 
+                                <!-- Add subject -->
+                                <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                                    data-th-href="@{/student/__${student.id}__/subjects/add}"
+                                    role="button">Agregar materia
+                                </a>
+                                    <!--Update  -->
+                                <a class="btn btn-light border border-secondary-subtle shadow-sm"
+                                    role="button"
+                                    data-th-href="@{/student/update/__${student.id}__}">Modificar
+                                </a>
+                                <!-- Delete -->
+                                <a class="btn btn-light border border-secondary-subtle link-danger shadow-sm"
+                                    role="button"
+                                    data-th-href="@{/student/delete/__${student.id}__}">Eliminar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </th-block>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>

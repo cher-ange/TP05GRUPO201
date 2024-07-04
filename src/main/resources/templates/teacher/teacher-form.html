@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <th-block data-th-replace="~{layout/common :: head (title='Administrar docente')}"></th-block>
+<body>
+    <!-- Header -->
+    <th-block data-th-replace="~{layout/header :: header}"></th-block>
+    <!-- Main -->
+    <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
+        <h2 class="text-body-emphasis">Sección Docente</h2>
+        <h5 class="text-muted pb-2 border-bottom"
+            data-th-text="${allowEditing} ? 'Modificar docente' : 'Agregar docente'"></h5>
+        <!-- Form -->
+        <div class="row mx-0">
+            <!-- Add/Modify Teacher -->
+            <div class="col bg-body-tertiary p-2">
+                <form method="post"
+                      data-th-action="@{${allowEditing} ? '/teacher/update' : '/teacher/save'}"
+                      data-th-object="${teacherSubmitted}">
+                      <div class="row mx-0 g-2">
+                        <!-- Id -->
+                        <div class="d-none">
+                            <label class="form-label"
+                                   for="teacher-id"
+                                   hidden>ID
+                            </label>
+                            <input class="form-control"
+                                   type="hidden"
+                                   name="teacher-id"
+                                   id="teacher-id"
+                                   readonly="readonly"
+                                   th:field="*{id}">
+                        </div>
+
+                        <!-- File -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="file">Legajo
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                <input data-th-class="${allowEditing} ? 'form-control bg-body-secondary' : 'form-control'"
+                                       type="text"
+                                       name="file"
+                                       id="file"
+                                       data-th-field="*{file}"
+                                       data-th-readonly="${allowEditing}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('file')}"
+                                 data-th-errors="*{file}">
+                            </div>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="name">Nombre
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                                <input class="form-control"
+                                       type="text"
+                                       name="name"
+                                       id="name"
+                                       data-th-field="*{name}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('name')}"
+                                 data-th-errors="*{name}">
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="last-name">Apellido
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                                <input class="form-control"
+                                       type="text"
+                                       name="last-name"
+                                       id="last-name"
+                                       data-th-field="*{lastName}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('lastName')}"
+                                 data-th-errors="*{lastName}">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="email">Correo electrónico
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-mailbox"></i></span>
+                                <input class="form-control"
+                                       type="email"
+                                       name="email"
+                                       id="email"
+                                       data-th-field="*{email}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('email')}"
+                                 data-th-errors="*{email}">
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="phone">Teléfono
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                <input class="form-control"
+                                       type="tel"
+                                       name="phone"
+                                       id="phone"
+                                       data-th-field="*{phone}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('phone')}"
+                                 data-th-errors="*{phone}">
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="d-none">
+                            <label class="form-check-label"
+                                   for="state"
+                                   hidden>Estado
+                            </label>
+                            <input class="form-check-input"
+                                   type="hidden"
+                                   name="state"
+                                   id="state"
+                                   readonly="readonly"
+                                   data-th-field="*{state}">
+                        </div>
+
+                        <!-- Submit-Cancel buttons -->
+                        <div class="col-12 d-flex justify-content-start column-gap-2 mt-3">
+                            <button class="btn btn-light border border-secondary-subtle text-primary shadow"
+                                    type="submit"
+                                    data-th-text="${allowEditing} ? 'Modificar' : 'Agregar'">
+                            </button>
+                            <a class="btn btn-light border border-secondary-subtle shadow"
+                               role="button"
+                               data-th-href="@{'/teacher/list'}">Regresar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>

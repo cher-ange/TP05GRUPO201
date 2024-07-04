@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <th-block data-th-replace="~{layout/common :: head (title='Administrar carrera')}"></th-block>
+<body>
+    <!-- Header -->
+    <th-block data-th-replace="~{layout/header :: header}"></th-block>
+    <!-- Main -->
+    <div class="container
+                bg-body-tertiary
+                border rounded
+                shadow
+                px-4 py-5">
+        <h2 class="text-body-emphasis">Sección Carrera</h2>
+        <h5 class="text-muted pb-2 border-bottom"
+            data-th-text="${allowEditing} ? 'Modificar carrera' : 'Agregar carrera'"></h5>
+        <!-- Form -->
+        <div class="row mx-0">
+            <!-- Add/Modify Student -->
+            <div class="col-12 bg-body-tertiary p-2">
+                <form data-th-action="@{${allowEditing} ? '/career/update' : '/career/save'}"
+                      data-th-object="${careerSubmitted}"
+                      method="post">
+                      <div class="row mx-0 g-2">
+                        <!-- Id -->
+                        <div class="d-none">
+                            <label class="form-label"
+                                   for="career-id"
+                                   hidden>ID
+                            </label>
+                            <input class="form-control"
+                                   type="hidden"
+                                   name="career-id"
+                                   id="career-id"
+                                   readonly="readonly"
+                                   th:field="*{id}">
+                        </div>
+
+                        <!-- Code -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="code">Código
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                <input data-th-class="${allowEditing} ? 'form-control bg-body-secondary' : 'form-control'"
+                                       type="text"
+                                       name="code"
+                                       id="code"
+                                       data-th-field="*{code}"
+                                       data-th-readonly="${allowEditing}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('code')}"
+                                 data-th-errors="*{code}">
+                            </div>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="name">Nombre
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-body-text"></i></span>
+                                <input class="form-control"
+                                       type="text"
+                                       name="name"
+                                       id="name"
+                                       data-th-field="*{name}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('name')}"
+                                 data-th-errors="*{name}">                                 
+                            </div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="form-label"
+                                   for="duration">Cantidad de años
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                                <input class="form-control"
+                                       type="number"
+                                       name="duration"
+                                       id="duration"
+                                       data-th-field="*{duration}">
+                            </div>
+                            <div class="form-text text-danger"
+                                 data-th-if="${#fields.hasErrors('duration')}"
+                                 data-th-errors="*{duration}">
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="d-none">
+                            <label class="form-check-label"
+                                   for="state"
+                                   hidden>Estado
+                            </label>
+                            <input class="form-check-input"
+                                   type="hidden"
+                                   name="state"
+                                   id="state"
+                                   readonly="readonly"
+                                   data-th-field="*{state}">
+                        </div>
+
+                        <!-- Submit-Cancel buttons -->
+                        <div class="col-12 d-flex justify-content-start column-gap-2 mt-3">
+                            <button class="btn btn-light border border-secondary-subtle text-primary shadow"
+                                    data-th-text="${allowEditing} ? 'Modificar' : 'Agregar'"
+                                    type="submit">
+                            </button>
+                            <a class="btn btn-light border border-secondary-subtle shadow"
+                               role="button"
+                               data-th-href="@{'/career/list'}">Regresar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+</html>
