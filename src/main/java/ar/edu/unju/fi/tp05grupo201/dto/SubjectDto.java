@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -15,10 +16,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Component
 public class SubjectDto {
 
-    @NotNull
     private long id;
 
     @NotBlank(message = "{subject.code.not-blank}")
@@ -48,9 +49,11 @@ public class SubjectDto {
 
     private String attendanceType;
 
-    private Set<TeacherDto> teacherDtos = new HashSet<>();
+    private Set<StudentDto> students = new HashSet<>();
+    
+    private TeacherDto teacher;
 
-    private Set<CareerDto> careerDtos = new HashSet<>();
+    private CareerDto career;
 
     private boolean state = true;
 }

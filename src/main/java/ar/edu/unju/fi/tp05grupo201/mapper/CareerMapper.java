@@ -1,27 +1,36 @@
 package ar.edu.unju.fi.tp05grupo201.mapper;
 
-import java.util.Set;
-
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 import ar.edu.unju.fi.tp05grupo201.model.Career;
 
-@Mapper(componentModel = "spring", uses = {SubjectMapper.class, StudentMapper.class})
+@Mapper(componentModel = "spring")
 public interface CareerMapper {
 
-    @Mapping(target = "subjects", source = "subjectDtos")
-    @Mapping(target = "students", source = "studentDtos")
-    Career toEntity(CareerDto careerDto);
+   // @Mappings({
+   //    @Mapping(target = "students", ignore = true),
+   //    @Mapping(target = "subjects", ignore = true)
+   // })
+   Career toEntity(CareerDto careerDto);
 
-    @InheritInverseConfiguration
-    CareerDto toDto(Career career);
+   @InheritInverseConfiguration
+   // @Mappings({
+   //    @Mapping(target = "students", ignore = true),
+   //    @Mapping(target = "subjects", ignore = true)
+   // })
+   CareerDto toDto(Career career);
 
-    Set<Career> toEntities(Set<CareerDto> careerDtos);
+//    List<Career> ToEntities(List<CareerDto> careerDtos);
+//
+//    @InheritInverseConfiguration
+//    List<CareerDto> toDtos(List<Career> careers);
 
-
-    @InheritInverseConfiguration
-    Set<CareerDto> toDtos(Set<Career> careers);
+//    Set<Career> toEntities(Set<CareerDto> careerDtos);
+//
+//    @InheritInverseConfiguration
+//    Set<CareerDto> toDtos(Set<Career> careers);
 }

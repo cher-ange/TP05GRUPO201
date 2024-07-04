@@ -1,20 +1,13 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -22,7 +15,6 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Career")
 @Table(name = "career")
-@Component
 public class Career {
     
     @Id
@@ -40,31 +32,39 @@ public class Career {
     @Column(name = "duration")
     private Integer duration;
 
-    @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-        name = "career_subject",
-        joinColumns = @JoinColumn(name = "career_id"),
-        inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private Set<Subject> subjects = new HashSet<>();
+   @OneToMany(
+           mappedBy = "career",
+           cascade = CascadeType.ALL
+   )
+   private List<Student> students = new ArrayList<>();
 
-    @OneToMany(mappedBy = "career", fetch = FetchType.LAZY, targetEntity = Student.class)
-    private List<Student> students;
-
+   @OneToMany(
+           mappedBy = "career",
+           cascade = CascadeType.ALL
+   )
+   private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;
 
-    // Syncronize relantionships
-    public void addSubject(Subject subject) {
-        this.subjects.add(subject);
-        subject.getCareers().add(this);
+    // Synchronize relationships
+    public void addStudent(Student student) {
+       this.students.add(student);
+       student.setCareer(this);
     }
 
-    public void removeSubject(Subject subject) {
-        subject.getCareers().remove(this);
-        this.subjects.remove(subject);
+    public void removeStudent(Student student) {
+       student.setCareer(null);
+       this.students.remove(student);
     }
+
+    public void addSubject(Subject subject) {
+      this.subjects.add(subject);
+      subject.setCareer(this);
+   }
+
+   public void removeSubject(Subject subject) {
+      subject.setCareer(null);
+      this.subjects.remove(subject);
+   }
 }

@@ -1,21 +1,28 @@
 package ar.edu.unju.fi.tp05grupo201.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
-import ar.edu.unju.fi.tp05grupo201.model.Student;
+
+import java.util.List;
 
 public interface IStudentService {
 
-	public void saveStudent(StudentDto student);
-	
-	public List<Student> showStudents();
-	
-	public StudentDto findStudent(Long id);
-	
-	public void deleteStudent(Long id);
-	
-	public void modifyStudent(StudentDto student);
+    StudentDto createStudent();
+
+    StudentDto getStudentById(long studentId);
+
+    StudentDto getStudentByPersonId(String code);
+
+    List<StudentDto> getStudentsByState(boolean state);
+
+    void addStudent(StudentDto studentDto);
+    
+    void addSubjectToStudent(long studentId, long subjectId);
+    
+    void addCareerToStudent(long studentId, long careerId);
+
+    void deleteStudent(long studentId);
+
+    void deleteSubjectFromStudent(long studentId, long subjectId);
+
+    void deleteCareerFromStudent(long studentId, long careerId);
 }

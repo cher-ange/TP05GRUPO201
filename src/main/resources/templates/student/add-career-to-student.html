@@ -6,7 +6,7 @@
 <th-block data-th-replace="~{layout/header :: header}"></th-block>
 <!-- Main -->
 <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
-    <h2 class="text-body-emphasis">Sección Materia</h2>
+    <h2 class="text-body-emphasis">Sección Carrera</h2>
     <h5 class="text-muted pb-2 border-bottom"
         data-th-text="${allowEditing} ? 'Modificar carrera' : 'Agregar carrera'"></h5>
     <div class="row mx-0">
@@ -14,9 +14,9 @@
         <div class="col-12 bg-body-tertiary p-2">
             <div class="row mx-0">
                 <!-- Form -->
-                <!-- Select Career/Teacher -->
+                <!-- Select Career -->
                 <div class="col-12 col-md-6 p-2">
-                    <form data-th-action="@{/subject/{subjectCode}/careers(subjectCode=${subjectSubmitted.code})}"
+                    <form data-th-action="@{/student/{studentId}/career(studentId=${studentSubmitted.id})}"
                           method="get">
                         <div class="row mx-0 g-2">
                             <!-- Career -->
@@ -33,16 +33,16 @@
                                     <!-- Body -->
                                     <div class="card-body bg-light">
                                         <label class="form-label"
-                                               for="career">Carreras
+                                               for="career">Carrera
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-book"></i></span>
                                             <select class="form-select"
                                                     id="career"
-                                                    name="careerCode">
+                                                    name="careerId">
                                                 <option data-th-each="career : ${listOfCareers}"
                                                         data-th-text="${career.name}"
-                                                        data-th-value="${career.code}">
+                                                        data-th-value="${career.id}">
                                                 </option>
                                             </select>
                                         </div>
@@ -55,7 +55,7 @@
                                                 type="submit">
                                         </button>
                                         <a class="btn btn-light border border-secondary-subtle shadow"
-                                           data-th-href="@{'/subject/list'}"
+                                           data-th-href="@{'/student/list'}"
                                            role="button">Regresar
                                         </a>
                                     </div>
@@ -64,8 +64,8 @@
                         </div>
                     </form>
                 </div>
-                <!-- Subject information -->
-                <th-block data-th-replace="~{subject/subject-display :: information (object='subjectSubmitted', display_buttons='false') }"></th-block>
+                <!-- Student information -->
+                <th-block data-th-replace="~{student/student-display :: information (object='studentSubmitted', display_buttons='false') }"></th-block>
             </div>
         </div>
     </div>

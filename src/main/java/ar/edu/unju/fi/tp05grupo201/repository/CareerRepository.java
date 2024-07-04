@@ -13,5 +13,4 @@ public interface CareerRepository extends JpaRepository<Career, Long> {
     Optional<Career> findCareerByCode(String code);
     
     List<Career> findCareersByState(boolean state);
-
 }

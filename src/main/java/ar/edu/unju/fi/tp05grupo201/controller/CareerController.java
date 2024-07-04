@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.CareerServiceImp;
+import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -24,15 +26,17 @@ public class CareerController {
      */
     private final String LIST_VIEWNAME = "career/careers";
     private final String FORM_VIEWNAME = "career/career-form";
+    private final String ADD_SUBJECT_FORM_VIEWNAME = "career/add-subject-to-career";
     private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/career/list";
     
     /**
      * Dependencies
      */
     private final CareerServiceImp careerService;
+    private final SubjectServiceImp subjectService;
     
     /**
-     * ENDPOINTS
+     * Endpoints
      */
     @GetMapping(path = "/list")
     public ModelAndView getCareers() {
@@ -47,6 +51,10 @@ public class CareerController {
         return modelAndView;
     }
     
+    /**
+     * Add a career
+     * @return
+     */
     @GetMapping(path = "/add")
     public ModelAndView getAddCareerFormPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -61,6 +69,12 @@ public class CareerController {
         return modelAndView;
     }
     
+    /**
+     * Save a career
+     * @param careerDto
+     * @param bindingResult
+     * @return
+     */
     @PostMapping(path = "/save")
     public ModelAndView postSaveCareerFormPage(
         @Valid @ModelAttribute(name = "careerSubmitted") CareerDto careerDto,
@@ -79,9 +93,14 @@ public class CareerController {
         return modelAndView;
     }
 
-    @GetMapping(path = "/update/{code}")
+    /**
+     * Retrieve a career by id to update
+     * @param code
+     * @return
+     */
+    @GetMapping(path = "/update/{careerId}")
     public ModelAndView getUpdateCareerFormPage(
-        @PathVariable(value = "code") String code
+        @PathVariable(value = "careerId") long careerId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -89,12 +108,18 @@ public class CareerController {
         modelAndView.addObject("allowEditing", true);
         modelAndView.addObject(
             "careerSubmitted",
-            careerService.getCareerByCode(code)
+            careerService.getCareerById(careerId)
         );
 
         return modelAndView;
     }
 
+    /**
+     * Update a career
+     * @param careerDto
+     * @param bindingResult
+     * @return
+     */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateCareerFormPage(
         @Valid @ModelAttribute(value = "careerSubmitted") CareerDto careerDto,
@@ -113,6 +138,11 @@ public class CareerController {
         return modelAndView;
     }
     
+    /**
+     * Delete (logically) a career 
+     * @param code
+     * @return
+     */
     @GetMapping(path = "/delete/{code}")
     public ModelAndView getDeleteCareerPage(
         @PathVariable(value = "code") String code
@@ -121,6 +151,73 @@ public class CareerController {
 
         modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
         careerService.deleteCareer(code);
+
+        return modelAndView;
+    }
+
+    /**
+     * Add a subject into a career retrieved by id
+     * @param careerId
+     * @return
+     */
+    @GetMapping(path = "/{careerId}/subjects/add")
+    public ModelAndView getAddSubjectToCareerPage(
+            @PathVariable(value = "careerId") long careerId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(ADD_SUBJECT_FORM_VIEWNAME);
+        
+        modelAndView.addObject(
+                "listOfSubjects",
+                subjectService.getSubjectsByState(true)
+        );
+        modelAndView.addObject(
+                "careerSubmitted",
+                careerService.getCareerById(careerId)
+        );
+        modelAndView.addObject(
+                "allowEditing",
+                false
+        );
+
+        return modelAndView;
+    }
+
+    /**
+     * Save a subject to a career
+     * @param careerId
+     * @param subjectId
+     * @return
+     */
+    @GetMapping(path = "/{careerId}/subjects")
+    public ModelAndView getSaveSubjectPage(
+            @PathVariable(value = "careerId") long careerId,
+            @RequestParam(value = "subjectId") long subjectId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+        careerService.addSubjectToCareer(careerId, subjectId);
+
+        return modelAndView;
+    }
+
+    /**
+     * Delete a subject from a career
+     * @param studentId
+     * @param subjectId
+     * @return
+     */
+    @GetMapping(path = "/{careerId}/subjects/{subjectId}/delete")
+    public ModelAndView getDeleteSubjectFromCareerPage(
+            @PathVariable(value = "careerId") long careerId,
+            @PathVariable(value = "subjectId") long subjectId
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
+        careerService.deleteSubjectFromCareer(careerId, subjectId);
 
         return modelAndView;
     }

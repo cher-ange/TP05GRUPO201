@@ -76,9 +76,9 @@ public class TeacherController {
         return modelAndView;
     }
 
-    @GetMapping(path = "/update/{file}")
+    @GetMapping(path = "/update/{teacherId}")
     public ModelAndView getUpdateTeacherFormPage(
-        @PathVariable(value = "file") String file
+        @PathVariable(value = "teacherId") long teacherId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -86,7 +86,7 @@ public class TeacherController {
         modelAndView.addObject("allowEditing", true);
         modelAndView.addObject(
             "teacherSubmitted",
-            teacherService.getTeacherByFile(file)
+            teacherService.getTeacherById(teacherId)
         );
 
         return modelAndView;
@@ -110,14 +110,14 @@ public class TeacherController {
         return modelAndView;
     }
     
-    @GetMapping(path = "/delete/{file}")
+    @GetMapping(path = "/delete/{teacherId}")
     public ModelAndView getDeleteTeacherPage(
-        @PathVariable(value = "file") String file
+        @PathVariable(value = "teacherId") long teacherId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-        teacherService.deleteTeacher(file);
+        teacherService.deleteTeacher(teacherId);
 
         return modelAndView;
     }

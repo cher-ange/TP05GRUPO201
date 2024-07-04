@@ -1,8 +1,11 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.validation.constraints.*;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +16,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Component
 public class StudentDto {
-    @NotNull
+
 	private Long id;
 
     @NotBlank(message = "{student.person-id.not-blank}")
@@ -64,7 +68,11 @@ public class StudentDto {
     private String address;
 
     @NotBlank(message = "{student.university-record.not-blank}")
-    private String universityId;
+    private String universityRecord;
+
+    private Set<SubjectDto> subjects = new HashSet<>();
+
+    private CareerDto career;
 
     private boolean state = true;
 

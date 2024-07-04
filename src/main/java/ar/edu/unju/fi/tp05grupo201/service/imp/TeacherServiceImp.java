@@ -1,8 +1,8 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapper;
@@ -11,21 +11,25 @@ import org.springframework.stereotype.Service;
 import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
+import ar.edu.unju.fi.tp05grupo201.repository.SubjectRepository;
 import ar.edu.unju.fi.tp05grupo201.repository.TeacherRepository;
 import ar.edu.unju.fi.tp05grupo201.service.ITeacherService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Teacher service implementation
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class TeacherServiceImp implements ITeacherService {
     
     /**
      * Dependencies
      */
     private final TeacherRepository teacherRepository;
+    private final SubjectRepository subjectRepository;
     private final TeacherMapper teacherMapper;
     private final TeacherDto teacherDto;
 
@@ -35,6 +39,7 @@ public class TeacherServiceImp implements ITeacherService {
      */
     @Override
     public TeacherDto createTeacher() {
+        log.info("Teacher created");
         return teacherDto;
     }
 
@@ -45,14 +50,13 @@ public class TeacherServiceImp implements ITeacherService {
     public void addTeacher(TeacherDto teacherDto) {
         Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(teacherDto.getFile());
 
-        /**
-         * Condition to re-enable a Teacher that was 'deleted'
-         */
         if (optionalTeacher.isPresent()) {
+            log.info("Updating teacher with id " + teacherDto.getId());
             teacherDto.setId(optionalTeacher.get().getId());
             teacherDto.setState(true);
         }
 
+        log.info("Adding teacher " + teacherDto);
         teacherRepository.save(teacherMapper.toEntity(teacherDto));
     }
 
@@ -61,12 +65,12 @@ public class TeacherServiceImp implements ITeacherService {
      * @return Teacher
      */
     @Override
-    public TeacherDto getTeacherById(long id) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findById(id);
+    public TeacherDto getTeacherById(long teacherId) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
 
         if (optionalTeacher.isEmpty()) {
             throw new NoSuchElementException(
-                "GET: Teacher with id " + id + " wasn't found"
+                "Teacher with id " + teacherId + " wasn't found"
             );
         }
 
@@ -82,8 +86,9 @@ public class TeacherServiceImp implements ITeacherService {
         Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(file);
 
         if (optionalTeacher.isEmpty()) {
+            
             throw new NoSuchElementException(
-                "GET: Teacher with file " + file + " wasn't found"
+                "Teacher with file " + file + " wasn't found"
             );
         }
 
@@ -91,33 +96,38 @@ public class TeacherServiceImp implements ITeacherService {
     }
 
     /**
-     * Delete a teacher by file
+     * Get a list of teachers by state
      */
     @Override
-    public void deleteTeacher(String file) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(file);
+    public List<TeacherDto> getTeachersByState(boolean state) {
+        return teacherRepository.findTeachersByState(true).stream()
+                .map(teacherMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Delete a teacher by id
+     */
+    @Override
+    public void deleteTeacher(long teacherId) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
 
         if (optionalTeacher.isEmpty()) {
             throw new IllegalArgumentException(
-                "DELETE: Teacher with file " + file + " wasn't found"
+                "Teacher with id " + teacherId + " wasn't found"
             );
         }
-        /**
-         * Remove the relationship that has with the subject
-         */
-        for (Subject subject : optionalTeacher.get().getSubjects()) {
-            optionalTeacher.get().removeSubject(subject);
+
+        for (Subject subject : subjectRepository.findSubjectsByState(true)) {
+            if (subject.getTeacher() != null) {
+                if (subject.getTeacher().getId().equals(optionalTeacher.get().getId())) {
+                    subject.setTeacher(null);
+                    subjectRepository.save(subject);
+                }
+            }
         }
 
         optionalTeacher.get().setState(false);
         teacherRepository.save(optionalTeacher.get());
-    }
-
-    /**
-     * Get a list of teachers by state
-     */
-    @Override
-    public Set<TeacherDto> getTeachersByState(boolean state) {
-        return teacherMapper.toDtos(teacherRepository.findTeachersByState(state).stream().collect(Collectors.toSet()));
     }
 }

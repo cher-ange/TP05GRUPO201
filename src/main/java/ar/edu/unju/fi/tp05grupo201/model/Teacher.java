@@ -1,18 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +13,7 @@ import lombok.Setter;
 @Entity(name = "Teacher")
 @Table(name = "teacher")
 public class Teacher {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -46,27 +35,6 @@ public class Teacher {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-        name = "teacher_subject",
-        joinColumns = @JoinColumn(name = "teacher_id"),
-        inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private Set<Subject> subjects = new HashSet<>();
-
     @Column(name = "state")
     private Boolean state = true;
-
-    // Syncronize relantionship
-    public void addSubject(Subject subject) {
-        this.subjects.add(subject);
-        subject.getTeachers().add(this);
-    }
-
-    public void removeSubject(Subject subject) {
-        subject.getTeachers().remove(this);
-        this.subjects.remove(subject);
-    }
 }

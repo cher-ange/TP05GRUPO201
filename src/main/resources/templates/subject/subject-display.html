@@ -1,135 +1,114 @@
 <!-- Subject information -->
 <th-block data-th-fragment="information (object, display_buttons)">
     <div class="col-12 col-md-6 col-lg-4 p-2">
-        <div class="card h-100 shadow-sm">
-            <!-- Header -->
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <!-- Code -->
-                <p class="mb-0">Código:
-                    <span class="ps-1 text-muted"
-                          data-th-text="${__${object}__.code}">
-                    </span>
-                </p>
-                <!-- State -->
-                <p class="mb-0">Estado:
-                    <span class="ps-1 text-muted">
-                        <i data-th-class="${__${object}__.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
-                    </span>
-                </p>
-            </div>
-            <!-- Image -->
-            <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxy-5bd8c211-bbdb-493a-996a-57f0180e58da.png/v1/fill/w_1014,h_788,q_70,strp/dumping_duck__by_mischadiv04_dhlexxy-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTk0IiwicGF0aCI6IlwvZlwvM2NlYmFkMTItNmZhMy00ZTk0LTk4NzAtN2FhMTY0M2JhZTZlXC9kaGxleHh5LTViZDhjMjExLWJiZGItNDkzYS05OTZhLTU3ZjAxODBlNThkYS5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.vcndKxTbWVEc3rP6gp3UGF-ZtP_q1fTANjIXgwtf5cw')}" alt="">
-            <!-- Body -->
-            <div class="card-body bg-light">
-                <ul class="list-group">
-                    <!-- Name -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Nombre</small>
-                        <h6 class="mb-0" data-th-text="${__${object}__.name}"></h6>
-                    </li>
-                    <!-- Course -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Curso</small>
-                        <h6 class="mb-0" data-th-text="${__${object}__.course}"></h6>
-                    </li>
-                    <!-- Duration in hours -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Cantidad de horas</small>
-                        <h6 class="mb-0" data-th-text="${__${object}__.durationInHours}"></h6>
-                    </li>
-                    <!-- Attendance Type -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Modalidad</small>
-                        <h6 class="mb-0" data-th-text="${__${object}__.attendanceType}"></h6>
-                    </li>
-                    <!-- Teachers -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Docentes</small>
-                        <div class="d-flex flex-column row-gap-2">
-                            <button aria-controls="showListOfTeachers"
-                                    aria-expanded="false"
-                                    class="btn btn-light border border-secondary-subtle shadow-sm"
-                                    data-bs-target="#showListOfTeachers"
-                                    data-bs-toggle="collapse"
-                                    data-th-disabled="${__${object}__.teacherDtos.size() == 0}"
-                                    data-th-with="teachersAssigned=${__${object}__.teacherDtos.size()}"
-                                    type="button">
-                                <p class="mb-0" data-th-if="${teachersAssigned == 0}">No posee docentes asignados</p>
-                                <p class="mb-0" data-th-if="${teachersAssigned > 0}">Asignada a [[ __${teachersAssigned}__ ]] docente/s</p>
-                            </button>
-                            <ul class="list-group shadow-sm collapse" id="showListOfTeachers">
-                                <th-block data-th-each="teacher : ${__${object}__.teacherDtos}">
+        <th-block data-th-with="subjectId=${__${object}__.id}">
+            <div class="card h-100 shadow-sm">
+                <!-- Header -->
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <!-- Code -->
+                    <p class="mb-0">Código:
+                        <span class="ps-1 text-muted"
+                            data-th-text="${__${object}__.code}">
+                        </span>
+                    </p>
+                    <!-- State -->
+                    <p class="mb-0">Estado:
+                        <span class="ps-1 text-muted">
+                            <i data-th-class="${__${object}__.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
+                        </span>
+                    </p>
+                </div>
+                <!-- Image -->
+                <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxy-5bd8c211-bbdb-493a-996a-57f0180e58da.png/v1/fill/w_1014,h_788,q_70,strp/dumping_duck__by_mischadiv04_dhlexxy-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTk0IiwicGF0aCI6IlwvZlwvM2NlYmFkMTItNmZhMy00ZTk0LTk4NzAtN2FhMTY0M2JhZTZlXC9kaGxleHh5LTViZDhjMjExLWJiZGItNDkzYS05OTZhLTU3ZjAxODBlNThkYS5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.vcndKxTbWVEc3rP6gp3UGF-ZtP_q1fTANjIXgwtf5cw')}" alt="">
+                <!-- Body -->
+                <div class="card-body bg-light">
+                    <ul class="list-group">
+                        <!-- Name -->
+                        <li class="list-group-item">
+                            <small class="text-muted">Nombre</small>
+                            <h6 class="mb-0" data-th-text="${__${object}__.name}"></h6>
+                        </li>
+                        <!-- Course -->
+                        <li class="list-group-item">
+                            <small class="text-muted">Curso</small>
+                            <h6 class="mb-0" data-th-text="${__${object}__.course}"></h6>
+                        </li>
+                        <!-- Duration in hours -->
+                        <li class="list-group-item">
+                            <small class="text-muted">Cantidad de horas</small>
+                            <h6 class="mb-0" data-th-text="${__${object}__.durationInHours}"></h6>
+                        </li>
+                        <!-- Attendance Type -->
+                        <li class="list-group-item">
+                            <small class="text-muted">Modalidad</small>
+                            <h6 class="mb-0" data-th-text="${__${object}__.attendanceType}"></h6>
+                        </li>
+
+                        <!-- Teacher -->
+                        <li class="list-group-item">
+                            <small class="text-muted">Docente</small>
+                            <div class="d-flex flex-column row-gap-2">
+                                <button aria-controls="showTeacher"
+                                        aria-expanded="false"
+                                        class="btn btn-light border border-secondary-subtle shadow-sm"
+                                        data-th-attr="data-bs-target='#showTeacher' + ${subjectId}"
+                                        data-bs-toggle="collapse"
+                                        data-th-disabled="${__${object}__.teacher == null}"
+                                        type="button">
+                                    <p class="mb-0" data-th-if="${__${object}__.teacher == null}">No posee docente asignada</p>
+                                    <p class="mb-0" data-th-if="${__${object}__.teacher != null}">Asignado/a a 1 docente</p>
+                                </button>
+                                <th-block data-th-if="${__${object}__.teacher != null}"
+                                        data-th-with="teacher=${__${object}__.teacher}">
+                                <ol class="list-group shadow-sm collapse list-group-numbered" data-th-attr="data-th-id='showTeacher' + ${subjectId}">
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Nombre</div>[[ ${teacher.name} ]]
+                                            <div class="fw-bold">Nombre</div>[[ __${teacher.name}__ ]]
                                         </div>
                                         <a class="btn btn-close btn-sm btn-danger"
-                                           data-th-href="@{/subject/teachers/delete/__${teacher.file}__}"
-                                           role="button"></a>
-                                    </li>
-                                </th-block>
-                            </ul>
-                        </div>
-                    </li>
-                    <!-- Careers -->
-                    <li class="list-group-item">
-                        <small class="text-muted">Carreras</small>
-                        <div class="d-flex flex-column row-gap-2">
-                            <button aria-controls="showListOfCareers"
-                                    aria-expanded="false"
-                                    class="btn btn-light border border-secondary-subtle shadow-sm"
-                                    data-bs-target="#showListOfCareers"
-                                    data-bs-toggle="collapse"
-                                    data-th-disabled="${__${object}__.careerDtos.size() == 0}"
-                                    data-th-with="careersAssigned=${__${object}__.careerDtos.size()}"
-                                    type="button">
-                                <p class="mb-0" data-th-if="${careersAssigned == 0}">No posee carreras asignadas</p>
-                                <p class="mb-0" data-th-if="${careersAssigned > 0}">Asignada a [[ __${careersAssigned}__ ]] carrera/s</p>
-                            </button>
-                            <ol class="list-group shadow-sm collapse list-group-numbered" id="showListOfCareers">
-                                <th-block data-th-each="career : ${__${object}__.careerDtos}">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="ms-2 me-auto">
-                                            <div class="fw-bold">Nombre</div>[[ ${career.name} ]]
-                                        </div>
-                                        <a class="btn btn-close btn-sm btn-danger"
-                                           data-th-href="@{/subject/careers/delete/__${career.code}__}"
-                                           role="button">
+                                            data-th-href="@{/subject/__${subjectId}__/teacher/__${teacher.id}__/delete}"
+                                            role="button">
                                         </a>
                                     </li>
+                                </ol>
                                 </th-block>
-                            </ol>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- Footer -->
-            <th-block data-th-if="${display_buttons}">
-                <!-- Update-Back-Add_carrer-Add_teacher to buttons -->
-                <div class="card-footer d-flex flex-column justify-content-center align-content-center row-gap-2"
-                     data-th-with="objectCode=${__${object}__.code}">
-                    <!-- Add teacher -->
-                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
-                       data-th-href="@{/subject/__${objectCode}__/teachers/add}"
-                       role="button">Agregar docente
-                    </a>
-                    <!-- Add career -->
-                    <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
-                       data-th-href="@{/subject/__${objectCode}__/careers/add}"
-                       role="button">Agregar carrera
-                    </a>
-                    <!-- Update -->
-                    <a class="btn btn-light border border-secondary-subtle shadow-sm"
-                       data-th-href="@{/subject/update/__${objectCode}__}"
-                       role="button">Modificar
-                    </a>
-                    <!-- Delete -->
-                    <a class="btn btn-light border border-secondary-subtle link-danger shadow-sm"
-                       data-th-href="@{/subject/delete/__${objectCode}__}"
-                       role="button">Eliminar
-                    </a>
+                            </div>
+                        </li>
+                        
+                    </ul>
                 </div>
-            </th-block>
-        </div>
+                <!-- Footer -->
+                <th-block data-th-if="${display_buttons}">
+                    <!-- Update-Back-Add_carrer-Add_teacher to buttons -->
+                    <div class="card-footer d-flex flex-column justify-content-center align-content-center row-gap-2"
+                         data-th-with="objectId=${__${object}__.id}">
+                        <!-- Add teacher -->
+                        <th-block data-th-if="${__${object}__.teacher == null}">
+                            <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                               data-th-href="@{/subject/__${objectId}__/teacher/add}"
+                               role="button">Agregar docente
+                            </a>
+                        </th-block>
+                        <!-- Update a teacher -->
+                        <th-block data-th-if="${__${object}__.teacher != null }">
+                            <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                               data-th-href="@{/subject/__${objectId}__/teacher/update}"
+                               role="button">Modificar docente
+                            </a>
+                        </th-block> 
+                        <!-- Update -->
+                        <a class="btn btn-light border border-secondary-subtle shadow-sm"
+                           role="button"
+                           data-th-href="@{/subject/update/__${objectId}__}">Modificar
+                        </a>
+                        <!-- Delete -->
+                        <a class="btn btn-light border border-secondary-subtle link-danger shadow-sm"
+                           role="button"
+                           data-th-href="@{/subject/delete/__${objectId}__}">Eliminar
+                        </a>
+                    </div>
+                </th-block>
+            </div>
+        </th-block>
     </div>
 </th-block>

@@ -1,9 +1,7 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -15,13 +13,15 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Component
 public class CareerDto {
-    @NotNull
+
     private long id;
 
     @Column(name = "code")
@@ -45,9 +45,9 @@ public class CareerDto {
     @Positive(message = "{career.duration.only-positive}")
     private int duration;
 
-    private Set<SubjectDto> subjectDtos = new HashSet<>();
+    private List<StudentDto> students = new ArrayList<>();
 
-    private List<StudentDto> studentDtos = new ArrayList<>();
-    
+    private List<SubjectDto> subjects = new ArrayList<>();
+
     private boolean state = true;
 }

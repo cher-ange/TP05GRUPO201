@@ -14,15 +14,11 @@ public interface ISubjectService {
 
     SubjectDto getSubjectByCode(String code);
 
-    void deleteSubject(String code);
-
-    void deleteCareerFromSubject(String careerCode);
-
-    void deleteTeacherFromSubject(String teacherFile);
-
     List<SubjectDto> getSubjectsByState(boolean state);
 
-    void addCareerToSubject(String subjectCode, String careerCode);
+    void deleteSubject(String code);
 
-    void addTeacherToSubject(String subjectCode, String teacherFile);
+    void addTeacherToSubject(long subjectId, long teacherId);
+
+    void deleteTeacherFromSubject(long subjectId, long teacherId);
 }
