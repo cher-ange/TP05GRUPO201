@@ -2,6 +2,7 @@ package ar.edu.unju.fi.tp05grupo201.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -47,6 +48,6 @@ public class CareerDto {
     private List<StudentDto> students = new ArrayList<>();
 
     private List<SubjectDto> subjects = new ArrayList<>();
-    
+
     private boolean state = true;
 }
