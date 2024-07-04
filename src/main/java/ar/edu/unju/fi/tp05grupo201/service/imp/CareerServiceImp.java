@@ -46,7 +46,7 @@ public class CareerServiceImp implements ICareerService {
     @Override
     public CareerDto createCareer() {
         log.info("Career created");
-        return career;
+        return careerDto;
     }
 
     /**
@@ -94,11 +94,10 @@ public class CareerServiceImp implements ICareerService {
     @Override
     public CareerDto getCareerById(long id) {
         Optional<Career> optionalCareer = careerRepository.findById(id);
-        
+
         if (optionalCareer.isEmpty()) {
-            log.error("Career with id {} wasn't found", id);
             throw new NoSuchElementException(
-                "Career with id " + id + "wasn't found"
+                    "GET: Career with id " + id + "wasn't found"
             );
         }
 
@@ -114,9 +113,8 @@ public class CareerServiceImp implements ICareerService {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(code);
 
         if (optionalCareer.isEmpty()) {
-            log.error("Career with code {} wasn't found", code);
             throw new NoSuchElementException(
-                "Career with code: " + code + " wasn't found"
+                    "GET: Career with code: " + code + " wasn't found"
             );
         }
 
