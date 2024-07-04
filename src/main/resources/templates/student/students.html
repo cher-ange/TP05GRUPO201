@@ -31,7 +31,6 @@
 			      <th scope="col">Address</th>
 			      <th scope="col">Career</th>
 			      <th scope="col">University Id (LU)</th>
-			      <th scope="col">Subject</th>
 			      <th scope="col">State</th>
 			    </tr>
 			</thead>
@@ -47,7 +46,6 @@
 			      <td data-th-text="${student.address}"></td>
 				  <td data-th-text="${student.career.name}"></td>
 			      <td data-th-text="${student.universityId}"></td>
-			      <td data-th-text="${student.subjects}"></td>
 			      <td data-th-text="${student.state}"></td>
 			      <td>
 			      	<a data-th-href="@{'/student/deleteStudent/'+${student.id}}" class="btn btn-danger">Delete</a>

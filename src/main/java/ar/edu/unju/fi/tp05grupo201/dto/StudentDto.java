@@ -2,6 +2,7 @@ package ar.edu.unju.fi.tp05grupo201.dto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,14 +10,20 @@ import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import ar.edu.unju.fi.tp05grupo201.model.AttendanceType;
+import ar.edu.unju.fi.tp05grupo201.model.Career;
+import ar.edu.unju.fi.tp05grupo201.model.Student;
+import ar.edu.unju.fi.tp05grupo201.model.Teacher;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentDto {
     @NotNull
 	private Long id;
@@ -71,7 +78,7 @@ public class StudentDto {
 
     private boolean state = true;
     
-    private List<SubjectDto> subjects = new ArrayList<>();
+    private List<SubjectDto> subjects;
 
     private CareerDto career;
 }

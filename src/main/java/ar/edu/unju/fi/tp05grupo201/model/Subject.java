@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -49,7 +47,4 @@ public class Subject {
 
     @Column(name = "state")
     private Boolean state = true;
-    
-    @ManyToMany(mappedBy = "subjects")
-    private List<Student> students = new ArrayList<>();
 }
