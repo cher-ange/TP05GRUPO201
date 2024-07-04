@@ -75,6 +75,4 @@ public class StudentDto {
     private CareerDto career;
 
     private boolean state = true;
-
-    private CareerDto career;
 }
