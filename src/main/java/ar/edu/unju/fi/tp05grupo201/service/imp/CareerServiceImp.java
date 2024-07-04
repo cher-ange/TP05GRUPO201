@@ -3,6 +3,9 @@ package ar.edu.unju.fi.tp05grupo201.service.imp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
+import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapper;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.tp05grupo201.model.Career;
@@ -28,15 +31,17 @@ public class CareerServiceImp implements ICareerService {
     private final CareerRepository careerRepository;
     private final SubjectRepository subjectRepository;
     private final Career career;
+    private final CareerMapper careerMapper;
+    private final CareerDto careerDto;
 
     /**
      * Create a career
      * @return Career
      */
     @Override
-    public Career createCareer() {
+    public CareerDto createCareer() {
         log.info("Career created");
-        return career;
+        return careerDto;
     }
 
     /**
@@ -61,17 +66,17 @@ public class CareerServiceImp implements ICareerService {
      * @return Career
      */
     @Override
-    public Career getCareerById(long id) {
+    public CareerDto getCareerById(long id) {
         Optional<Career> optionalCareer = careerRepository.findById(id);
-        
+
         if (optionalCareer.isEmpty()) {
-            log.error("Career with id {} wasn't found", id);
             throw new NoSuchElementException(
-                "Career with id " + id + "wasn't found"
+                    "GET: Career with id " + id + "wasn't found"
             );
         }
 
-        return optionalCareer.get();
+
+        return careerMapper.toDto(optionalCareer.get());
     }
 
     /**
@@ -79,17 +84,17 @@ public class CareerServiceImp implements ICareerService {
      * @return Career
      */
     @Override
-    public Career getCareerByCode(String code) {
+    public CareerDto getCareerByCode(String code) {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(code);
 
         if (optionalCareer.isEmpty()) {
-            log.error("Career with code {} wasn't found", code);
             throw new NoSuchElementException(
-                "Career with code: " + code + " wasn't found"
+                    "GET: Career with code: " + code + " wasn't found"
             );
         }
 
-        return optionalCareer.get();
+
+        return careerMapper.toDto(optionalCareer.get());
     }
 
     /**
