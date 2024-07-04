@@ -5,6 +5,8 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import ar.edu.unju.fi.tp05grupo201.util.AttendanceType;
 
 @Getter
@@ -13,6 +15,7 @@ import ar.edu.unju.fi.tp05grupo201.util.AttendanceType;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Subject")
 @Table(name = "subject")
+@Component
 public class Subject {
 
     @Id

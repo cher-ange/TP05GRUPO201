@@ -1,6 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
-import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
+import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,9 +12,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(path = "/student")
@@ -24,11 +22,15 @@ public class StudentController {
     /**
      * View/Endpoint PATH constants
      */
-    private final String LIST_VIEWNAME = "student/students";
     private final String FORM_VIEWNAME = "student/student-form";
     private final String ADD_SUBJECT_FORM_VIEWNAME = "student/add-subject-to-student";
     private final String ADD_CAREER_FORM_VIEWNAME = "student/add-career-to-student";
+    private final String LIST_VIEWNAME = "student/students";
+    private final String LIST_BY_SUBJECT_VIEWNAME = "student/students-by-subject";
+    private final String LIST_BY_CAREER_VIEWNAME = "student/students-by-career";
     private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/student/list";
+    private final String REDIRECT_TO_LIST_BY_SUBJECT_ENDPOINT = "redirect:/student/list/filter-by/subject";
+    private final String REDIRECT_TO_LIST_BY_CAREER_ENDPOINT = "redirect:/student/list/filter-by/career";
 
     /**
      * Dependencies
@@ -40,6 +42,11 @@ public class StudentController {
     /**
      * Endpoints
      */
+
+    /**
+     * Retrieve a list of students
+     * @return
+     */
     @GetMapping(path = "/list")
     public ModelAndView getStudents() {
         ModelAndView modelAndView = new ModelAndView();
@@ -47,8 +54,85 @@ public class StudentController {
         modelAndView.setViewName(LIST_VIEWNAME);
         modelAndView.addObject(
                 "listOfStudents",
-                studentService.getStudentsByState(true)
-        );
+                studentService.getStudentsByState(true));
+
+        return modelAndView;
+    }
+
+    /**
+     * Retrieve a list of students by subject
+     * @param subjectName
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/subject")
+    public ModelAndView getSubjectToFilter() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(LIST_BY_SUBJECT_VIEWNAME);
+        modelAndView.addObject(
+            "listOfSubjects", 
+            subjectService.getSubjectsByState(true));
+        
+        return modelAndView;
+    }
+
+    /**
+     * Send the students found
+     * @param careerId
+     * @param redirectAttributes
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/subject/result")
+    public ModelAndView getStudentsBySubject(
+        @RequestParam(value = "subjectId") long subjectId,
+        RedirectAttributes redirectAttributes
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_BY_SUBJECT_ENDPOINT);
+        
+        redirectAttributes.addFlashAttribute(
+            "listOfStudents",
+            studentService.getStudentsBySubject(subjectId));
+
+        return modelAndView;
+    }
+
+    /**
+     * Retrieve a list of students by career
+     * @param subjectName
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/career")
+    public ModelAndView getCareerToFilter() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(LIST_BY_CAREER_VIEWNAME);
+        modelAndView.addObject(
+            "listOfCareers", 
+            careerService.getCareersByState(true));
+        
+        return modelAndView;
+    }
+
+    /**
+     * Send the students found
+     * @param careerId
+     * @param redirectAttributes
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/career/result")
+    public ModelAndView getStudentsByCareer(
+        @RequestParam(value = "careerId") long careerId,
+        RedirectAttributes redirectAttributes
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_BY_CAREER_ENDPOINT);
+        
+        redirectAttributes.addFlashAttribute(
+            "listOfStudents",
+            studentService.getStudentsByCareer(careerId));
 
         return modelAndView;
     }
@@ -64,25 +148,23 @@ public class StudentController {
         modelAndView.setViewName(FORM_VIEWNAME);
         modelAndView.addObject(
                 "allowEditing",
-                false
-        );
+                false);
         modelAndView.addObject(
                 "studentSubmitted",
-                studentService.createStudent()
-        );
+                studentService.createStudent());
 
         return modelAndView;
     }
 
     /**
      * Save a student
-     * @param studentDto
+     * @param student
      * @param bindingResult
      * @return
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveStudentFormPage(
-            @Valid @ModelAttribute(name = "studentSubmitted") StudentDto studentDto,
+            @Valid @ModelAttribute(name = "studentSubmitted") Student student,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -91,18 +173,17 @@ public class StudentController {
             modelAndView.setViewName(FORM_VIEWNAME);
             modelAndView.addObject(
                     "allowEditing",
-                    false
-            );
+                    false);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-            studentService.addStudent(studentDto);
+            studentService.addStudent(student);
         }
 
         return modelAndView;
     }
 
     /**
-     * Retrieve a student by id to update
+     * Retrieve a student by id to be updated
      * @param studentId
      * @return
      */
@@ -116,21 +197,20 @@ public class StudentController {
         modelAndView.addObject("allowEditing", true);
         modelAndView.addObject(
                 "studentSubmitted",
-                studentService.getStudentById(studentId)
-        );
+                studentService.getStudentById(studentId));
 
         return modelAndView;
     }
 
     /**
      * Update a student
-     * @param studentDto
+     * @param student
      * @param bindingResult
      * @return
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateStudentFormPage(
-            @Valid @ModelAttribute(value = "studentSubmitted") StudentDto studentDto,
+            @Valid @ModelAttribute(value = "studentSubmitted") Student student,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -139,11 +219,10 @@ public class StudentController {
             modelAndView.setViewName(FORM_VIEWNAME);
             modelAndView.addObject(
                     "allowEditing",
-                    true
-            );
+                    true);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-            studentService.addStudent(studentDto);
+            studentService.addStudent(student);
         }
 
         return modelAndView;
@@ -172,7 +251,7 @@ public class StudentController {
      * @return
      */
     @GetMapping(path = "/{studentId}/subjects/add")
-    public ModelAndView getAddSubjectPage(
+    public ModelAndView getAddSubjectToStudentPage(
             @PathVariable(value = "studentId") long studentId
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -180,28 +259,25 @@ public class StudentController {
         modelAndView.setViewName(ADD_SUBJECT_FORM_VIEWNAME);
         modelAndView.addObject(
                 "listOfSubjects",
-                subjectService.getSubjectsByState(true)
-        );
+                subjectService.getSubjectsByState(true));
         modelAndView.addObject(
                 "studentSubmitted",
-                studentService.getStudentById(studentId)
-        );
+                studentService.getStudentById(studentId));
         modelAndView.addObject(
                 "allowEditing",
-                false
-        );
+                false);
 
         return modelAndView;
     }
 
     /**
-     * Save a subject to a student
+     * Save a subject
      * @param studentId
      * @param subjectId
      * @return
      */
     @GetMapping(path = "/{studentId}/subjects")
-    public ModelAndView getSaveSubjectToStudentPage(
+    public ModelAndView getSaveSubjectPage(
             @PathVariable(value = "studentId") long studentId,
             @RequestParam(value = "subjectId") long subjectId
     ) {
@@ -232,11 +308,13 @@ public class StudentController {
         return modelAndView;
     }
 
-    /*---------------------------*
-     | Add a Career to a Student |
-     *---------------------------*/
+    /**
+     * Add a career to a student
+     * @param studentId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/career/add")
-    public ModelAndView getAddCareerPage(
+    public ModelAndView getAddCareerToStudentPage(
             @PathVariable(value = "studentId") long studentId
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -244,20 +322,23 @@ public class StudentController {
         modelAndView.setViewName(ADD_CAREER_FORM_VIEWNAME);
         modelAndView.addObject(
                 "listOfCareers",
-                careerService.getCareersByState(true)
-        );
+                careerService.getCareersByState(true));
         modelAndView.addObject(
                 "studentSubmitted",
-                studentService.getStudentById(studentId)
-        );
+                studentService.getStudentById(studentId));
         modelAndView.addObject(
                 "allowEditing",
-                false
-        );
+                false);
 
         return modelAndView;
     }
 
+    /**
+     * Save a career
+     * @param studentId
+     * @param careerId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/career")
     public ModelAndView getSaveCareerPage(
             @PathVariable(value = "studentId") long studentId,
@@ -271,11 +352,13 @@ public class StudentController {
         return modelAndView;
     }
 
-    /*---------------------------*
-     | Update a Career from a Student |
-     *---------------------------*/
+    /**
+     * Update a career from a student
+     * @param studentId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/career/update")
-    public ModelAndView getUpdateCareerPage(
+    public ModelAndView getUpdateCareerFromStudentPage(
             @PathVariable(value = "studentId") long studentId
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -283,23 +366,23 @@ public class StudentController {
         modelAndView.setViewName(ADD_CAREER_FORM_VIEWNAME);
         modelAndView.addObject(
                 "listOfCareers",
-                careerService.getCareersByState(true)
-        );
+                careerService.getCareersByState(true));
         modelAndView.addObject(
                 "studentSubmitted",
-                studentService.getStudentById(studentId)
-        );
+                studentService.getStudentById(studentId));
         modelAndView.addObject(
                 "allowEditing",
-                true
-        );
+                true);
 
         return modelAndView;
     }
 
-    /*---------------------------------*
-     | Delete a Career from a Student |
-     *---------------------------------*/
+    /**
+     * Delete a career from a student
+     * @param studentId
+     * @param careerId
+     * @return
+     */
     @GetMapping(path = "/{studentId}/career/{careerId}/delete")
     public ModelAndView getDeleteCareerFromStudentPage(
             @PathVariable(value = "studentId") long studentId,

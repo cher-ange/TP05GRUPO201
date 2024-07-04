@@ -3,12 +3,6 @@ package ar.edu.unju.fi.tp05grupo201.service.imp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
-import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapper;
-import ar.edu.unju.fi.tp05grupo201.mapper.StudentMapper;
-import ar.edu.unju.fi.tp05grupo201.mapper.SubjectMapper;
 import ar.edu.unju.fi.tp05grupo201.model.Career;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
@@ -34,19 +28,17 @@ public class StudentServiceImp implements IStudentService {
      */
     private final StudentRepository studentRepository;
     private final CareerRepository careerRepository;
-    private final StudentMapper studentMapper;
-    private final SubjectMapper subjectMapper;
-    private final CareerMapper careerMapper;
-    private final StudentDto studentDto;
     private final SubjectRepository subjectRepository;
+    private final Student student;
 
     /**
      * Create a student
      * @return Student
      */
     @Override
-    public StudentDto createStudent() {
-        return studentDto;
+    public Student createStudent() {
+        log.info("Student created");
+        return student;
     }
 
     /**
@@ -54,23 +46,18 @@ public class StudentServiceImp implements IStudentService {
      * @return Student
      */
     @Override
-    public void addStudent(StudentDto studentDto) {
-        Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(studentDto.getPersonId());
+    public void addStudent(Student student) {
+        Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(student.getPersonId());
 
         if (optionalStudent.isPresent()) {
-            log.info("Updating student " + studentDto);
-            studentDto.setId(optionalStudent.get().getId());
-            studentDto.setCareer(careerMapper.toDto(optionalStudent.get().getCareer()));
-            studentDto.setSubjects(
-                optionalStudent.get().getSubjects()
-                    .stream()
-                    .map(subjectMapper::toDto)
-                    .collect(Collectors.toSet())
-            );
+            log.info("Updating student with id {}" + student.getId());
+            student.setId(optionalStudent.get().getId());
+            student.setCareer(optionalStudent.get().getCareer());
+            student.setSubjects(optionalStudent.get().getSubjects());
        }
        
-       log.info("Adding student " + studentDto);
-       studentRepository.save(studentMapper.toEntity(studentDto));
+       log.info("Adding student");
+       studentRepository.save(student);
     }
 
     /**
@@ -78,7 +65,7 @@ public class StudentServiceImp implements IStudentService {
      * @return Student
      */
     @Override
-    public StudentDto getStudentById(long studentId) {
+    public Student getStudentById(long studentId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
 
         if (optionalStudent.isEmpty()) {
@@ -88,7 +75,7 @@ public class StudentServiceImp implements IStudentService {
             );
         }
 
-        return studentMapper.toDto(optionalStudent.get());
+        return optionalStudent.get();
     }
 
     /**
@@ -96,7 +83,7 @@ public class StudentServiceImp implements IStudentService {
      * @return Student
      */
     @Override
-    public StudentDto getStudentByPersonId(String personId) {
+    public Student getStudentByPersonId(String personId) {
         Optional<Student> optionalStudent = studentRepository.findStudentByPersonId(personId);
 
         if (optionalStudent.isEmpty()) {
@@ -106,18 +93,55 @@ public class StudentServiceImp implements IStudentService {
             );
         }
 
-        return studentMapper.toDto(optionalStudent.get());
+        return optionalStudent.get();
     }
 
     /**
      * Get a list of students by state
      */
     @Override
-    public List<StudentDto> getStudentsByState(boolean state) {
-        return studentRepository.findStudentsByState(state).stream()
-                .map(studentMapper::toDto)
-                .collect(Collectors.toList()
-        );
+    public List<Student> getStudentsByState(boolean state) {
+        log.info("Retrieving students");
+        return studentRepository.findStudentsByState(state);
+    }
+
+    /**
+     * Get a list of students filtered by subject
+     */
+    @Override
+    public List<Student> getStudentsBySubject(long subjectId) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(subjectId);
+
+        if (optionalSubject.isEmpty()) {
+            throw new NoSuchElementException(
+                "Subject with id " + subjectId + " wasn't found");
+        }
+
+        return studentRepository.findStudentsByState(true)
+            .stream()
+            .filter(s -> s.getSubjects().contains(optionalSubject.get()))
+            .toList();
+    }
+
+    /**
+     * Get a list of students filtered by career
+     * @param careerId
+     * @return
+     */
+    @Override
+    public List<Student> getStudentsByCareer(long careerId) {
+        Optional<Career> optionalCareer = careerRepository.findById(careerId);
+
+        if (optionalCareer.isEmpty()) {
+            throw new NoSuchElementException(
+                "Career with id " + careerId + " wasn't found");
+        }
+
+        return studentRepository.findStudentsByState(true)
+            .stream()
+            .filter(s -> s.getCareer() != null)
+            .filter(s -> s.getCareer().equals(optionalCareer.get()))
+            .toList();
     }
 
     /**

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Component
 public class StudentDto {
 
-	private Long id;
+    private Long id;
 
     @NotBlank(message = "{student.person-id.not-blank}")
     @Pattern(

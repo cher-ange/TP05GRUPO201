@@ -14,8 +14,8 @@
         <div class="col-12 bg-body-tertiary p-2">
             <div class="row mx-0">
                 <!-- Form -->
-                <!-- Select Career/Teacher -->
-                <div class="col p-2">
+                <!-- Select Teacher -->
+                <div class="col-12 col-md-6 p-2">
                     <form data-th-action="@{/subject/{subjectId}/teacher(subjectId=${subjectSubmitted.id})}"
                           method="get">
                         <div class="row mx-0 g-2">
@@ -65,7 +65,6 @@
                     </form>
                 </div>
                 <!-- Subject information -->
-                <th-block data-th-replace="~{subject/subject-display :: information (object='subjectSubmitted', display_buttons='false') }"></th-block>
             </div>
         </div>
     </div>

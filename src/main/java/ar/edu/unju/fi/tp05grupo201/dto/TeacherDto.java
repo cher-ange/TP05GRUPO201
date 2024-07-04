@@ -13,8 +13,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@Component
 @ToString
+@Component
 public class TeacherDto {
 
     private long id;

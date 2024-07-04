@@ -16,7 +16,110 @@
             <div class="row mx-0">
                 <th-block data-th-each="subject : ${listOfSubjects}">
                     <!-- Subject -->
-                    <th-block data-th-replace="~{subject/subject-display :: information (object='subject', display_buttons='true') }"></th-block>
+                    <div class="col-12 col-md-6 col-lg-4 p-2">
+                            <div class="card h-100 shadow-sm">
+                                <!-- Header -->
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <!-- Code -->
+                                    <p class="mb-0">Código:
+                                        <span class="ps-1 text-muted"
+                                            data-th-text="${subject.code}">
+                                        </span>
+                                    </p>
+                                    <!-- State -->
+                                    <p class="mb-0">Estado:
+                                        <span class="ps-1 text-muted">
+                                            <i data-th-class="${subject.state} ? 'bi bi-check text-success' : 'bi bi-x text-danger'"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <!-- Image -->
+                                <img data-th-replace="~{components/card :: img (source='https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3cebad12-6fa3-4e94-9870-7aa1643bae6e/dhlexxy-5bd8c211-bbdb-493a-996a-57f0180e58da.png/v1/fill/w_1014,h_788,q_70,strp/dumping_duck__by_mischadiv04_dhlexxy-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTk0IiwicGF0aCI6IlwvZlwvM2NlYmFkMTItNmZhMy00ZTk0LTk4NzAtN2FhMTY0M2JhZTZlXC9kaGxleHh5LTViZDhjMjExLWJiZGItNDkzYS05OTZhLTU3ZjAxODBlNThkYS5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.vcndKxTbWVEc3rP6gp3UGF-ZtP_q1fTANjIXgwtf5cw')}" alt="">
+                                <!-- Body -->
+                                <div class="card-body bg-light">
+                                    <ul class="list-group">
+                                        <!-- Name -->
+                                        <li class="list-group-item">
+                                            <small class="text-muted">Nombre</small>
+                                            <h6 class="mb-0" data-th-text="${subject.name}"></h6>
+                                        </li>
+                                        <!-- Course -->
+                                        <li class="list-group-item">
+                                            <small class="text-muted">Curso</small>
+                                            <h6 class="mb-0" data-th-text="${subject.course}"></h6>
+                                        </li>
+                                        <!-- Duration in hours -->
+                                        <li class="list-group-item">
+                                            <small class="text-muted">Cantidad de horas</small>
+                                            <h6 class="mb-0" data-th-text="${subject.durationInHours}"></h6>
+                                        </li>
+                                        <!-- Attendance Type -->
+                                        <li class="list-group-item">
+                                            <small class="text-muted">Modalidad</small>
+                                            <h6 class="mb-0" data-th-text="${subject.attendanceType.getValue()}"></h6>
+                                        </li>
+            
+                                        <!-- Teacher -->
+                                        <li class="list-group-item">
+                                            <small class="text-muted">Docente</small>
+                                            <div class="d-flex flex-column row-gap-2">
+                                                <button aria-controls="showTeacher"
+                                                        aria-expanded="false"
+                                                        class="btn btn-light border border-secondary-subtle shadow-sm"
+                                                        data-th-attr="data-bs-target='#showTeacher' + ${subject.id}"
+                                                        data-bs-toggle="collapse"
+                                                        data-th-disabled="${subject.teacher == null}"
+                                                        type="button">
+                                                    <p class="mb-0" data-th-if="${subject.teacher == null}">No posee docente asignada</p>
+                                                    <p class="mb-0" data-th-if="${subject.teacher != null}">Asignado/a a 1 docente</p>
+                                                </button>
+                                                <th-block data-th-if="${subject.teacher != null}">
+                                                    <ol class="list-group shadow-sm collapse list-group-numbered"
+                                                        data-th-attr="data-th-id='showTeacher' + ${subject.id}">
+                                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                            <div class="ms-2 me-auto">
+                                                                <div class="fw-bold">Nombre</div>[[ ${subject.teacher.name} ]]
+                                                            </div>
+                                                            <a class="btn btn-close btn-sm btn-danger"
+                                                                data-th-href="@{/subject/__${subject.id}__/teacher/__${subject.teacher.id}__/delete}"
+                                                                role="button">
+                                                            </a>
+                                                        </li>
+                                                    </ol>
+                                                </th-block>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Footer -->
+                                <div class="card-footer d-flex flex-column justify-content-center align-content-center row-gap-2">
+                                    <!-- Add teacher -->
+                                    <th-block data-th-if="${subject.teacher == null}">
+                                        <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                                           data-th-href="@{/subject/__${subject.id}__/teacher/add}"
+                                           role="button">Agregar docente
+                                        </a>
+                                    </th-block>
+                                    <!-- Update a teacher -->
+                                    <th-block data-th-if="${subject.teacher != null}">
+                                        <a class="btn btn-light border border-secondary-subtle link-primary shadow-sm w-100"
+                                           data-th-href="@{/subject/__${subject.id}__/teacher/update}"
+                                           role="button">Modificar docente
+                                        </a>
+                                    </th-block> 
+                                    <!-- Update -->
+                                    <a class="btn btn-light border border-secondary-subtle shadow-sm"
+                                       role="button"
+                                       data-th-href="@{/subject/update/__${subject.id}__}">Modificar
+                                    </a>
+                                    <!-- Delete -->
+                                    <a class="btn btn-light border border-secondary-subtle link-danger shadow-sm"
+                                       role="button"
+                                       data-th-href="@{/subject/delete/__${subject.id}__}">Eliminar
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
                 </th-block>
             </div>
         </div>

@@ -3,12 +3,8 @@ package ar.edu.unju.fi.tp05grupo201.service.imp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapper;
 import org.springframework.stereotype.Service;
 
-import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 import ar.edu.unju.fi.tp05grupo201.repository.SubjectRepository;
@@ -30,34 +26,33 @@ public class TeacherServiceImp implements ITeacherService {
      */
     private final TeacherRepository teacherRepository;
     private final SubjectRepository subjectRepository;
-    private final TeacherMapper teacherMapper;
-    private final TeacherDto teacherDto;
+    private final Teacher teacher;
 
     /**
      * Create a teacher
      * @return Teacher
      */
     @Override
-    public TeacherDto createTeacher() {
+    public Teacher createTeacher() {
         log.info("Teacher created");
-        return teacherDto;
+        return teacher;
     }
 
     /**
      * Add a teacher
      */
     @Override
-    public void addTeacher(TeacherDto teacherDto) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(teacherDto.getFile());
+    public void addTeacher(Teacher teacher) {
+        Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(teacher.getFile());
 
         if (optionalTeacher.isPresent()) {
-            log.info("Updating teacher with id " + teacherDto.getId());
-            teacherDto.setId(optionalTeacher.get().getId());
-            teacherDto.setState(true);
+            log.info("Updating teacher with id " + teacher.getId());
+            teacher.setId(optionalTeacher.get().getId());
+            teacher.setState(true);
         }
 
-        log.info("Adding teacher " + teacherDto);
-        teacherRepository.save(teacherMapper.toEntity(teacherDto));
+        log.info("Adding teacher " + teacher);
+        teacherRepository.save(teacher);
     }
 
     /**
@@ -65,7 +60,7 @@ public class TeacherServiceImp implements ITeacherService {
      * @return Teacher
      */
     @Override
-    public TeacherDto getTeacherById(long teacherId) {
+    public Teacher getTeacherById(long teacherId) {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
 
         if (optionalTeacher.isEmpty()) {
@@ -74,7 +69,7 @@ public class TeacherServiceImp implements ITeacherService {
             );
         }
 
-        return teacherMapper.toDto(optionalTeacher.get());
+        return optionalTeacher.get();
     }
 
     /**
@@ -82,27 +77,24 @@ public class TeacherServiceImp implements ITeacherService {
      * @return Teacher
      */
     @Override
-    public TeacherDto getTeacherByFile(String file) {
+    public Teacher getTeacherByFile(String file) {
         Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(file);
 
         if (optionalTeacher.isEmpty()) {
-            
             throw new NoSuchElementException(
                 "Teacher with file " + file + " wasn't found"
             );
         }
 
-        return teacherMapper.toDto(optionalTeacher.get());
+        return optionalTeacher.get();
     }
 
     /**
      * Get a list of teachers by state
      */
     @Override
-    public List<TeacherDto> getTeachersByState(boolean state) {
-        return teacherRepository.findTeachersByState(true).stream()
-                .map(teacherMapper::toDto)
-                .collect(Collectors.toList());
+    public List<Teacher> getTeachersByState(boolean state) {
+        return teacherRepository.findTeachersByState(state);
     }
 
     /**

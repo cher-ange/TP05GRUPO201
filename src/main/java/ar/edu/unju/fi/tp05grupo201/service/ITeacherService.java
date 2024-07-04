@@ -2,19 +2,19 @@ package ar.edu.unju.fi.tp05grupo201.service;
 
 import java.util.List;
 
-import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
+import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 
 public interface ITeacherService {
     
-    TeacherDto createTeacher();
+    Teacher createTeacher();
     
-    void addTeacher(TeacherDto teacherDto);
+    Teacher getTeacherById(long teacherId);
     
-    TeacherDto getTeacherById(long teacherId);
-    
-    TeacherDto getTeacherByFile(String file);
+    Teacher getTeacherByFile(String file);
 
-    List<TeacherDto> getTeachersByState(boolean state);
+    List<Teacher> getTeachersByState(boolean state);
+
+    void addTeacher(Teacher teacher);
     
     void deleteTeacher(long teacherId);
 }

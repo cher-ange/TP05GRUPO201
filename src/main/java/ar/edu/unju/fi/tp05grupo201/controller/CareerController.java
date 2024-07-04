@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
+import ar.edu.unju.fi.tp05grupo201.model.Career;
 import ar.edu.unju.fi.tp05grupo201.service.imp.CareerServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import jakarta.validation.Valid;
@@ -45,8 +45,7 @@ public class CareerController {
         modelAndView.setViewName(LIST_VIEWNAME);
         modelAndView.addObject(
             "listOfCareers",
-            careerService.getCareersByState(true)
-        );
+            careerService.getCareersByState(true));
 
         return modelAndView;
     }
@@ -60,24 +59,25 @@ public class CareerController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(FORM_VIEWNAME);
-        modelAndView.addObject("allowEditing", false);
+        modelAndView.addObject(
+            "allowEditing",
+             false);
         modelAndView.addObject(
             "careerSubmitted",
-            careerService.createCareer()
-        );
+            careerService.createCareer());
 
         return modelAndView;
     }
     
     /**
      * Save a career
-     * @param careerDto
+     * @param career
      * @param bindingResult
      * @return
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveCareerFormPage(
-        @Valid @ModelAttribute(name = "careerSubmitted") CareerDto careerDto,
+        @Valid @ModelAttribute(name = "careerSubmitted") Career career,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -87,7 +87,7 @@ public class CareerController {
             modelAndView.addObject("allowEditing", false);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-            careerService.addCareer(careerDto);
+            careerService.addCareer(career);
         }
 
         return modelAndView;
@@ -105,7 +105,9 @@ public class CareerController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(FORM_VIEWNAME);
-        modelAndView.addObject("allowEditing", true);
+        modelAndView.addObject(
+            "allowEditing",
+            true);
         modelAndView.addObject(
             "careerSubmitted",
             careerService.getCareerById(careerId)
@@ -116,23 +118,25 @@ public class CareerController {
 
     /**
      * Update a career
-     * @param careerDto
+     * @param career
      * @param bindingResult
      * @return
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateCareerFormPage(
-        @Valid @ModelAttribute(value = "careerSubmitted") CareerDto careerDto,
+        @Valid @ModelAttribute(value = "careerSubmitted") Career career,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName(FORM_VIEWNAME);
-            modelAndView.addObject("allowEditing", true);
+            modelAndView.addObject(
+                "allowEditing",
+                true);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-            careerService.addCareer(careerDto);
+            careerService.addCareer(career);
         }
 
         return modelAndView;
@@ -143,14 +147,14 @@ public class CareerController {
      * @param code
      * @return
      */
-    @GetMapping(path = "/delete/{code}")
+    @GetMapping(path = "/delete/{careerId}")
     public ModelAndView getDeleteCareerPage(
-        @PathVariable(value = "code") String code
+        @PathVariable(value = "careerId") long careerId
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
-        careerService.deleteCareer(code);
+        careerService.deleteCareer(careerId);
 
         return modelAndView;
     }

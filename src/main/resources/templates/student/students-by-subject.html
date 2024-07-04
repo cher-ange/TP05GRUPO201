@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<th-block data-th-replace="~{layout/common :: head (title='Alumnos por carrera')}"></th-block>
+<th-block data-th-replace="~{layout/common :: head (title='Alumnos por materia')}"></th-block>
 <body>
     <!-- Header -->
     <th-block data-th-replace="~{layout/header :: header}"></th-block>
     <!-- Main -->
     <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
-        <h2 class="text-body-emphasis">Sección Filtrar alumnos por carrera</h2>
+        <h2 class="text-body-emphasis">Sección Filtrar alumnos por materia</h2>
         <h5 class="text-muted pb-2 border-bottom">Listado de Estudiantes</h5>
-        <!-- Display list of careers -->
+        <!-- Display list of subjects -->
         <div class="row mx-0">
+            <!-- Subject -->
             <div class="col">
-                <form data-th-action="@{/student/list/filter-by/career/result}"
+                <form data-th-action="@{/student/list/filter-by/subject/result}"
                       method="get">
                     <div class="card h-100 shadow-sm">
                         <!-- Header -->
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <p class="mb-0">Disponibles:
                                 <span class="ps-1 text-muted"
-                                    data-th-text="${listOfCareers.size()}">
+                                    data-th-text="${listOfSubjects.size()}">
                                 </span>
                             </p>
                         </div>
                         <!-- Body -->
                         <div class="card-body bg-light">
                             <label class="form-label"
-                                for="career">Carrera
+                                for="subject">Materia
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-book"></i></span>
                                 <select class="form-select"
-                                        id="career"
-                                        name="careerId">
-                                    <option data-th-each="career : ${listOfCareers}"
-                                            data-th-text="${career.name}"
-                                            data-th-value="${career.id}">
+                                        id="subject"
+                                        name="subjectId">
+                                    <option data-th-each="subject : ${listOfSubjects}"
+                                            data-th-text="${subject.name}"
+                                            data-th-value="${subject.id}">
                                     </option>
                                 </select>
                             </div>
@@ -125,6 +126,7 @@
             </th-block>
         </div>
     </div>
+
     <!-- Footer -->
     <th-block data-th-replace="~{layout/footer :: footer}"></th-block>
 </body>
