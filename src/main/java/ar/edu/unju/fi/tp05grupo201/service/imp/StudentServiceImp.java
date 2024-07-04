@@ -43,7 +43,7 @@ public class StudentServiceImp implements IStudentService {
 
     /**
      * Add a student
-     * @return Student
+     * @return
      */
     @Override
     public void addStudent(Student student) {
@@ -56,7 +56,7 @@ public class StudentServiceImp implements IStudentService {
             student.setSubjects(optionalStudent.get().getSubjects());
        }
        
-       log.info("Adding student");
+       log.info("Adding student" + student.getName());
        studentRepository.save(student);
     }
 
@@ -89,7 +89,7 @@ public class StudentServiceImp implements IStudentService {
         if (optionalStudent.isEmpty()) {
             log.error("Student with person-id {} wasn't found", personId);
             throw new NoSuchElementException(
-                    "Student with person-id " + personId + " wasn't found"
+                "Student with person-id " + personId + " wasn't found"
             );
         }
 
@@ -113,6 +113,7 @@ public class StudentServiceImp implements IStudentService {
         Optional<Subject> optionalSubject = subjectRepository.findById(subjectId);
 
         if (optionalSubject.isEmpty()) {
+            log.error("Subject with id {} wasn't found", subjectId);
             throw new NoSuchElementException(
                 "Subject with id " + subjectId + " wasn't found");
         }
@@ -133,6 +134,7 @@ public class StudentServiceImp implements IStudentService {
         Optional<Career> optionalCareer = careerRepository.findById(careerId);
 
         if (optionalCareer.isEmpty()) {
+            log.error("Career with id {} wasn't found", careerId);
             throw new NoSuchElementException(
                 "Career with id " + careerId + " wasn't found");
         }

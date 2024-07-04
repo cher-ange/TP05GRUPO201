@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.tp05grupo201.model.Teacher;
+import ar.edu.unju.fi.tp05grupo201.dto.TeacherDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.TeacherServiceImp;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -78,7 +78,7 @@ public class TeacherController {
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveTeacherFormPage(
-        @Valid @ModelAttribute(name = "teacherSubmitted") Teacher teacher,
+        @Valid @ModelAttribute(name = "teacherSubmitted") TeacherDto teacher,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -124,7 +124,7 @@ public class TeacherController {
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateTeacherFormPage(
-        @Valid @ModelAttribute(value = "teacherSubmitted") Teacher teacher,
+        @Valid @ModelAttribute(value = "teacherSubmitted") TeacherDto teacher,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
