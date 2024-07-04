@@ -2,19 +2,19 @@ package ar.edu.unju.fi.tp05grupo201.service;
 
 import java.util.List;
 
-import ar.edu.unju.fi.tp05grupo201.model.Career;
+import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 
 public interface ICareerService {
     
-    Career createCareer();
+    CareerDto createCareer();
     
-    Career getCareerById(long id);
+    CareerDto getCareerById(long id);
     
-    Career getCareerByCode(String code);
+    CareerDto getCareerByCode(String code);
 
-    List<Career> getCareersByState(boolean state);
+    List<CareerDto> getCareersByState(boolean state);
 
-    void addCareer(Career career);
+    void addCareer(CareerDto career);
 
     void addSubjectToCareer(long careerId, long subjectId);
     

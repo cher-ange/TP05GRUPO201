@@ -1,24 +1,23 @@
 package ar.edu.unju.fi.tp05grupo201.service;
 
-import ar.edu.unju.fi.tp05grupo201.model.Student;
-
+import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
 import java.util.List;
 
 public interface IStudentService {
 
-    Student createStudent();
+    StudentDto createStudent();
 
-    Student getStudentById(long studentId);
+    StudentDto getStudentById(long studentId);
 
-    Student getStudentByPersonId(String code);
+    StudentDto getStudentByPersonId(String code);
 
-    List<Student> getStudentsByState(boolean state);
+    List<StudentDto> getStudentsByState(boolean state);
 
-    List<Student> getStudentsBySubject(long subjectId);
+    List<StudentDto> getStudentsBySubject(long subjectId);
 
-    List<Student> getStudentsByCareer(long careerId);
+    List<StudentDto> getStudentsByCareer(long careerId);
 
-    void addStudent(Student student);
+    void addStudent(StudentDto student);
     
     void addSubjectToStudent(long studentId, long subjectId);
     

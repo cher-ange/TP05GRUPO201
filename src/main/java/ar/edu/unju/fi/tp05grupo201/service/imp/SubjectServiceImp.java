@@ -58,6 +58,7 @@ public class SubjectServiceImp implements ISubjectService {
         if (optionalSubject.isPresent()) {
             log.info("Updating subject with id {}", subject.getId());
             subject.setId(optionalSubject.get().getId());
+
             subject.setCareer(careerMapper.toDto(optionalSubject.get().getCareer()));
             subject.setTeacher(teacherMapper.toDto(optionalSubject.get().getTeacher()));
             subject.setStudents(
@@ -67,8 +68,7 @@ public class SubjectServiceImp implements ISubjectService {
                     .collect(Collectors.toSet()));
         }
 
-        log.info("Adding subject");
-
+        log.info("Adding subject {}", subject);
         Subject dummy = subjectMapper.toEntity(subject);
 
         dummy.setCareer(careerMapper.toEntity(subject.getCareer()));
@@ -91,6 +91,7 @@ public class SubjectServiceImp implements ISubjectService {
         Optional<Subject> optionalSubject = subjectRepository.findById(id);
 
         if (optionalSubject.isEmpty()) {
+            log.error("Subject with id {} wasn't found", id);
             throw new IllegalArgumentException("Subject with id " + id + "wasn't found");
         }
 
@@ -124,13 +125,16 @@ public class SubjectServiceImp implements ISubjectService {
 
         List<SubjectDto> listOfSubjectDtos = new ArrayList<>();
         
-
-        for (Subject subject : subjectRepository.findSubjectsByState(true)) {
+        for (Subject subject : subjectRepository.findSubjectsByState(state)) {
             SubjectDto dummy = subjectMapper.toDto(subject);
 
             dummy.setCareer(careerMapper.toDto(subject.getCareer()));
             dummy.setTeacher(teacherMapper.toDto(subject.getTeacher()));
-            dummy.setStudents(subject.getStudents().stream().map(studentMapper::toDto).collect(Collectors.toSet()));
+            dummy.setStudents(
+                subject.getStudents()
+                    .stream()
+                    .map(studentMapper::toDto)
+                    .collect(Collectors.toSet()));
 
             listOfSubjectDtos.add(dummy);
         }

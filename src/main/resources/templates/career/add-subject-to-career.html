@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<th-block data-th-replace="~{layout/common :: head (title='Administrar materia')}"></th-block>
+<th-block data-th-replace="~{layout/common :: head (title='Administrar carrera')}"></th-block>
 <body>
 <!-- Header -->
 <th-block data-th-replace="~{layout/header :: header}"></th-block>
 <!-- Main -->
 <div class="container bg-body-tertiary border rounded shadow px-4 py-5">
-    <h2 class="text-body-emphasis">Sección Materia</h2>
+    <h2 class="text-body-emphasis">Sección Carrera</h2>
     <h5 class="text-muted pb-2 border-bottom"
         data-th-text="${allowEditing} ? 'Modificar materia' : 'Agregar materia'"></h5>
     <div class="row mx-0">
@@ -33,7 +33,7 @@
                                     <!-- Body -->
                                     <div class="card-body bg-light">
                                         <label class="form-label"
-                                               for="subject">Carrera
+                                               for="subject">Materias
                                         </label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-book"></i></span>

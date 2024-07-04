@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +13,6 @@ import lombok.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Student")
 @Table(name = "student")
-@Component
 public class Student {
 	
     @Id
@@ -58,8 +55,8 @@ public class Student {
     )
     private Set<Subject> subjects = new HashSet<>();
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   private Career career;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Career career;
 
     @Column(name = "state")
     private Boolean state = true;

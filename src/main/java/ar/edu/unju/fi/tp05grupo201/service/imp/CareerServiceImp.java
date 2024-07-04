@@ -1,10 +1,17 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
+import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
+import ar.edu.unju.fi.tp05grupo201.mapper.CareerMapper;
+import ar.edu.unju.fi.tp05grupo201.mapper.StudentMapper;
+import ar.edu.unju.fi.tp05grupo201.mapper.SubjectMapper;
 import ar.edu.unju.fi.tp05grupo201.model.Career;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
@@ -27,14 +34,17 @@ public class CareerServiceImp implements ICareerService {
      */
     private final CareerRepository careerRepository;
     private final SubjectRepository subjectRepository;
-    private final Career career;
+    private final CareerMapper careerMapper;
+    private final SubjectMapper subjectMapper;
+    private final StudentMapper studentMapper;
+    private final CareerDto career;
 
     /**
      * Create a career
      * @return Career
      */
     @Override
-    public Career createCareer() {
+    public CareerDto createCareer() {
         log.info("Career created");
         return career;
     }
@@ -43,17 +53,40 @@ public class CareerServiceImp implements ICareerService {
      * Add a career
      */
     @Override
-    public void addCareer(Career career) {
+    public void addCareer(CareerDto career) {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(career.getCode());
 
         if (optionalCareer.isPresent()) {
-            log.info("Updating career");
+            log.info("Updating career with id {}", career.getId());
             career.setId(optionalCareer.get().getId());
-            career.setSubjects(optionalCareer.get().getSubjects());
+
+            career.setStudents(
+                optionalCareer.get().getStudents()
+                    .stream()
+                    .map(studentMapper::toDto)
+                    .collect(Collectors.toList()));
+            career.setSubjects(
+                optionalCareer.get().getSubjects()
+                    .stream()
+                    .map(subjectMapper::toDto)
+                    .collect(Collectors.toList()));
         }
 
-        log.info("Adding career");
-        careerRepository.save(career);
+        log.info("Adding career {}", career);
+        Career dummy = careerMapper.toEntity(career);
+
+        dummy.setStudents(
+            career.getStudents()
+                    .stream()
+                    .map(studentMapper::toEntity)
+                    .collect(Collectors.toList()));
+        dummy.setSubjects(
+            career.getSubjects()
+                .stream()
+                .map(subjectMapper::toEntity)
+                .collect(Collectors.toList()));
+        
+        careerRepository.save(dummy);
     }
 
     /**
@@ -61,7 +94,7 @@ public class CareerServiceImp implements ICareerService {
      * @return Career
      */
     @Override
-    public Career getCareerById(long id) {
+    public CareerDto getCareerById(long id) {
         Optional<Career> optionalCareer = careerRepository.findById(id);
         
         if (optionalCareer.isEmpty()) {
@@ -71,7 +104,7 @@ public class CareerServiceImp implements ICareerService {
             );
         }
 
-        return optionalCareer.get();
+        return careerMapper.toDto(optionalCareer.get());
     }
 
     /**
@@ -79,7 +112,7 @@ public class CareerServiceImp implements ICareerService {
      * @return Career
      */
     @Override
-    public Career getCareerByCode(String code) {
+    public CareerDto getCareerByCode(String code) {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(code);
 
         if (optionalCareer.isEmpty()) {
@@ -89,7 +122,36 @@ public class CareerServiceImp implements ICareerService {
             );
         }
 
-        return optionalCareer.get();
+        return careerMapper.toDto(optionalCareer.get());
+    }
+
+    /**
+     * Get a list of careers by state
+     */
+    @Override
+    public List<CareerDto> getCareersByState(boolean state) {
+        log.info("Retrieving careers");
+
+        List<CareerDto> listOfCareerDtos = new ArrayList<>();
+
+        for (Career career : careerRepository.findCareersByState(state)) {
+            CareerDto dummy = careerMapper.toDto(career);
+
+            // dummy.setStudents(
+            //     career.getStudents()
+            //         .stream()
+            //         .map(studentMapper::toDto)
+            //         .collect(Collectors.toList()));
+            dummy.setSubjects(
+                career.getSubjects()
+                    .stream()
+                    .map(subjectMapper::toDto)
+                    .collect(Collectors.toList()));
+
+            listOfCareerDtos.add(dummy);
+        }
+
+        return listOfCareerDtos;
     }
 
     /**
@@ -114,15 +176,6 @@ public class CareerServiceImp implements ICareerService {
 
         optionalCareer.get().setState(false);
         careerRepository.save(optionalCareer.get());
-    }
-
-    /**
-     * Get a list of careers by state
-     */
-    @Override
-    public List<Career> getCareersByState(boolean state) {
-        log.info("Retrieving careers");
-        return careerRepository.findCareersByState(state);
     }
 
     /**

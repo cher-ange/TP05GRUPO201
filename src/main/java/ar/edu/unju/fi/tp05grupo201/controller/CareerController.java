@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.tp05grupo201.model.Career;
+import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.CareerServiceImp;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import jakarta.validation.Valid;
@@ -77,14 +77,16 @@ public class CareerController {
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveCareerFormPage(
-        @Valid @ModelAttribute(name = "careerSubmitted") Career career,
+        @Valid @ModelAttribute(name = "careerSubmitted") CareerDto career,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName(FORM_VIEWNAME);
-            modelAndView.addObject("allowEditing", false);
+            modelAndView.addObject(
+                "allowEditing",
+                 false);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
             careerService.addCareer(career);
@@ -110,8 +112,7 @@ public class CareerController {
             true);
         modelAndView.addObject(
             "careerSubmitted",
-            careerService.getCareerById(careerId)
-        );
+            careerService.getCareerById(careerId));
 
         return modelAndView;
     }
@@ -124,7 +125,7 @@ public class CareerController {
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateCareerFormPage(
-        @Valid @ModelAttribute(value = "careerSubmitted") Career career,
+        @Valid @ModelAttribute(value = "careerSubmitted") CareerDto career,
         BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -174,12 +175,10 @@ public class CareerController {
         
         modelAndView.addObject(
                 "listOfSubjects",
-                subjectService.getSubjectsByState(true)
-        );
+                subjectService.getSubjectsByState(true));
         modelAndView.addObject(
                 "careerSubmitted",
-                careerService.getCareerById(careerId)
-        );
+                careerService.getCareerById(careerId));
         modelAndView.addObject(
                 "allowEditing",
                 false
