@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(path = "/student")
@@ -21,13 +22,15 @@ public class StudentController {
     /**
      * View/Endpoint PATH constants
      */
-    private final String LIST_VIEWNAME = "student/students";
     private final String FORM_VIEWNAME = "student/student-form";
     private final String ADD_SUBJECT_FORM_VIEWNAME = "student/add-subject-to-student";
     private final String ADD_CAREER_FORM_VIEWNAME = "student/add-career-to-student";
+    private final String LIST_VIEWNAME = "student/students";
     private final String LIST_BY_SUBJECT_VIEWNAME = "student/students-by-subject";
     private final String LIST_BY_CAREER_VIEWNAME = "student/students-by-career";
     private final String REDIRECT_TO_LIST_ENDPOINT = "redirect:/student/list";
+    private final String REDIRECT_TO_LIST_BY_SUBJECT_ENDPOINT = "redirect:/student/list/filter-by/subject";
+    private final String REDIRECT_TO_LIST_BY_CAREER_ENDPOINT = "redirect:/student/list/filter-by/career";
 
     /**
      * Dependencies
@@ -61,14 +64,36 @@ public class StudentController {
      * @param subjectName
      * @return
      */
-    @GetMapping(path = "/list/bySubject")
-    public ModelAndView getStudentsBySubject(
-        @RequestParam(value = "subjectId") long subjectId
-    ) {
-        // TODO
+    @GetMapping(path = "/list/filter-by/subject")
+    public ModelAndView getSubjectToFilter() {
         ModelAndView modelAndView = new ModelAndView();
-        
+
         modelAndView.setViewName(LIST_BY_SUBJECT_VIEWNAME);
+        modelAndView.addObject(
+            "listOfSubjects", 
+            subjectService.getSubjectsByState(true));
+        
+        return modelAndView;
+    }
+
+    /**
+     * Send the students found
+     * @param careerId
+     * @param redirectAttributes
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/subject/result")
+    public ModelAndView getStudentsBySubject(
+        @RequestParam(value = "subjectId") long subjectId,
+        RedirectAttributes redirectAttributes
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_BY_SUBJECT_ENDPOINT);
+        
+        redirectAttributes.addFlashAttribute(
+            "listOfStudents",
+            studentService.getStudentsBySubject(subjectId));
 
         return modelAndView;
     }
@@ -78,25 +103,37 @@ public class StudentController {
      * @param subjectName
      * @return
      */
-    @GetMapping(path = "/list/byCareer")
-    public ModelAndView getStudentsByCareer(
-        @RequestParam(value = "careerId") long careerId
-    ) {
-        // TODO
+    @GetMapping(path = "/list/filter-by/career")
+    public ModelAndView getCareerToFilter() {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(LIST_BY_CAREER_VIEWNAME);
         modelAndView.addObject(
-                "listOfCareers", 
-                careerService.getCareersByState(true));
-        modelAndView.addObject(
-            "listOfStudents",
-            studentService.getStudentsByState(true)
-                .stream()
-                .filter(s -> s.getCareer().getId().equals(careerId)));
-
-
+            "listOfCareers", 
+            careerService.getCareersByState(true));
         
+        return modelAndView;
+    }
+
+    /**
+     * Send the students found
+     * @param careerId
+     * @param redirectAttributes
+     * @return
+     */
+    @GetMapping(path = "/list/filter-by/career/result")
+    public ModelAndView getStudentsByCareer(
+        @RequestParam(value = "careerId") long careerId,
+        RedirectAttributes redirectAttributes
+    ) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName(REDIRECT_TO_LIST_BY_CAREER_ENDPOINT);
+        
+        redirectAttributes.addFlashAttribute(
+            "listOfStudents",
+            studentService.getStudentsByCareer(careerId));
+
         return modelAndView;
     }
 

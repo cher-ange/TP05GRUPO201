@@ -106,6 +106,45 @@ public class StudentServiceImp implements IStudentService {
     }
 
     /**
+     * Get a list of students filtered by subject
+     */
+    @Override
+    public List<Student> getStudentsBySubject(long subjectId) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(subjectId);
+
+        if (optionalSubject.isEmpty()) {
+            throw new NoSuchElementException(
+                "Subject with id " + subjectId + " wasn't found");
+        }
+
+        return studentRepository.findStudentsByState(true)
+            .stream()
+            .filter(s -> s.getSubjects().contains(optionalSubject.get()))
+            .toList();
+    }
+
+    /**
+     * Get a list of students filtered by career
+     * @param careerId
+     * @return
+     */
+    @Override
+    public List<Student> getStudentsByCareer(long careerId) {
+        Optional<Career> optionalCareer = careerRepository.findById(careerId);
+
+        if (optionalCareer.isEmpty()) {
+            throw new NoSuchElementException(
+                "Career with id " + careerId + " wasn't found");
+        }
+
+        return studentRepository.findStudentsByState(true)
+            .stream()
+            .filter(s -> s.getCareer() != null)
+            .filter(s -> s.getCareer().equals(optionalCareer.get()))
+            .toList();
+    }
+
+    /**
      * Delete a student by person-id
      */
     @Override

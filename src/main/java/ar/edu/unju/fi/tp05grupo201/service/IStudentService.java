@@ -14,6 +14,10 @@ public interface IStudentService {
 
     List<Student> getStudentsByState(boolean state);
 
+    List<Student> getStudentsBySubject(long subjectId);
+
+    List<Student> getStudentsByCareer(long careerId);
+
     void addStudent(Student student);
     
     void addSubjectToStudent(long studentId, long subjectId);
