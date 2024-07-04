@@ -1,6 +1,8 @@
 package ar.edu.unju.fi.tp05grupo201.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -69,4 +71,8 @@ public class StudentDto {
     private boolean state = true;
 
     private CareerDto career;
+
+
+
+    private List<SubjectDto> subjects = new ArrayList<>();
 }

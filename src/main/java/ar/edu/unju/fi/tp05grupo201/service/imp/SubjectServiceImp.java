@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Subject service implementation
@@ -104,19 +103,14 @@ public class SubjectServiceImp implements ISubjectService {
                     "DELETE: Subject with code " + code + " wasn't found"
             );
         } else {
-            List<Teacher> listOfTeachers = optionalSubject.get().getTeachers().stream().collect(Collectors.toList());
-            List<Career> listOfCareers = optionalSubject.get().getCareers().stream().collect(Collectors.toList());
+            //List<Teacher> listOfTeachers = optionalSubject.get().getTeachers().stream().collect(Collectors.toList());
+            //List<Career> listOfCareers = optionalSubject.get().getCareers().stream().collect(Collectors.toList());
 
             /**
              * Remove the relationship these entities have with the subject
              */
-            for (int i = 0; i < listOfTeachers.size(); i++) {
-                listOfTeachers.get(i).removeSubject(optionalSubject.get());
-            }
 
-            for (int i = 0; i < listOfCareers.size(); i++) {
-                listOfCareers.get(i).removeSubject(optionalSubject.get());
-            }
+
 
             optionalSubject.get().setState(false);
             subjectRepository.save(optionalSubject.get());
@@ -140,7 +134,7 @@ public class SubjectServiceImp implements ISubjectService {
         Optional<Career> optionalCareer = careerRepository.findCareerByCode(careerCode);
 
         if (optionalSubject.isPresent()) {
-            optionalCareer.get().addSubject(optionalSubject.get());
+           // optionalCareer.get().addSubject(optionalSubject.get());
             careerRepository.save(optionalCareer.get());
         }
     }
@@ -154,9 +148,14 @@ public class SubjectServiceImp implements ISubjectService {
         Optional<Teacher> optionalTeacher = teacherRepository.findTeacherByFile(teacherFile);
 
         if (optionalSubject.isPresent()) {
-            optionalTeacher.get().addSubject(optionalSubject.get());
+            //optionalTeacher.get().addSubject(optionalSubject.get());
             teacherRepository.save(optionalTeacher.get());
         }
+    }
+
+    @Override
+    public void save(SubjectDto subjectDto) {
+        subjectRepository.save( subjectMapper.toEntity(subjectDto) );
     }
 
     @Override
@@ -170,7 +169,7 @@ public class SubjectServiceImp implements ISubjectService {
         }
 
         for (Subject subject : optionalCareer.get().getSubjects()) {
-            optionalCareer.get().removeSubject(subject);
+           // optionalCareer.get().removeSubject(subject);
         }
 
         careerRepository.save(optionalCareer.get());
@@ -188,9 +187,7 @@ public class SubjectServiceImp implements ISubjectService {
         /**
          * Remove the relationship that has with the subject
          */
-        for (Subject subject : optionalTeacher.get().getSubjects()) {
-            optionalTeacher.get().removeSubject(subject);
-        }
+
 
         teacherRepository.save(optionalTeacher.get());
     }

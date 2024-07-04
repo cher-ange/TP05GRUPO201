@@ -25,4 +25,6 @@ public interface ISubjectService {
     void addCareerToSubject(String subjectCode, String careerCode);
 
     void addTeacherToSubject(String subjectCode, String teacherFile);
+
+    void save(SubjectDto subjectDto);
 }

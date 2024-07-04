@@ -11,7 +11,7 @@ import ar.edu.unju.fi.tp05grupo201.model.Teacher;
 @Mapper(componentModel = "spring", uses = {SubjectMapper.class})
 public interface TeacherMapper {
 
-    @Mapping(target = "subjects", source = "subjectDtos")
+
     Teacher toEntity(TeacherDto teacherDto);
 
     @InheritInverseConfiguration

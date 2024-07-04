@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th-block data-th-replace="~{layout/common :: head (title='Administrar alumno')}"></th-block>
+<body>
+<!-- Header -->
+<th-block data-th-replace="~{layout/header :: header}"></th-block>
+<!-- Main -->
+<div class="container">
+    <h1>SUBJECT INSCRIPTION</h1>
+    <h2>for: <strong th:text="${student.name}+' '+${student.lastName}"></strong></h2>
+    <form data-th-action="@{/student/inscription}" method="post">
+
+        <div class="col-sm-6">
+            <input class="form-control"
+                   id="student"
+                   name="studentId"
+                   readonly="readonly"
+                   th:value="${student.id}"
+                   type="hidden">
+        </div>
+        <br>
+        <div class="col-sm-6">
+            <label for="subject">Elegir Materia</label>
+            <select id="subject" name="subjectId" >
+                <option th:each="subject : ${subjectList}" th:value="${subject.id}" th:text="${subject.name}"></option>
+            </select>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Save Student</button>
+    </form>
+</div>
+<!-- Footer -->
+<th-block data-th-replace="~{layout/footer :: footer}"></th-block>
+</body>
+
+</html>

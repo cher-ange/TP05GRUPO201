@@ -18,4 +18,6 @@ public interface IStudentService {
 	public void deleteStudent(Long id);
 	
 	public void modifyStudent(StudentDto student);
+
+	void addNewSubject(Long studentId, Long subjectId);
 }

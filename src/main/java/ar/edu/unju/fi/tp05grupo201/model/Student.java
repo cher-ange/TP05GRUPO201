@@ -1,6 +1,8 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
@@ -28,4 +30,14 @@ public class Student {
 
     @ManyToOne(targetEntity = Career.class)
     private Career career;
+
+    @ManyToMany(targetEntity = Subject.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "student_subject",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Subject> subjects = new ArrayList<>();
+
+
 }

@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,14 +38,18 @@ public class Subject {
     private Integer durationInHours;
 
     @Column(name = "attendance_type")
-    @Enumerated(EnumType.STRING)
-    private AttendanceType attendanceType;
+    private String attendanceType;
+
+
+    @ManyToOne(targetEntity = Career.class)
+    private Career career;
+
+    @OneToOne(targetEntity = Teacher.class)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
     @ManyToMany(mappedBy = "subjects")
-    private Set<Teacher> teachers = new HashSet<>();
-
-    @ManyToMany(mappedBy = "subjects")
-    private Set<Career> careers = new HashSet<>();
+    private List<Student> students = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;

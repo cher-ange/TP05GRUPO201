@@ -105,9 +105,7 @@ public class TeacherServiceImp implements ITeacherService {
         /**
          * Remove the relationship that has with the subject
          */
-        for (Subject subject : optionalTeacher.get().getSubjects()) {
-            optionalTeacher.get().removeSubject(subject);
-        }
+
 
         optionalTeacher.get().setState(false);
         teacherRepository.save(optionalTeacher.get());

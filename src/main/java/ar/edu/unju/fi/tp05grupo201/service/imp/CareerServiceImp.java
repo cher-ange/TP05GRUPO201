@@ -114,7 +114,7 @@ public class CareerServiceImp implements ICareerService {
          * Update the relationship that has with Subject
          */
         for (Subject subject : optionalCareer.get().getSubjects()) {
-            optionalCareer.get().removeSubject(subject);
+            //optionalCareer.get().removeSubject(subject);
         }
 
         optionalCareer.get().setState(false);

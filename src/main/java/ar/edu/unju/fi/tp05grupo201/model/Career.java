@@ -5,6 +5,7 @@ package ar.edu.unju.fi.tp05grupo201.model;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class Career {
     @Column(name = "duration")
     private Integer duration;
 
-    @ManyToMany(
+    @OneToMany(
         cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinTable(
@@ -51,20 +52,12 @@ public class Career {
     private Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "career", fetch = FetchType.LAZY, targetEntity = Student.class)
-    private List<Student> students;
+    private List<Student> students = new ArrayList<>();
 
 
     @Column(name = "state")
     private Boolean state = true;
 
-    // Syncronize relantionships
-    public void addSubject(Subject subject) {
-        this.subjects.add(subject);
-        subject.getCareers().add(this);
-    }
 
-    public void removeSubject(Subject subject) {
-        subject.getCareers().remove(this);
-        this.subjects.remove(subject);
-    }
+
 }

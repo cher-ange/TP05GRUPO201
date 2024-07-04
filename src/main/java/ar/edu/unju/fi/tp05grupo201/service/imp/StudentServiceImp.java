@@ -2,6 +2,9 @@ package ar.edu.unju.fi.tp05grupo201.service.imp;
 
 import java.util.List;
 
+import ar.edu.unju.fi.tp05grupo201.mapper.SubjectMapper;
+import ar.edu.unju.fi.tp05grupo201.model.Subject;
+import ar.edu.unju.fi.tp05grupo201.service.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +16,19 @@ import ar.edu.unju.fi.tp05grupo201.service.IStudentService;
 
 @Service
 public class StudentServiceImp implements IStudentService {
+	@Autowired
+	ISubjectService subjectService;
 
 	@Autowired
 	StudentRepository studentRepository;
-	
+
 	@Autowired
 	StudentMapper studentMapper;
-	
+
+	@Autowired
+	SubjectMapper subjectMapper;
+
+
 	@Override
 	public void saveStudent(StudentDto studentDto) {
 		studentDto.setState(true);
@@ -73,5 +82,13 @@ public class StudentServiceImp implements IStudentService {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void addNewSubject(Long studentId, Long subjectId) {
+		Student student = studentRepository.findById(studentId).get();
+		Subject subject = subjectMapper.toEntity((subjectService.getSubjectById(subjectId)));
+		student.getSubjects().add(subject);
+		studentRepository.save(student);
 	}
 }

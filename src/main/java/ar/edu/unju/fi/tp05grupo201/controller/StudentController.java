@@ -1,7 +1,10 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
+import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
+import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.service.ICareerService;
+import ar.edu.unju.fi.tp05grupo201.service.ISubjectService;
 import ar.edu.unju.fi.tp05grupo201.service.imp.StudentServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,13 @@ public class StudentController {
 	@Autowired
 	ICareerService careerService;
 
+	@Autowired
+	ISubjectService subjectService;
+    @Autowired
+    private StudentDto studentDto;
+    @Autowired
+    private SubjectDto subjectDto;
+
 	@GetMapping(path = "/list")
 	public ModelAndView getStudents() {
 		ModelAndView modelAndView = new ModelAndView("student/students");
@@ -48,6 +58,27 @@ public class StudentController {
 		modelAndView.addObject("listStudents", students);
 		modelAndView.addObject("careerName", careerName);
 		return modelAndView;
+	}
+
+	@GetMapping(path = "/inscription/{id}")
+	public ModelAndView studentsInscription(
+			@PathVariable(name = "id") Long studentId) {
+		ModelAndView modelAndView = new ModelAndView("student/student-inscription");
+		modelAndView.addObject("student", studentService.findStudent(studentId));
+		modelAndView.addObject("subjectList", subjectService.getSubjectsByState(true));
+
+		return modelAndView;
+	}
+
+	@PostMapping(path = "/inscription")
+	public ModelAndView addNewSubjectToStudent(
+			@RequestParam(name = "studentId") Long studentId,
+			@RequestParam(name = "subjectId") Long subjectId
+	){
+		studentService.addNewSubject(studentId, subjectId);
+
+
+		return getStudents();
 	}
 
 	@GetMapping("/formStudent")
