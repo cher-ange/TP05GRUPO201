@@ -32,17 +32,17 @@ public class Career {
     @Column(name = "duration")
     private Integer duration;
 
-   @OneToMany(
-           mappedBy = "career",
-           cascade = CascadeType.ALL
-   )
-   private List<Student> students = new ArrayList<>();
-
-   @OneToMany(
-           mappedBy = "career",
-           cascade = CascadeType.ALL
-   )
-   private List<Subject> subjects = new ArrayList<>();
+    @OneToMany(
+          mappedBy = "career",
+          cascade = CascadeType.ALL
+    )
+    private List<Student> students = new ArrayList<>();
+ 
+    @OneToMany(
+          mappedBy = "career",
+          cascade = CascadeType.ALL
+    )
+    private List<Subject> subjects = new ArrayList<>();
 
     @Column(name = "state")
     private Boolean state = true;

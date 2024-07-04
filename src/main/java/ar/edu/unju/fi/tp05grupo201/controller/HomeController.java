@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+    
+    /**
+     * Shows the home page of the project
+     * @return
+     */
     @GetMapping("/")
     public String getHomePage() {
         return "index";

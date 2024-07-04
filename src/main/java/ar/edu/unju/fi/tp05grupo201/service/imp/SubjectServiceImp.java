@@ -1,15 +1,14 @@
 package ar.edu.unju.fi.tp05grupo201.service.imp;
 
-import ar.edu.unju.fi.tp05grupo201.dto.SubjectDto;
 import ar.edu.unju.fi.tp05grupo201.model.Subject;
 import ar.edu.unju.fi.tp05grupo201.model.Teacher;
-import ar.edu.unju.fi.tp05grupo201.mapper.SubjectMapper;
-import ar.edu.unju.fi.tp05grupo201.mapper.TeacherMapper;
 import ar.edu.unju.fi.tp05grupo201.model.Student;
 import ar.edu.unju.fi.tp05grupo201.repository.SubjectRepository;
 import ar.edu.unju.fi.tp05grupo201.repository.TeacherRepository;
 import ar.edu.unju.fi.tp05grupo201.service.ISubjectService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,6 +19,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class SubjectServiceImp implements ISubjectService {
 
     /**
@@ -27,32 +27,33 @@ public class SubjectServiceImp implements ISubjectService {
      */
     private final SubjectRepository subjectRepository;
     private final TeacherRepository teacherRepository;
-    private final SubjectMapper subjectMapper;
-    private final TeacherMapper teacherMapper;
-    private final SubjectDto subjectDto;
+    private final Subject subject;
 
     /**
      * Create a subject
      * @return Subject
      */
     @Override
-    public SubjectDto createSubject() {
-        return subjectDto;
+    public Subject createSubject() {
+        log.info("Subject created");
+        return subject;
     }
 
     /**
      * Add a subject
      */
     @Override
-    public void addSubject(SubjectDto subjectDto) {
-        Optional<Subject> optionalSubject = subjectRepository.findSubjectByCode(subjectDto.getCode());
+    public void addSubject(Subject subject) {
+        Optional<Subject> optionalSubject = subjectRepository.findSubjectByCode(subject.getCode());
 
         if (optionalSubject.isPresent()) {
-            subjectDto.setId(optionalSubject.get().getId());
-            subjectDto.setTeacher(teacherMapper.toDto(optionalSubject.get().getTeacher()));
+            log.info("Updating subject with id {}" + subject.getId());
+            subject.setId(optionalSubject.get().getId());
+            subject.setTeacher(optionalSubject.get().getTeacher());
         }
 
-        subjectRepository.save(subjectMapper.toEntity(subjectDto));
+        log.info("Adding subject");
+        subjectRepository.save(subject);
     }
 
     /**
@@ -60,14 +61,14 @@ public class SubjectServiceImp implements ISubjectService {
      * @return Subject
      */
     @Override
-    public SubjectDto getSubjectById(long id) {
+    public Subject getSubjectById(long id) {
         Optional<Subject> optionalSubject = subjectRepository.findById(id);
 
         if (optionalSubject.isEmpty()) {
             throw new IllegalArgumentException("Subject with id " + id + "wasn't found");
         }
 
-        return subjectMapper.toDto(optionalSubject.get());
+        return optionalSubject.get();
     }
 
     /**
@@ -75,38 +76,38 @@ public class SubjectServiceImp implements ISubjectService {
      * @return Subject
      */
     @Override
-    public SubjectDto getSubjectByCode(String code) {
+    public Subject getSubjectByCode(String code) {
         Optional<Subject> optionalSubject = subjectRepository.findSubjectByCode(code);
 
         if (optionalSubject.isEmpty()) {
+            log.error("Subject with code {} wasn't found", code);
             throw new IllegalArgumentException(
-                    "GET: Subject with code " + code + " wasn't found"
+                "Subject with code " + code + " wasn't found"
             );
         }
 
-        return subjectMapper.toDto(optionalSubject.get());
+        return optionalSubject.get();
     }
 
     /**
      * Get a list of subjects by state
      */
     @Override
-    public List<SubjectDto> getSubjectsByState(boolean state) {
-        return subjectRepository.findSubjectsByState(state).stream()
-                .map(subjectMapper::toDto)
-                .collect(Collectors.toList());
+    public List<Subject> getSubjectsByState(boolean state) {
+        log.info("Retrieving subjects");
+        return subjectRepository.findSubjectsByState(state);
     }
 
     /**
      * Delete a subject by code
      */
     @Override
-    public void deleteSubject(String code) {
-        Optional<Subject> optionalSubject = subjectRepository.findSubjectByCode(code);
+    public void deleteSubject(long id) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
 
         if (optionalSubject.isEmpty()) {
             throw new NoSuchElementException(
-                    "DELETE: Subject with code " + code + " wasn't found"
+                    "DELETE: Subject with id " + id + " wasn't found"
             );
         } else {
             List<Student> listOfStudents = optionalSubject.get().getStudents().stream().collect(Collectors.toList());
@@ -138,12 +139,14 @@ public class SubjectServiceImp implements ISubjectService {
         Optional<Teacher> optionalTeacher = teacherRepository.findById(teacherId);
 
         if (optionalSubject.isEmpty()) {
+            log.error("Subject with id {} wasn't found", subjectId);
             throw new NoSuchElementException(
                 "Subject with id " + subjectId + " wasn't found"
             );
         }
 
         if (optionalTeacher.isEmpty()) {
+            log.error("Teacher with id {} wasn't found", teacherId);
             throw new NoSuchElementException(
                 "Teacher with id " + teacherId + " wasn't found"
             );
