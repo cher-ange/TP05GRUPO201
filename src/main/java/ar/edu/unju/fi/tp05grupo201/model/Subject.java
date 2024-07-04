@@ -5,8 +5,6 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 import ar.edu.unju.fi.tp05grupo201.util.AttendanceType;
 
 @Getter
@@ -15,7 +13,6 @@ import ar.edu.unju.fi.tp05grupo201.util.AttendanceType;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Subject")
 @Table(name = "subject")
-@Component
 public class Subject {
 
     @Id
@@ -47,8 +44,8 @@ public class Subject {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   private Career career;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Career career;
 
     @Column(name = "state")
     private Boolean state = true;

@@ -1,6 +1,6 @@
 package ar.edu.unju.fi.tp05grupo201.controller;
 
-import ar.edu.unju.fi.tp05grupo201.model.Student;
+import ar.edu.unju.fi.tp05grupo201.dto.StudentDto;
 import ar.edu.unju.fi.tp05grupo201.service.imp.SubjectServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -53,8 +53,8 @@ public class StudentController {
 
         modelAndView.setViewName(LIST_VIEWNAME);
         modelAndView.addObject(
-                "listOfStudents",
-                studentService.getStudentsByState(true));
+            "listOfStudents",
+            studentService.getStudentsByState(true));
 
         return modelAndView;
     }
@@ -164,7 +164,7 @@ public class StudentController {
      */
     @PostMapping(path = "/save")
     public ModelAndView postSaveStudentFormPage(
-            @Valid @ModelAttribute(name = "studentSubmitted") Student student,
+            @Valid @ModelAttribute(name = "studentSubmitted") StudentDto student,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -194,7 +194,9 @@ public class StudentController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName(FORM_VIEWNAME);
-        modelAndView.addObject("allowEditing", true);
+        modelAndView.addObject(
+            "allowEditing",
+             true);
         modelAndView.addObject(
                 "studentSubmitted",
                 studentService.getStudentById(studentId));
@@ -210,7 +212,7 @@ public class StudentController {
      */
     @PostMapping(path = "/update")
     public ModelAndView postUpdateStudentFormPage(
-            @Valid @ModelAttribute(value = "studentSubmitted") Student student,
+            @Valid @ModelAttribute(value = "studentSubmitted") StudentDto student,
             BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView();
@@ -218,8 +220,8 @@ public class StudentController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName(FORM_VIEWNAME);
             modelAndView.addObject(
-                    "allowEditing",
-                    true);
+                "allowEditing",
+                true);
         } else {
             modelAndView.setViewName(REDIRECT_TO_LIST_ENDPOINT);
             studentService.addStudent(student);

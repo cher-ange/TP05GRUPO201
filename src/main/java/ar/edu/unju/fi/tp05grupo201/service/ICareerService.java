@@ -3,7 +3,6 @@ package ar.edu.unju.fi.tp05grupo201.service;
 import java.util.List;
 
 import ar.edu.unju.fi.tp05grupo201.dto.CareerDto;
-import ar.edu.unju.fi.tp05grupo201.model.Career;
 
 public interface ICareerService {
     
@@ -13,9 +12,9 @@ public interface ICareerService {
     
     CareerDto getCareerByCode(String code);
 
-    List<Career> getCareersByState(boolean state);
+    List<CareerDto> getCareersByState(boolean state);
 
-    void addCareer(Career career);
+    void addCareer(CareerDto career);
 
     void addSubjectToCareer(long careerId, long subjectId);
     

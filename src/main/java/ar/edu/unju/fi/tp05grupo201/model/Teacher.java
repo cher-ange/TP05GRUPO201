@@ -1,7 +1,5 @@
 package ar.edu.unju.fi.tp05grupo201.model;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +12,6 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "Teacher")
 @Table(name = "teacher")
-@Component
 public class Teacher {
 
     @Id
