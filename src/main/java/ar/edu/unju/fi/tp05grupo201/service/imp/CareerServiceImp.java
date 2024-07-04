@@ -46,7 +46,7 @@ public class CareerServiceImp implements ICareerService {
     @Override
     public CareerDto createCareer() {
         log.info("Career created");
-        return careerDto;
+        return career;
     }
 
     /**
@@ -60,33 +60,31 @@ public class CareerServiceImp implements ICareerService {
             log.info("Updating career with id {}", career.getId());
             career.setId(optionalCareer.get().getId());
 
-            career.setStudents(
-                optionalCareer.get().getStudents()
-                    .stream()
-                    .map(studentMapper::toDto)
-                    .collect(Collectors.toList()));
             career.setSubjects(
-                optionalCareer.get().getSubjects()
-                    .stream()
-                    .map(subjectMapper::toDto)
-                    .collect(Collectors.toList()));
+                optionalCareer.get().getSubjects().stream().map(subjectMapper::toDto).collect(Collectors.toList())
+            );
+            career.setStudents(
+                optionalCareer.get().getStudents().stream().map(studentMapper::toDto).collect(Collectors.toList())
+            );
+
         }
 
         log.info("Adding career {}", career);
-        Career dummy = careerMapper.toEntity(career);
+        // Career dummy = careerMapper.toEntity(career);
 
-        dummy.setStudents(
-            career.getStudents()
-                    .stream()
-                    .map(studentMapper::toEntity)
-                    .collect(Collectors.toList()));
-        dummy.setSubjects(
-            career.getSubjects()
-                .stream()
-                .map(subjectMapper::toEntity)
-                .collect(Collectors.toList()));
+        // dummy.setStudents(
+        //     career.getStudents()
+        //             .stream()
+        //             .map(studentMapper::toEntity)
+        //             .collect(Collectors.toList()));
+        // dummy.setSubjects(
+        //     career.getSubjects()
+        //         .stream()
+        //         .map(subjectMapper::toEntity)
+        //         .collect(Collectors.toList()));
         
-        careerRepository.save(dummy);
+        // careerRepository.save(dummy);
+        careerRepository.save(careerMapper.toEntity(career));
     }
 
     /**
@@ -135,11 +133,11 @@ public class CareerServiceImp implements ICareerService {
         for (Career career : careerRepository.findCareersByState(state)) {
             CareerDto dummy = careerMapper.toDto(career);
 
-            // dummy.setStudents(
-            //     career.getStudents()
-            //         .stream()
-            //         .map(studentMapper::toDto)
-            //         .collect(Collectors.toList()));
+            dummy.setStudents(
+                career.getStudents()
+                    .stream()
+                    .map(studentMapper::toDto)
+                    .collect(Collectors.toList()));
             dummy.setSubjects(
                 career.getSubjects()
                     .stream()
